@@ -1,15 +1,35 @@
 import React from 'react';
+import Link from 'next/link';
+import { StyledNav } from './Navigation.styles';
 
 export default function Navigation() {
   return (
-    <nav>
-      <h2>Sauny24</h2>
+    <StyledNav>
+      <h2>
+        <Link href='/'>Sauny24</Link>
+      </h2>
 
       <ul>
-        <li>Home</li>
+        <li>
+          <Link href='/'>Home</Link>
+        </li>
         <li>Produkty</li>
-        <li>Kontakt</li>
+        <li>
+          <Link href='/kontakt'>Kontakt</Link>
+        </li>
       </ul>
-    </nav>
+
+      <ul>
+        <li>
+          <Link href='/ulubione'>Ulubione</Link>
+        </li>
+        <li>
+          <Link href='/profil'>Profil</Link>
+        </li>
+        <li>
+          <Link href='/koszyk'>Koszyk</Link>
+        </li>
+      </ul>
+    </StyledNav>
   );
 }
