@@ -7,13 +7,13 @@ export type Product = {
 
 export type Action =
   | { type: 'addProduct'; payload: Product }
-  | { type: 'deleteProduct'; payload: Product }
+  | { type: 'deleteProduct'; payload: { id: Product['id'] } }
   | { type: 'openMenu' }
   | { type: 'closeMenu' };
 
 export type State = {
   readonly products: Array<Product>;
   readonly totalPrice: number;
-  readonly quantity: number;
+  readonly totalQuantity: number;
   readonly isOpen: boolean;
 };

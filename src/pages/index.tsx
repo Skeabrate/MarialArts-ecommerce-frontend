@@ -84,16 +84,14 @@ const Home: NextPage = () => {
       },
     });
 
-  /* const removeFromCart = (id: number, title: string, price: number) =>
+  const removeFromCart = (id: number) =>
     dispatch({
       type: 'deleteProduct',
       payload: {
         id,
-        title,
-        price,
       },
     });
- */
+
   return (
     <main>
       <HeadComponent title='Sauny24' />
@@ -119,9 +117,7 @@ const Home: NextPage = () => {
               <button onClick={() => addToCart(item.id, item.title, item.price)}>
                 Dodaj do koszyka
               </button>
-              <button /* onClick={() => removeFromCart(item.id, item.title, item.price)} */>
-                Usun z koszyka
-              </button>
+              <button onClick={() => removeFromCart(item.id)}>Usun z koszyka</button>
               <button>Dodaj do ulubionych</button>
             </div>
           </article>

@@ -12,7 +12,7 @@ export const ShoppingCartContext = createContext<{ state: State; dispatch: Dispa
   undefined
 );
 
-const initialState: State = { products: [], totalPrice: 0, quantity: 0, isOpen: false };
+const initialState: State = { products: [], totalPrice: 0, totalQuantity: 0, isOpen: false };
 
 export function ShoppingCartProvider({ children }: ShoppingCartProviderType) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
