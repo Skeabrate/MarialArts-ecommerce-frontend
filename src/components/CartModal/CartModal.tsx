@@ -1,35 +1,42 @@
 import React from 'react';
 import Link from 'next/link';
-import { useCart } from 'hooks/useCart';
 import { formatValue } from 'utils/formatValue';
 import { StyledCartModal, StyledCloseButton } from './CartModal.styles';
+import { useShoppingCart } from 'hooks/useShoppingCart';
+import CartItem from './Cartitem/CartItem';
+import { Data } from 'src/Data';
 
-function CartModal() {
-  const { state, dispatch } = useCart();
+type CartProps = {
+  isOpen: boolean;
+};
 
-  const closeMenuHandler = () => dispatch({ type: 'closeMenu' });
+function CartModal({ isOpen }: CartProps) {
+  const { closeCart, cartItems, cartQuantity } = useShoppingCart();
+
+  const totalItems = formatValue(
+    cartItems.reduce((total, cartItem) => {
+      const item = Data.find((i) => i.id === cartItem.id);
+      return total + (item?.price || 0) * cartItem.quantity;
+    }, 0)
+  );
 
   return (
-    <StyledCartModal $isOpen={state.isOpen}>
-      <StyledCloseButton onClick={closeMenuHandler} />
+    <StyledCartModal $isOpen={isOpen}>
+      <StyledCloseButton onClick={closeCart} />
 
       <h2>Koszyk</h2>
 
       <div style={{ margin: '30px' }}>
-        {state.products?.map(({ id, title, price, quantity }) => (
-          <div key={id}>
-            <h3>{title}</h3>
-            <p>{price}</p>
-            <p>{quantity}x</p>
-          </div>
+        {cartItems.map((item) => (
+          <CartItem key={item.id} {...item} />
         ))}
       </div>
 
-      <h3>Total Quantity: {state.totalQuantity}x</h3>
-      <h3>Total Price: {formatValue(state.totalPrice)}</h3>
+      <h3>Total Quantity: {cartQuantity}x</h3>
+      <h3>Total Price: {totalItems}</h3>
 
       <Link href='/koszyk'>
-        <h3 onClick={closeMenuHandler}>Przejdź do płatności</h3>
+        <h3 onClick={closeCart}>Przejdź do płatności</h3>
       </Link>
     </StyledCartModal>
   );

@@ -1,19 +1,18 @@
-export type Product = {
+export type ShoppingCartProviderProps = {
+  children: React.ReactNode;
+};
+
+export type CartItemProps = {
   id: number;
-  title: string;
-  price: number;
   quantity: number;
 };
 
-export type Action =
-  | { type: 'addProduct'; payload: Product }
-  | { type: 'deleteProduct'; payload: { id: Product['id'] } }
-  | { type: 'openMenu' }
-  | { type: 'closeMenu' };
-
-export type State = {
-  readonly products: Array<Product>;
-  readonly totalPrice: number;
-  readonly totalQuantity: number;
-  readonly isOpen: boolean;
+export type ShoppingCartContextProps = {
+  openCart: () => void;
+  closeCart: () => void;
+  increaseCartQuantity: (id: number) => void;
+  decreaseCartQuantity: (id: number) => void;
+  removeFromCart: (id: number) => void;
+  cartQuantity: number;
+  cartItems: CartItemProps[];
 };

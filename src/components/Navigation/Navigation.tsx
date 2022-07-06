@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 import { StyledNav } from './Navigation.styles';
-import { useCart } from 'hooks/useCart';
+import { useShoppingCart } from 'hooks/useShoppingCart';
 
 export default function Navigation() {
-  const { dispatch } = useCart();
+  const { openCart, cartQuantity } = useShoppingCart();
 
   return (
     <StyledNav>
@@ -30,7 +30,8 @@ export default function Navigation() {
           <Link href='/profil'>Profil</Link>
         </li>
         <li>
-          <button onClick={() => dispatch({ type: 'openMenu' })}>Koszyk</button>
+          <button onClick={openCart}>Koszyk</button>
+          {cartQuantity}x
         </li>
       </ul>
     </StyledNav>
