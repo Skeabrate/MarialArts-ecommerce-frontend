@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import type { NextPage } from 'next';
-import HeadComponent from 'components/Head/Head';
 import { useCart } from 'hooks/useCart';
+import { formatValue } from 'utils/formatValue';
+import HeadComponent from 'components/Head/Head';
 
 const data = [
   {
@@ -111,7 +112,7 @@ const Home: NextPage = () => {
 
             <p>{item.description}</p>
 
-            <p>{item.price} zł</p>
+            <p>{formatValue(item.price)}</p>
 
             <div>
               <button onClick={() => addToCart(item.id, item.title, item.price)}>
