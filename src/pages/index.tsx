@@ -1,12 +1,17 @@
 import type { NextPage } from 'next';
+import Link from 'next/link';
 import { formatValue } from 'utils/formatValue';
 import { Data } from 'src/Data';
-import HeadComponent from 'components/Head/Head';
 import { useShoppingCart } from 'hooks/useShoppingCart';
-import Link from 'next/link';
+import HeadComponent from 'components/Head/Head';
 
 const Home: NextPage = () => {
-  const { increaseCartQuantity, decreaseCartQuantity } = useShoppingCart();
+  const { increaseCartQuantity, openCart } = useShoppingCart();
+
+  const addToCart = (id: number) => {
+    openCart();
+    increaseCartQuantity(id);
+  };
 
   return (
     <main>
@@ -24,7 +29,7 @@ const Home: NextPage = () => {
               <h2>{item.title}</h2>
               <p>{item.category}</p>
               <Link href={`/products/${item.title}:${item.id}`}>
-                <a>Go to product page</a>
+                <a>Przejdź to strony produktu</a>
               </Link>
             </header>
 
@@ -33,8 +38,7 @@ const Home: NextPage = () => {
             <p>{formatValue(item.price)}</p>
 
             <div>
-              <button onClick={() => increaseCartQuantity(item.id)}>Dodaj do koszyka</button>
-              <button onClick={() => decreaseCartQuantity(item.id)}>Usun z koszyka</button>
+              <button onClick={() => addToCart(item.id)}>Dodaj do koszyka</button>
               <button>Dodaj do ulubionych</button>
             </div>
           </article>

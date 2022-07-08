@@ -4,6 +4,7 @@ import { formatValue } from 'utils/formatValue';
 import { StyledCartModal, StyledCloseButton } from './CartModal.styles';
 import { useShoppingCart } from 'hooks/useShoppingCart';
 import { Data } from 'src/Data';
+import { useRouter } from 'next/router';
 import CartItem from './Cartitem/CartItem';
 
 type CartProps = {
@@ -12,6 +13,7 @@ type CartProps = {
 
 function CartModal({ isOpen }: CartProps) {
   const { closeCart, cartItems, cartQuantity } = useShoppingCart();
+  const router = useRouter();
 
   const totalItems = useMemo(
     () =>
@@ -25,8 +27,8 @@ function CartModal({ isOpen }: CartProps) {
   );
 
   useEffect(() => {
-    console.log('close cart when route change');
-  }, [``]);
+    if (isOpen) closeCart();
+  }, [router.asPath]);
 
   return (
     <StyledCartModal $isOpen={isOpen}>
@@ -40,8 +42,8 @@ function CartModal({ isOpen }: CartProps) {
         ))}
       </div>
 
-      <h3>Total Quantity: {cartQuantity}x</h3>
-      <h3>Total Price: {totalItems}</h3>
+      <h3>Łączna ilość: {cartQuantity}x</h3>
+      <h3>Łączna cena: {totalItems}</h3>
 
       <Link href='/koszyk'>
         <a>Przejdź do płatności</a>

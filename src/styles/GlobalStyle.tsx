@@ -20,6 +20,7 @@ export const GlobalStyles = createGlobalStyle`
 
 		button, a {
 			color: ${({ theme }) => theme.colors.black};
+			cursor: pointer;
 		}
 	}
 `;

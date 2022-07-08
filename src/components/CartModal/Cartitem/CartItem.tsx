@@ -2,6 +2,7 @@ import React from 'react';
 import { useShoppingCart } from 'hooks/useShoppingCart';
 import { formatValue } from 'utils/formatValue';
 import { Data } from 'src/Data';
+import Link from 'next/link';
 
 type CartItemProps = {
   id: number;
@@ -17,7 +18,11 @@ export default function CartItem({ id, quantity }: CartItemProps) {
   return (
     <div>
       <h3>{item.title}</h3>
-      <p>{formatValue(item.price)}</p>
+      <Link href={`/products/${item.title}:${item.id}`}>
+        <a>Przejdź to strony produktu</a>
+      </Link>
+      <p>Cena: {formatValue(item.price)}</p>
+      <p>Łączna cena: {formatValue(item.price * quantity)}</p>
 
       <div>
         <button onClick={() => decreaseCartQuantity(item.id)}>{quantity > 1 ? '-' : 'Usun'}</button>

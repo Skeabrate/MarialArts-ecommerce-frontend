@@ -30,8 +30,8 @@ export default function Navigation() {
 
       <ul>
         <li>
-          <Link href='/ulubione'>
-            <a>Ulubione</a>
+          <Link href='/wishlist'>
+            <a>Lista życzeń</a>
           </Link>
         </li>
         <li>
