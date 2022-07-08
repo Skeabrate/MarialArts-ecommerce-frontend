@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { formatValue } from 'utils/formatValue';
 import { StyledCartModal, StyledCloseButton } from './CartModal.styles';
@@ -24,6 +24,10 @@ function CartModal({ isOpen }: CartProps) {
     [cartItems]
   );
 
+  useEffect(() => {
+    console.log('close cart when route change');
+  }, [``]);
+
   return (
     <StyledCartModal $isOpen={isOpen}>
       <StyledCloseButton onClick={closeCart} />
@@ -40,7 +44,7 @@ function CartModal({ isOpen }: CartProps) {
       <h3>Total Price: {totalItems}</h3>
 
       <Link href='/koszyk'>
-        <h3 onClick={closeCart}>Przejdź do płatności</h3>
+        <a>Przejdź do płatności</a>
       </Link>
     </StyledCartModal>
   );

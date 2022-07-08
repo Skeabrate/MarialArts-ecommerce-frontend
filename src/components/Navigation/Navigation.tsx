@@ -9,25 +9,35 @@ export default function Navigation() {
   return (
     <StyledNav>
       <h2>
-        <Link href='/'>Sauny24</Link>
+        <Link href='/'>
+          <a>Sauny24</a>
+        </Link>
       </h2>
 
       <ul>
         <li>
-          <Link href='/'>Home</Link>
+          <Link href='/'>
+            <a>Home</a>
+          </Link>
         </li>
         <li>Produkty</li>
         <li>
-          <Link href='/kontakt'>Kontakt</Link>
+          <Link href='/kontakt'>
+            <a>Kontakt</a>
+          </Link>
         </li>
       </ul>
 
       <ul>
         <li>
-          <Link href='/ulubione'>Ulubione</Link>
+          <Link href='/ulubione'>
+            <a>Ulubione</a>
+          </Link>
         </li>
         <li>
-          <Link href='/profil'>Profil</Link>
+          <Link href='/profil'>
+            <a>Profil</a>
+          </Link>
         </li>
         <li>
           <button onClick={openCart}>Koszyk</button>

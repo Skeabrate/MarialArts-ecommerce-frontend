@@ -3,6 +3,7 @@ import { formatValue } from 'utils/formatValue';
 import { Data } from 'src/Data';
 import HeadComponent from 'components/Head/Head';
 import { useShoppingCart } from 'hooks/useShoppingCart';
+import Link from 'next/link';
 
 const Home: NextPage = () => {
   const { increaseCartQuantity, decreaseCartQuantity } = useShoppingCart();
@@ -22,6 +23,9 @@ const Home: NextPage = () => {
             <header>
               <h2>{item.title}</h2>
               <p>{item.category}</p>
+              <Link href={`/products/${item.title}:${item.id}`}>
+                <a>Go to product page</a>
+              </Link>
             </header>
 
             <p>{item.description}</p>
