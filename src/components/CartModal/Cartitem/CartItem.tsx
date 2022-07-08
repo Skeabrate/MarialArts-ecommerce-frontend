@@ -1,28 +1,31 @@
-import { useShoppingCart } from 'hooks/useShoppingCart';
 import React from 'react';
-import { Data } from 'src/Data';
+import { useShoppingCart } from 'hooks/useShoppingCart';
 import { formatValue } from 'utils/formatValue';
+import { Data } from 'src/Data';
 
 type CartItemProps = {
   id: number;
   quantity: number;
 };
 
-function CartItem({ id, quantity }: CartItemProps) {
-  const { removeFromCart } = useShoppingCart();
+export default function CartItem({ id, quantity }: CartItemProps) {
+  const { increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart();
 
   const item = Data.find((i) => i.id === id);
-  if (item == null) return null;
+  if (!item) return null;
 
   return (
     <div>
       <h3>{item.title}</h3>
       <p>{formatValue(item.price)}</p>
-      <p>{quantity}x</p>
 
-      <button onClick={() => removeFromCart(item.id)}>remove</button>
+      <div>
+        <button onClick={() => decreaseCartQuantity(item.id)}>{quantity > 1 ? '-' : 'Usun'}</button>
+        {quantity}
+        <button onClick={() => increaseCartQuantity(item.id)}>+</button>
+      </div>
+
+      <button onClick={() => removeFromCart(item.id)}>Usun</button>
     </div>
   );
 }
-
-export default CartItem;
