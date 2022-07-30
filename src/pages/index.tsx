@@ -10,10 +10,6 @@ import { ProductsQuery } from 'generated';
 const Home: NextPage = ({ produkts }: ProductsQuery) => {
   const { increaseCartQuantity, openCart } = useShoppingCart();
 
-  produkts?.data?.map(({ id, attributes }) => {
-    console.log(attributes?.Tytul);
-  });
-
   const addToCart = (id: number) => {
     openCart();
     increaseCartQuantity(id);
@@ -118,7 +114,7 @@ export async function getStaticProps() {
     props: {
       produkts: data.produkts,
     },
-    revalidate: 10,
+    revalidate: 1,
   };
 }
 
