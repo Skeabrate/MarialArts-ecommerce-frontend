@@ -1,0 +1,39 @@
+query Products {
+  produkts {
+    data {
+      id
+      attributes {
+        Meta_title
+        Meta_description
+        Link
+        Dostepnosc
+        Tytul
+        Opis
+        Galeria {
+          data {
+            id
+            attributes {
+              width
+              height
+              alternativeText
+              formats
+            }
+          }
+        }
+        kategoria {
+          data {
+            attributes {
+              Tytul
+            }
+          }
+        }
+        Wymiary {
+          id
+          Wymiary
+          Cena
+          Promocja
+        }
+      }
+    }
+  }
+}

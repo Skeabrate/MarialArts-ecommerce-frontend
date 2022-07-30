@@ -1,0 +1,10 @@
+query Categories {
+  kategorias {
+    data {
+      id
+      attributes {
+        Tytul
+      }
+    }
+  }
+}

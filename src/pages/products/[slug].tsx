@@ -6,22 +6,26 @@ import { formatValue } from 'utils/formatValue';
 function Porduct() {
   const router = useRouter();
   const { slug } = router.query;
-  const productTitle = typeof slug === 'string' && slug.split(':')[0];
-  const productID = typeof slug === 'string' && slug.split(':')[1];
 
-  const productExist = Data.find((item) => item.id === +productID);
+  const productExist = Data.find((item) => item.id === 1);
 
-  if (productExist)
-    return (
-      <main>
-        <h1>Produkt: {productTitle}</h1>
-        <p>ID: {productID}</p>
+  return (
+    <main>
+      {false ? (
+        <div>
+          <h1>Produkt: {'test'}</h1>
+          <p>ID: {1}</p>
 
-        <p>Cena: {formatValue(productExist.price)}</p>
-        <p>Opis: {productExist.description}</p>
-      </main>
-    );
-  else return <h1>Produkt nie został znaleziony.</h1>;
+          {/* <p>Cena: {formatValue(productExist?.price)}</p>
+          <p>Opis: {productExist.description}</p> */}
+        </div>
+      ) : (
+        <div>
+          <h1>Produkt nie został znaleziony.</h1>
+        </div>
+      )}
+    </main>
+  );
 }
 
 export default Porduct;
