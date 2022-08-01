@@ -33,13 +33,7 @@ function Porduct({ produkts }: ProductsQuery) {
 
   return (
     <main style={{ minHeight: '700px', padding: '40px' }}>
-      <HeadComponent
-        title={Meta_title || 'Sauny24'}
-        description={
-          Meta_description || 'Producent saun fińskich, infrared, combi. Od Ponad 18 lat w Polsce.'
-        }
-        keywords={Meta_keywords || 'producent saun fińskich, infrared, combi, ogrodowych.'}
-      />
+      <HeadComponent title={Meta_title} description={Meta_description} keywords={Meta_keywords} />
 
       <div>
         <h1>{Tytul}</h1>
