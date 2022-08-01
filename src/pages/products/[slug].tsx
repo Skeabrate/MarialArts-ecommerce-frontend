@@ -1,28 +1,84 @@
-import React, { useEffect } from 'react';
-import { Data } from 'src/Data';
-import { formatValue } from 'utils/formatValue';
 import client from 'graphql/apollo';
 import { gql } from '@apollo/client';
+import { formatValue } from 'utils/formatValue';
+import HeadComponent from 'components/Head/Head';
+import { ProductsQuery } from 'generated';
 
-function Porduct({ data }: any) {
-  console.log(data);
+type ContextType = {
+  params: {
+    slug: string;
+  };
+};
 
-  const productExist = Data.find((item) => item.id === 1);
+type LinkType = {
+  attributes: {
+    Link: string;
+  };
+};
+
+function Porduct({ produkts }: ProductsQuery) {
+  const product = produkts?.data[0].attributes;
+  if (!product) return null;
+
+  const { Meta_title, Meta_description, Meta_keywords, kategoria, Wymiary, Dostepnosc, Tytul } =
+    product;
 
   return (
-    <main>
-      {false ? (
-        <div>
-          <h1>Produkt: {'test'}</h1>
+    <main style={{ minHeight: '700px', padding: '40px' }}>
+      <HeadComponent title={Meta_title} description={Meta_description} keywords={Meta_keywords} />
 
-          {/* <p>Cena: {formatValue(productExist?.price)}</p>
-          <p>Opis: {productExist.description}</p> */}
+      <div>
+        <h1>{Tytul}</h1>
+
+        <h2 style={{ paddingBlock: '10px' }}>
+          Kategoria: {kategoria?.data?.attributes?.Tytul || 'Nieokreślona'}
+        </h2>
+
+        <div style={{ paddingBlock: '20px' }}>
+          {Dostepnosc ? (
+            <>
+              <h2>Dostępne wymiary:</h2>
+
+              <div>
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>Wymiary:</th>
+                      <th>Cena:</th>
+                      <th></th>
+                    </tr>
+                    {Wymiary.map(({ id, Wymiary, Cena, Promocja }: any) => (
+                      <tr key={id}>
+                        <td style={{ padding: '10px' }}>{Wymiary}</td>
+                        <td style={{ padding: '10px' }}>
+                          {Promocja ? (
+                            <>
+                              <span style={{ display: 'block', color: 'grey' }}>
+                                <s>{formatValue(Cena)}</s>
+                              </span>
+                              <span>{formatValue(Promocja)}</span>
+                            </>
+                          ) : (
+                            <>{formatValue(Cena)}</>
+                          )}
+                        </td>
+                        <td style={{ padding: '10px' }}>
+                          <button>Dodaj do koszyka</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2>Produkt jest aktualnie niedostępny</h2>
+              <p>Zapytaj o dostępność</p>
+            </>
+          )}
         </div>
-      ) : (
-        <div>
-          <h1>Produkt nie został znaleziony.</h1>
-        </div>
-      )}
+      </div>
     </main>
   );
 }
@@ -42,7 +98,7 @@ export async function getStaticPaths() {
     `,
   });
 
-  const paths = data.produkts.data.map(({ attributes: { Link } }: any) => {
+  const paths = data.produkts.data.map(({ attributes: { Link } }: LinkType) => {
     return {
       params: { slug: Link },
     };
@@ -54,7 +110,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps(context: any) {
+export async function getStaticProps(context: ContextType) {
   const slug = context.params.slug;
 
   const { data } = await client.query({
@@ -66,6 +122,7 @@ export async function getStaticProps(context: any) {
             attributes {
               Meta_title
               Meta_description
+							Meta_keywords
               Link
               Dostepnosc
               Tytul
@@ -103,7 +160,7 @@ export async function getStaticProps(context: any) {
 
   return {
     props: {
-      data: data.produkts.data[0].attributes,
+      produkts: data.produkts,
       revalidate: 5,
     },
   };

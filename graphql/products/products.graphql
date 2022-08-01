@@ -5,6 +5,7 @@ query Products {
       attributes {
         Meta_title
         Meta_description
+        Meta_keywords
         Link
         Dostepnosc
         Tytul

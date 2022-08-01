@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const StyledNav = styled.nav`
-  background-color: #bebebe;
+  background-color: orange;
   width: 100%;
   height: 100px;
   display: flex;
