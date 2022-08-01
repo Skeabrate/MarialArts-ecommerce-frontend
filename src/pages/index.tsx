@@ -65,7 +65,7 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const { data } = await client.query({
     query: gql`
       query Products {
@@ -114,7 +114,6 @@ export async function getStaticProps() {
     props: {
       produkts: data.produkts,
     },
-    revalidate: 10,
   };
 }
 
