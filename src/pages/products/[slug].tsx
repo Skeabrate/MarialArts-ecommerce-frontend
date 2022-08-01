@@ -19,7 +19,7 @@ type LinkType = {
 function Porduct({ produkts }: ProductsQuery) {
   const product = produkts?.data[0].attributes;
   if (!product) return null;
-  console.log(product);
+
   const {
     Meta_title,
     Meta_description,
@@ -167,6 +167,11 @@ export async function getStaticProps(context: ContextType) {
       }
     `,
   });
+
+  if (!data?.products?.data)
+    return {
+      notFound: true,
+    };
 
   return {
     props: {
