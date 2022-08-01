@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Data } from 'src/Data';
 import { formatValue } from 'utils/formatValue';
+import client from 'graphql/apollo';
+import { gql } from '@apollo/client';
 
-function Porduct() {
-  const router = useRouter();
-  const { slug } = router.query;
+function Porduct({ data }: any) {
+  console.log(data);
 
   const productExist = Data.find((item) => item.id === 1);
 
@@ -26,6 +27,87 @@ function Porduct() {
       )}
     </main>
   );
+}
+
+export async function getStaticPaths() {
+  const { data } = await client.query({
+    query: gql`
+      query {
+        produkts {
+          data {
+            attributes {
+              Link
+            }
+          }
+        }
+      }
+    `,
+  });
+
+  const paths = data.produkts.data.map(({ attributes: { Link } }: any) => {
+    return {
+      params: { slug: Link },
+    };
+  });
+
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+export async function getStaticProps(context: any) {
+  const slug = context.params.slug;
+
+  const { data } = await client.query({
+    query: gql`
+      query Products {
+        produkts(filters: { Link: { eq: "${slug}" } }) {
+          data {
+            id
+            attributes {
+              Meta_title
+              Meta_description
+              Link
+              Dostepnosc
+              Tytul
+              Opis
+              Galeria {
+                data {
+                  id
+                  attributes {
+                    width
+                    height
+                    alternativeText
+                    formats
+                  }
+                }
+              }
+              kategoria {
+                data {
+                  attributes {
+                    Tytul
+                  }
+                }
+              }
+              Wymiary {
+                id
+                Wymiary
+                Cena
+                Promocja
+              }
+            }
+          }
+        }
+      }
+    `,
+  });
+
+  return {
+    props: {
+      data: data.produkts.data[0].attributes,
+    },
+  };
 }
 
 export default Porduct;

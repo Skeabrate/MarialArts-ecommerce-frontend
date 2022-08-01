@@ -31,9 +31,9 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
                 style={{ border: '1px solid grey', padding: '20px', margin: '20px' }}
               >
                 <header>
-                  <h2>{attributes?.Tytul}</h2>
-                  <p>{attributes?.kategoria.data.attributes.Tytul}</p>
-                  <Link href={`/products/${Link}`}>
+                  <h2>{attributes.Tytul}</h2>
+                  <p>{attributes.kategoria.data.attributes.Tytul}</p>
+                  <Link href={`/products/${attributes.Link}`}>
                     <a>Przejdź to strony produktu</a>
                   </Link>
                 </header>
