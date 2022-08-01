@@ -17,7 +17,11 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
 
   return (
     <main>
-      <HeadComponent title='Sauny24' />
+      <HeadComponent
+        title='Sauny24'
+        description='Producent saun fińskich, infrared, combi. Od Ponad 18 lat w Polsce.'
+        keywords='producent saun fińskich, infrared, combi, ogrodowych.'
+      />
 
       <h1>Home Page</h1>
 
@@ -114,7 +118,7 @@ export async function getStaticProps() {
     props: {
       produkts: data.produkts,
     },
-    revalidate: 1,
+    revalidate: 5,
   };
 }
 
