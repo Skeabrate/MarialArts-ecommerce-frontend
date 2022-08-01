@@ -19,9 +19,17 @@ type LinkType = {
 function Porduct({ produkts }: ProductsQuery) {
   const product = produkts?.data[0].attributes;
   if (!product) return null;
-
-  const { Meta_title, Meta_description, Meta_keywords, kategoria, Wymiary, Dostepnosc, Tytul } =
-    product;
+  console.log(product);
+  const {
+    Meta_title,
+    Meta_description,
+    Meta_keywords,
+    kategoria,
+    Wymiary,
+    Dostepnosc,
+    Tytul,
+    Opis,
+  } = product;
 
   return (
     <main style={{ minHeight: '700px', padding: '40px' }}>
@@ -69,6 +77,8 @@ function Porduct({ produkts }: ProductsQuery) {
                     ))}
                   </tbody>
                 </table>
+
+                <div>{Opis}</div>
               </div>
             </>
           ) : (
