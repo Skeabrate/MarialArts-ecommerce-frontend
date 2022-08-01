@@ -17,7 +17,7 @@ type LinkType = {
 };
 
 function Porduct({ produkts }: ProductsQuery) {
-  const product = produkts?.data[0].attributes;
+  const product = produkts?.data[0]?.attributes;
   if (!product) return null;
 
   const {
@@ -168,7 +168,7 @@ export async function getStaticProps(context: ContextType) {
     `,
   });
 
-  if (!data?.products?.data)
+  if (!data.produkts.data.length)
     return {
       notFound: true,
     };
