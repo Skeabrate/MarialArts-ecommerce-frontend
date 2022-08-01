@@ -15,6 +15,8 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
     increaseCartQuantity(id);
   };
 
+  console.log(produkts);
+
   return (
     <main>
       <HeadComponent title='Sauny24' />
@@ -65,8 +67,8 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
   );
 };
 
-export async function getServerSideProps() {
-  const { data } = await client.query({
+export async function getStaticProps() {
+  /* const { data } = await client.query({
     query: gql`
       query Products {
         produkts {
@@ -108,12 +110,18 @@ export async function getServerSideProps() {
         }
       }
     `,
-  });
+  }); */
+
+  const res = await fetch(`${process.env.STRAPI_URL}/api/produkts?populate=*`);
+  const data = await res.json();
+
+  console.log(data);
 
   return {
     props: {
-      produkts: data.produkts,
+      produkts: data,
     },
+    revalidate: 10,
   };
 }
 
