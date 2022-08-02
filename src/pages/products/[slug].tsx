@@ -176,7 +176,6 @@ export async function getStaticProps(context: ContextType) {
   return {
     props: {
       produkts: data.produkts,
-      revalidate: 5,
     },
   };
 }
