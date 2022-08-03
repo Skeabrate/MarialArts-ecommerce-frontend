@@ -2,6 +2,11 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+		if(req.method !== "POST"){
+			res.status(400)
+			.json({error: "Invalid HTTP method. Only POST requests are allowed"})
+		}
+
 		if (req.query.secret !== process.env.REVALIDATE_TOKEN) {
 			return res.status(401).json({ message: 'Invalid token' });
 		}

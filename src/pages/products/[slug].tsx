@@ -16,7 +16,7 @@ type LinkType = {
   };
 };
 
-function Porduct({ produkts }: ProductsQuery) {
+function Product({ produkts }: ProductsQuery) {
   const product = produkts?.data[0]?.attributes;
   if (!product) return null;
 
@@ -180,4 +180,4 @@ export async function getStaticProps(context: ContextType) {
   };
 }
 
-export default Porduct;
+export default Product;
