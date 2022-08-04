@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { CartItemProps } from 'context/types';
 import { Data } from 'src/Data';
+import { useProductsQuery } from 'generated';
 
 function tryParseJSONObject(jsonString: string) {
   try {
@@ -16,6 +17,8 @@ function tryParseJSONObject(jsonString: string) {
 }
 
 export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
+  const { data, loading, error } = useProductsQuery();
+
   const [cartState, setCartState] = useState<T>(() => {
     const localStorageValue = localStorage.getItem(key);
     if (localStorageValue && tryParseJSONObject(localStorageValue)) {

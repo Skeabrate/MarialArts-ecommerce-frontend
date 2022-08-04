@@ -1,19 +1,20 @@
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import { formatValue } from 'utils/formatValue';
-import { useShoppingCart } from 'hooks/useShoppingCart';
 import HeadComponent from 'components/Head/Head';
-import { gql } from '@apollo/client';
 import client from 'graphql/apollo';
+import { gql } from '@apollo/client';
 import { ProductsQuery } from 'generated';
+import { formatValue } from 'utils/formatValue';
+import React from 'react';
+import Image from 'next/image';
 
 const Home: NextPage = ({ produkts }: ProductsQuery) => {
-  const { increaseCartQuantity, openCart } = useShoppingCart();
-
-  const addToCart = (id: number) => {
-    openCart();
-    increaseCartQuantity(id);
-  };
+  React.useEffect(() => {
+    produkts?.data.map(
+      ({ attributes }) =>
+        attributes?.Galeria?.data.length && console.log(attributes?.Galeria?.data[0])
+    );
+  }, [produkts]);
 
   return (
     <main>
@@ -34,33 +35,27 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
                 key={id}
                 style={{ border: '1px solid grey', padding: '20px', margin: '20px' }}
               >
-                <header>
+                <div>
+                  {attributes?.Galeria?.data.length ? (
+                    <Image
+                      src={
+                        process.env.STRAPI_URL +
+                        attributes?.Galeria?.data[0].attributes?.formats.small.url
+                      }
+                      alt={attributes?.Galeria?.data[0].attributes?.alternativeText || 'sauny24'}
+                      width={attributes?.Galeria?.data[0].attributes?.formats.small.width}
+                      height={attributes?.Galeria?.data[0].attributes?.formats.small.height}
+                    />
+                  ) : null}
+                </div>
+
+                <div>
                   <h2>{attributes.Tytul}</h2>
                   <p>{attributes.kategoria.data.attributes.Tytul}</p>
                   <Link href={`/products/${attributes.Link}`}>
                     <a>Przejdź to strony produktu</a>
                   </Link>
-                </header>
-
-                {/* {Galeria?.data ? (
-                  <div>
-                    <img
-                      src={`http://localhost:8082${Galeria.data[0].attributes.formats.small.url}`}
-                      alt=''
-                    />
-                  </div>
-                ) : null} */}
-
-                {/* <p>{item.description}</p>
-
-            <p>{formatValue(item.price)}</p> */}
-
-                {id && (
-                  <div>
-                    <button onClick={() => addToCart(+id)}>Dodaj do koszyka</button>
-                    <button>Dodaj do ulubionych</button>
-                  </div>
-                )}
+                </div>
               </article>
             );
         })}
@@ -91,6 +86,7 @@ export async function getStaticProps() {
                     height
                     alternativeText
                     formats
+                    url
                   }
                 }
               }

@@ -5,6 +5,8 @@ import { GlobalStyles } from 'styles/GlobalStyle';
 import { theme } from 'styles/theme';
 import Footer from 'components/Footer/Footer';
 import Navigation from 'components/Navigation/Navigation';
+import { ApolloProvider } from '@apollo/client';
+import client from 'graphql/apollo';
 
 const ShoppingCartProvider = dynamic(() => import('context/ShoppingCartContext'), {
   ssr: false,
@@ -12,14 +14,16 @@ const ShoppingCartProvider = dynamic(() => import('context/ShoppingCartContext')
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <ShoppingCartProvider>
-        <Navigation />
-        <Component {...pageProps} />
-        <Footer />
-      </ShoppingCartProvider>
-    </ThemeProvider>
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <ShoppingCartProvider>
+          <Navigation />
+          <Component {...pageProps} />
+          <Footer />
+        </ShoppingCartProvider>
+      </ThemeProvider>
+    </ApolloProvider>
   );
 }
 

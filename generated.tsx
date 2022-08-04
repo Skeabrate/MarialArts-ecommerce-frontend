@@ -234,7 +234,6 @@ export type Kategoria = {
   __typename?: 'Kategoria';
   Tytul: Scalars['String'];
   createdAt?: Maybe<Scalars['DateTime']>;
-  publishedAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -262,13 +261,11 @@ export type KategoriaFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<KategoriaFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<KategoriaFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type KategoriaInput = {
   Tytul?: InputMaybe<Scalars['String']>;
-  publishedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type Mutation = {
@@ -491,7 +488,6 @@ export type Produkt = {
   Wymiary: Array<Maybe<ComponentWymiaryWymiary>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   kategoria?: Maybe<KategoriaEntityResponse>;
-  publishedAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -541,7 +537,6 @@ export type ProduktFiltersInput = {
   kategoria?: InputMaybe<KategoriaFiltersInput>;
   not?: InputMaybe<ProduktFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ProduktFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -556,13 +551,7 @@ export type ProduktInput = {
   Tytul?: InputMaybe<Scalars['String']>;
   Wymiary?: InputMaybe<Array<InputMaybe<ComponentWymiaryWymiaryInput>>>;
   kategoria?: InputMaybe<Scalars['ID']>;
-  publishedAt?: InputMaybe<Scalars['DateTime']>;
 };
-
-export enum PublicationState {
-  Live = 'LIVE',
-  Preview = 'PREVIEW'
-}
 
 export type Query = {
   __typename?: 'Query';
@@ -604,7 +593,6 @@ export type QueryKategoriaArgs = {
 export type QueryKategoriasArgs = {
   filters?: InputMaybe<KategoriaFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -617,7 +605,6 @@ export type QueryProduktArgs = {
 export type QueryProduktsArgs = {
   filters?: InputMaybe<ProduktFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -1079,7 +1066,7 @@ export type CategoriesQuery = { __typename?: 'Query', kategorias?: { __typename?
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductsQuery = { __typename?: 'Query', produkts?: { __typename?: 'ProduktEntityResponseCollection', data: Array<{ __typename?: 'ProduktEntity', id?: string | null, attributes?: { __typename?: 'Produkt', Meta_title: string, Meta_description: string, Meta_keywords: string, Link: string, Dostepnosc: boolean, Tytul: string, Opis?: string | null, Galeria?: { __typename?: 'UploadFileRelationResponseCollection', data: Array<{ __typename?: 'UploadFileEntity', id?: string | null, attributes?: { __typename?: 'UploadFile', width?: number | null, height?: number | null, alternativeText?: string | null, formats?: any | null } | null }> } | null, kategoria?: { __typename?: 'KategoriaEntityResponse', data?: { __typename?: 'KategoriaEntity', attributes?: { __typename?: 'Kategoria', Tytul: string } | null } | null } | null, Wymiary: Array<{ __typename?: 'ComponentWymiaryWymiary', id: string, Wymiary: string, Cena: number, Promocja?: number | null } | null> } | null }> } | null };
+export type ProductsQuery = { __typename?: 'Query', produkts?: { __typename?: 'ProduktEntityResponseCollection', data: Array<{ __typename?: 'ProduktEntity', id?: string | null, attributes?: { __typename?: 'Produkt', Meta_title: string, Meta_description: string, Meta_keywords: string, Link: string, Dostepnosc: boolean, Tytul: string, Opis?: string | null, Galeria?: { __typename?: 'UploadFileRelationResponseCollection', data: Array<{ __typename?: 'UploadFileEntity', id?: string | null, attributes?: { __typename?: 'UploadFile', width?: number | null, height?: number | null, alternativeText?: string | null, formats?: any | null, url: string } | null }> } | null, kategoria?: { __typename?: 'KategoriaEntityResponse', data?: { __typename?: 'KategoriaEntity', attributes?: { __typename?: 'Kategoria', Tytul: string } | null } | null } | null, Wymiary: Array<{ __typename?: 'ComponentWymiaryWymiary', id: string, Wymiary: string, Cena: number, Promocja?: number | null } | null> } | null }> } | null };
 
 
 export const CategoriesDocument = gql`
@@ -1142,6 +1129,7 @@ export const ProductsDocument = gql`
               height
               alternativeText
               formats
+              url
             }
           }
         }

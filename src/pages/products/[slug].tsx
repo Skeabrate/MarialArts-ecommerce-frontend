@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 import { formatValue } from 'utils/formatValue';
 import HeadComponent from 'components/Head/Head';
 import { ProductsQuery } from 'generated';
+import { useShoppingCart } from 'hooks/useShoppingCart';
 
 type ContextType = {
   params: {
@@ -18,6 +19,14 @@ type LinkType = {
 
 function Product({ produkts }: ProductsQuery) {
   const product = produkts?.data[0]?.attributes;
+
+  const { increaseCartQuantity, openCart } = useShoppingCart();
+
+  const addToCart = (id: number) => {
+    openCart();
+    increaseCartQuantity(id);
+  };
+
   if (!product) return null;
 
   const {
@@ -71,7 +80,7 @@ function Product({ produkts }: ProductsQuery) {
                           )}
                         </td>
                         <td style={{ padding: '10px' }}>
-                          <button>Dodaj do koszyka</button>
+                          <button onClick={() => addToCart(+id)}>Dodaj do koszyka</button>
                         </td>
                       </tr>
                     ))}

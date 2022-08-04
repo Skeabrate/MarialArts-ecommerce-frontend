@@ -18,6 +18,7 @@ query Products {
               height
               alternativeText
               formats
+              url
             }
           }
         }
