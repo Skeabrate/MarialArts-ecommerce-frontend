@@ -120,7 +120,16 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']>;
 };
 
-export type GenericMorph = ComponentWymiaryWymiary | I18NLocale | Kategoria | Produkt | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph =
+  | ComponentWymiaryWymiary
+  | I18NLocale
+  | Kategoria
+  | Produkt
+  | UploadFile
+  | UploadFolder
+  | UsersPermissionsPermission
+  | UsersPermissionsRole
+  | UsersPermissionsUser;
 
 export type I18NLocale = {
   __typename?: 'I18NLocale';
@@ -309,81 +318,65 @@ export type Mutation = {
   upload: UploadFileEntityResponse;
 };
 
-
 export type MutationCreateKategoriaArgs = {
   data: KategoriaInput;
 };
-
 
 export type MutationCreateProduktArgs = {
   data: ProduktInput;
 };
 
-
 export type MutationCreateUploadFileArgs = {
   data: UploadFileInput;
 };
-
 
 export type MutationCreateUploadFolderArgs = {
   data: UploadFolderInput;
 };
 
-
 export type MutationCreateUsersPermissionsRoleArgs = {
   data: UsersPermissionsRoleInput;
 };
-
 
 export type MutationCreateUsersPermissionsUserArgs = {
   data: UsersPermissionsUserInput;
 };
 
-
 export type MutationDeleteKategoriaArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationDeleteProduktArgs = {
   id: Scalars['ID'];
 };
 
-
 export type MutationDeleteUploadFileArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationDeleteUploadFolderArgs = {
   id: Scalars['ID'];
 };
 
-
 export type MutationDeleteUsersPermissionsRoleArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationDeleteUsersPermissionsUserArgs = {
   id: Scalars['ID'];
 };
 
-
 export type MutationEmailConfirmationArgs = {
   confirmation: Scalars['String'];
 };
-
 
 export type MutationForgotPasswordArgs = {
   email: Scalars['String'];
 };
 
-
 export type MutationLoginArgs = {
   input: UsersPermissionsLoginInput;
 };
-
 
 export type MutationMultipleUploadArgs = {
   field?: InputMaybe<Scalars['String']>;
@@ -392,16 +385,13 @@ export type MutationMultipleUploadArgs = {
   refId?: InputMaybe<Scalars['ID']>;
 };
 
-
 export type MutationRegisterArgs = {
   input: UsersPermissionsRegisterInput;
 };
 
-
 export type MutationRemoveFileArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationResetPasswordArgs = {
   code: Scalars['String'];
@@ -409,48 +399,40 @@ export type MutationResetPasswordArgs = {
   passwordConfirmation: Scalars['String'];
 };
 
-
 export type MutationUpdateFileInfoArgs = {
   id: Scalars['ID'];
   info?: InputMaybe<FileInfoInput>;
 };
-
 
 export type MutationUpdateKategoriaArgs = {
   data: KategoriaInput;
   id: Scalars['ID'];
 };
 
-
 export type MutationUpdateProduktArgs = {
   data: ProduktInput;
   id: Scalars['ID'];
 };
-
 
 export type MutationUpdateUploadFileArgs = {
   data: UploadFileInput;
   id: Scalars['ID'];
 };
 
-
 export type MutationUpdateUploadFolderArgs = {
   data: UploadFolderInput;
   id: Scalars['ID'];
 };
-
 
 export type MutationUpdateUsersPermissionsRoleArgs = {
   data: UsersPermissionsRoleInput;
   id: Scalars['ID'];
 };
 
-
 export type MutationUpdateUsersPermissionsUserArgs = {
   data: UsersPermissionsUserInput;
   id: Scalars['ID'];
 };
-
 
 export type MutationUploadArgs = {
   field?: InputMaybe<Scalars['String']>;
@@ -491,13 +473,11 @@ export type Produkt = {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-
 export type ProduktGaleriaArgs = {
   filters?: InputMaybe<UploadFileFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
-
 
 export type ProduktWymiaryArgs = {
   filters?: InputMaybe<ComponentWymiaryWymiaryFiltersInput>;
@@ -572,11 +552,9 @@ export type Query = {
   usersPermissionsUsers?: Maybe<UsersPermissionsUserEntityResponseCollection>;
 };
 
-
 export type QueryI18NLocaleArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
-
 
 export type QueryI18NLocalesArgs = {
   filters?: InputMaybe<I18NLocaleFiltersInput>;
@@ -584,11 +562,9 @@ export type QueryI18NLocalesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-
 export type QueryKategoriaArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
-
 
 export type QueryKategoriasArgs = {
   filters?: InputMaybe<KategoriaFiltersInput>;
@@ -596,11 +572,9 @@ export type QueryKategoriasArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-
 export type QueryProduktArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
-
 
 export type QueryProduktsArgs = {
   filters?: InputMaybe<ProduktFiltersInput>;
@@ -608,11 +582,9 @@ export type QueryProduktsArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-
 export type QueryUploadFileArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
-
 
 export type QueryUploadFilesArgs = {
   filters?: InputMaybe<UploadFileFiltersInput>;
@@ -620,11 +592,9 @@ export type QueryUploadFilesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-
 export type QueryUploadFolderArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
-
 
 export type QueryUploadFoldersArgs = {
   filters?: InputMaybe<UploadFolderFiltersInput>;
@@ -632,11 +602,9 @@ export type QueryUploadFoldersArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-
 export type QueryUsersPermissionsRoleArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
-
 
 export type QueryUsersPermissionsRolesArgs = {
   filters?: InputMaybe<UsersPermissionsRoleFiltersInput>;
@@ -644,11 +612,9 @@ export type QueryUsersPermissionsRolesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-
 export type QueryUsersPermissionsUserArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
-
 
 export type QueryUsersPermissionsUsersArgs = {
   filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
@@ -784,13 +750,11 @@ export type UploadFolder = {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-
 export type UploadFolderChildrenArgs = {
   filters?: InputMaybe<UploadFolderFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
-
 
 export type UploadFolderFilesArgs = {
   filters?: InputMaybe<UploadFileFiltersInput>;
@@ -936,13 +900,11 @@ export type UsersPermissionsRole = {
   users?: Maybe<UsersPermissionsUserRelationResponseCollection>;
 };
 
-
 export type UsersPermissionsRolePermissionsArgs = {
   filters?: InputMaybe<UsersPermissionsPermissionFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
-
 
 export type UsersPermissionsRoleUsersArgs = {
   filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
@@ -1058,29 +1020,84 @@ export type UsersPermissionsUserRelationResponseCollection = {
   data: Array<UsersPermissionsUserEntity>;
 };
 
-export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+export type CategoriesQueryVariables = Exact<{ [key: string]: never }>;
 
+export type CategoriesQuery = {
+  __typename?: 'Query';
+  kategorias?: {
+    __typename?: 'KategoriaEntityResponseCollection';
+    data: Array<{
+      __typename?: 'KategoriaEntity';
+      id?: string | null;
+      attributes?: { __typename?: 'Kategoria'; Tytul: string } | null;
+    }>;
+  } | null;
+};
 
-export type CategoriesQuery = { __typename?: 'Query', kategorias?: { __typename?: 'KategoriaEntityResponseCollection', data: Array<{ __typename?: 'KategoriaEntity', id?: string | null, attributes?: { __typename?: 'Kategoria', Tytul: string } | null }> } | null };
+export type ProductsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ProductsQuery = { __typename?: 'Query', produkts?: { __typename?: 'ProduktEntityResponseCollection', data: Array<{ __typename?: 'ProduktEntity', id?: string | null, attributes?: { __typename?: 'Produkt', Meta_title: string, Meta_description: string, Meta_keywords: string, Link: string, Dostepnosc: boolean, Tytul: string, Opis?: string | null, Galeria?: { __typename?: 'UploadFileRelationResponseCollection', data: Array<{ __typename?: 'UploadFileEntity', id?: string | null, attributes?: { __typename?: 'UploadFile', width?: number | null, height?: number | null, alternativeText?: string | null, formats?: any | null, url: string } | null }> } | null, kategoria?: { __typename?: 'KategoriaEntityResponse', data?: { __typename?: 'KategoriaEntity', attributes?: { __typename?: 'Kategoria', Tytul: string } | null } | null } | null, Wymiary: Array<{ __typename?: 'ComponentWymiaryWymiary', id: string, Wymiary: string, Cena: number, Promocja?: number | null } | null> } | null }> } | null };
-
+export type ProductsQuery = {
+  __typename?: 'Query';
+  produkts?: {
+    __typename?: 'ProduktEntityResponseCollection';
+    data: Array<{
+      __typename?: 'ProduktEntity';
+      id?: string | null;
+      attributes?: {
+        __typename?: 'Produkt';
+        Meta_title: string;
+        Meta_description: string;
+        Meta_keywords: string;
+        Link: string;
+        Dostepnosc: boolean;
+        Tytul: string;
+        Opis?: string | null;
+        Galeria?: {
+          __typename?: 'UploadFileRelationResponseCollection';
+          data: Array<{
+            __typename?: 'UploadFileEntity';
+            id?: string | null;
+            attributes?: {
+              __typename?: 'UploadFile';
+              width?: number | null;
+              height?: number | null;
+              alternativeText?: string | null;
+              formats?: any | null;
+              url: string;
+            } | null;
+          }>;
+        } | null;
+        kategoria?: {
+          __typename?: 'KategoriaEntityResponse';
+          data?: {
+            __typename?: 'KategoriaEntity';
+            attributes?: { __typename?: 'Kategoria'; Tytul: string } | null;
+          } | null;
+        } | null;
+        Wymiary: Array<{
+          __typename?: 'ComponentWymiaryWymiary';
+          id: string;
+          Wymiary: string;
+          Cena: number;
+          Promocja?: number | null;
+        } | null>;
+      } | null;
+    }>;
+  } | null;
+};
 
 export const CategoriesDocument = gql`
-    query Categories {
-  kategorias {
-    data {
-      id
-      attributes {
-        Tytul
+  query Categories {
+    kategorias {
+      data {
+        id
+        attributes {
+          Tytul
+        }
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useCategoriesQuery__
@@ -1097,60 +1114,67 @@ export const CategoriesDocument = gql`
  *   },
  * });
  */
-export function useCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
-      }
-export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
-        }
+export function useCategoriesQuery(
+  baseOptions?: Apollo.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
+}
+export function useCategoriesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<CategoriesQuery, CategoriesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(
+    CategoriesDocument,
+    options
+  );
+}
 export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
 export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
 export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
 export const ProductsDocument = gql`
-    query Products {
-  produkts {
-    data {
-      id
-      attributes {
-        Meta_title
-        Meta_description
-        Meta_keywords
-        Link
-        Dostepnosc
-        Tytul
-        Opis
-        Galeria {
-          data {
+  query Products {
+    produkts {
+      data {
+        id
+        attributes {
+          Meta_title
+          Meta_description
+          Meta_keywords
+          Link
+          Dostepnosc
+          Tytul
+          Opis
+          Galeria {
+            data {
+              id
+              attributes {
+                width
+                height
+                alternativeText
+                formats
+                url
+              }
+            }
+          }
+          kategoria {
+            data {
+              attributes {
+                Tytul
+              }
+            }
+          }
+          Wymiary {
             id
-            attributes {
-              width
-              height
-              alternativeText
-              formats
-              url
-            }
+            Wymiary
+            Cena
+            Promocja
           }
-        }
-        kategoria {
-          data {
-            attributes {
-              Tytul
-            }
-          }
-        }
-        Wymiary {
-          id
-          Wymiary
-          Cena
-          Promocja
         }
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useProductsQuery__
@@ -1167,14 +1191,18 @@ export const ProductsDocument = gql`
  *   },
  * });
  */
-export function useProductsQuery(baseOptions?: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
-      }
-export function useProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
-        }
+export function useProductsQuery(
+  baseOptions?: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
+}
+export function useProductsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ProductsQuery, ProductsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
+}
 export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
 export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
 export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>;

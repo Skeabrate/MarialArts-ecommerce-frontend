@@ -11,8 +11,7 @@ import Image from 'next/image';
 const Home: NextPage = ({ produkts }: ProductsQuery) => {
   React.useEffect(() => {
     produkts?.data.map(
-      ({ attributes }) =>
-        attributes?.Galeria?.data.length && console.log(attributes?.Galeria?.data[0])
+      ({ attributes }) => attributes?.Galeria?.data.length && console.log(attributes?.Galeria.data)
     );
   }, [produkts]);
 
@@ -39,12 +38,13 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
                   {attributes?.Galeria?.data.length ? (
                     <Image
                       src={
-                        process.env.STRAPI_URL +
-                        attributes?.Galeria?.data[0].attributes?.formats.small.url
+                        attributes?.Galeria?.data[0].attributes?.url
+                          ? process.env.STRAPI_URL + attributes?.Galeria?.data[0].attributes?.url
+                          : ''
                       }
                       alt={attributes?.Galeria?.data[0].attributes?.alternativeText || 'sauny24'}
-                      width={attributes?.Galeria?.data[0].attributes?.formats.small.width}
-                      height={attributes?.Galeria?.data[0].attributes?.formats.small.height}
+                      width={attributes?.Galeria?.data[0].attributes?.width || 'auto'}
+                      height={attributes?.Galeria?.data[0].attributes?.height || 'auto'}
                     />
                   ) : null}
                 </div>
