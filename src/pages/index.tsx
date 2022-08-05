@@ -28,6 +28,7 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
           };
           if (attributes?.Wymiary[0]) {
             finalPrice.price = attributes?.Wymiary[0]?.Cena;
+            finalPrice.wymiary = attributes?.Wymiary[0]?.Wymiary;
 
             attributes?.Wymiary.forEach(({ Cena, Wymiary, Promocja }: any) => {
               if (Promocja && Promocja < finalPrice.price) {
@@ -71,7 +72,10 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
                     {finalPrice.promocja ? (
                       <span style={{ color: 'red', fontWeight: 'bold' }}>Promocja!</span>
                     ) : null}
-                    <span>Od: {formatValue(finalPrice.price)}</span>
+                    <span>
+                      {attributes.Wymiary.length > 1 && 'Od '}
+                      {formatValue(finalPrice.price)}
+                    </span>
                     <span>Wymiary: {finalPrice.wymiary}</span>
                   </p>
                   <Link href={`/products/${attributes.Link}`}>
