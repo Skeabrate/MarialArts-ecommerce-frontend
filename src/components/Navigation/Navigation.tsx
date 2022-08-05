@@ -30,11 +30,6 @@ export default function Navigation() {
 
       <ul>
         <li>
-          <Link href='/wishlist'>
-            <a>Lista życzeń</a>
-          </Link>
-        </li>
-        <li>
           <Link href='/profil'>
             <a>Profil</a>
           </Link>
