@@ -10,9 +10,9 @@ import Image from 'next/image';
 
 const Home: NextPage = ({ produkts }: ProductsQuery) => {
   React.useEffect(() => {
-    produkts?.data.map(
-      ({ attributes }) => attributes?.Galeria?.data.length && console.log(attributes?.Galeria.data)
-    );
+    produkts?.data.map(({ attributes }) => {
+      console.log(attributes?.Dostepnosc);
+    });
   }, [produkts]);
 
   return (
@@ -27,7 +27,8 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
 
       <section>
         {produkts?.data?.map(({ id, attributes }) => {
-          if (!attributes?.kategoria?.data?.attributes?.Tytul) return null;
+          if (!attributes?.kategoria?.data?.attributes?.Tytul || !attributes?.Dostepnosc)
+            return null;
           else
             return (
               <article
