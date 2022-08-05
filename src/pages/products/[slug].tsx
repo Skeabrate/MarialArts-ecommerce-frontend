@@ -4,6 +4,7 @@ import { formatValue } from 'utils/formatValue';
 import HeadComponent from 'components/Head/Head';
 import { ProductsQuery } from 'generated';
 import { useShoppingCart } from 'hooks/useShoppingCart';
+import { v4 as uuid } from 'uuid';
 
 type ContextType = {
   params: {
@@ -18,16 +19,17 @@ type LinkType = {
 };
 
 function Product({ produkts }: ProductsQuery) {
-  const product = produkts?.data[0]?.attributes;
+  const product = produkts?.data[0].attributes;
+  const productId = produkts?.data[0].id;
 
   const { increaseCartQuantity, openCart } = useShoppingCart();
 
-  const addToCart = (id: number) => {
+  const addToCart = (cartItemId: string, productId: string, wymiary: string) => {
     openCart();
-    increaseCartQuantity(id);
+    increaseCartQuantity(cartItemId, productId, wymiary);
   };
 
-  if (!product) return null;
+  if (!product || !productId) return null;
 
   const {
     Meta_title,
@@ -80,7 +82,9 @@ function Product({ produkts }: ProductsQuery) {
                           )}
                         </td>
                         <td style={{ padding: '10px' }}>
-                          <button onClick={() => addToCart(+id)}>Dodaj do koszyka</button>
+                          <button onClick={() => addToCart(uuid(), productId, Wymiary)}>
+                            Dodaj do koszyka
+                          </button>
                         </td>
                       </tr>
                     ))}

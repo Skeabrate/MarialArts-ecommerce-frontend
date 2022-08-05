@@ -14,15 +14,16 @@ export default function ShoppingCartProvider({ children }: ShoppingCartProviderP
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
-  function increaseCartQuantity(id: number) {
+  function increaseCartQuantity(cartItemId: string, productId: string, wymiary: string) {
     setCartItems((currItems) => {
-      if (currItems.find((item) => item.id === id) == null) {
-        return [...currItems, { id, quantity: 1 }];
+      if (
+        currItems.find((item) => item.productId === productId && item.wymiary === wymiary) == null
+      ) {
+        return [...currItems, { cartItemId, productId, wymiary, quantity: 1 }];
       } else {
         return currItems.map((item) => {
-          if (item.id === id) {
-            if (item.quantity >= 100) return { ...item, quantity: item.quantity };
-            else return { ...item, quantity: item.quantity + 1 };
+          if (item.productId === productId && item.wymiary === wymiary) {
+            return { ...item, quantity: item.quantity + 1 };
           } else {
             return item;
           }
@@ -31,13 +32,13 @@ export default function ShoppingCartProvider({ children }: ShoppingCartProviderP
     });
   }
 
-  function decreaseCartQuantity(id: number) {
+  function decreaseCartQuantity(productId: string) {
     setCartItems((currItems) => {
-      if (currItems.find((item) => item.id === id)?.quantity === 1) {
-        return currItems.filter((item) => item.id !== id);
+      if (currItems.find((item) => item.productId === productId)?.quantity === 1) {
+        return currItems.filter((item) => item.productId !== productId);
       } else {
         return currItems.map((item) => {
-          if (item.id === id) {
+          if (item.productId === productId) {
             return { ...item, quantity: item.quantity - 1 };
           } else {
             return item;
@@ -47,9 +48,9 @@ export default function ShoppingCartProvider({ children }: ShoppingCartProviderP
     });
   }
 
-  function removeFromCart(id: number) {
+  function removeFromCart(cartItemId: string) {
     setCartItems((currItems) => {
-      return currItems.filter((item) => item.id !== id);
+      return currItems.filter((item) => item.cartItemId !== cartItemId);
     });
   }
 

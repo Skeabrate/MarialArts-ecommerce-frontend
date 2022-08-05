@@ -19,14 +19,15 @@ function tryParseJSONObject(jsonString: string) {
 export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
   const { data, loading, error } = useProductsQuery();
 
-  const [cartState, setCartState] = useState<T>(() => {
+  const [cartState, setCartState] = useState<T>(
+    initialValue /* () => {
     const localStorageValue = localStorage.getItem(key);
     if (localStorageValue && tryParseJSONObject(localStorageValue)) {
       const checkedLocalStorageValue = JSON.parse(localStorageValue).filter(
         (localStorageItem: CartItemProps) =>
           Data.find(
             (dataBaseItem) =>
-              dataBaseItem.id === localStorageItem.id &&
+              dataBaseItem.id === localStorageItem.productId &&
               typeof localStorageItem.quantity === 'number' &&
               localStorageItem.quantity >= 1 &&
               localStorageItem.quantity <= 100
@@ -34,7 +35,8 @@ export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
       );
       return checkedLocalStorageValue;
     } else return initialValue;
-  });
+  } */
+  );
 
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(cartState));

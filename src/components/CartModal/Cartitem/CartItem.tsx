@@ -1,36 +1,68 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import Link from 'next/link';
 import { useShoppingCart } from 'hooks/useShoppingCart';
 import { formatValue } from 'utils/formatValue';
-import { Data } from 'src/Data';
-import Link from 'next/link';
+import { CartItemProps } from 'context/types';
+import { ProductsQuery } from 'generated';
 
-type CartItemProps = {
-  id: number;
-  quantity: number;
-};
+interface CartItemPropsWithData extends CartItemProps {
+  data: ProductsQuery;
+}
 
-export default function CartItem({ id, quantity }: CartItemProps) {
+export default function CartItem({
+  data,
+  cartItemId,
+  productId,
+  wymiary,
+  quantity,
+}: CartItemPropsWithData) {
   const { increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart();
 
-  const item = Data.find((i) => i.id === id);
-  if (!item) return null;
+  const cartItem = useMemo(
+    () =>
+      data?.produkts?.data.find(
+        (item) =>
+          item.id === productId &&
+          item.attributes?.Wymiary.find((item) => item?.Wymiary === wymiary)
+      ),
+    []
+  );
+
+  const wybraneWymiary = useMemo(
+    () => cartItem?.attributes?.Wymiary.find((item) => item?.Wymiary === wymiary),
+    []
+  );
+
+  const cena = wybraneWymiary?.Promocja ? wybraneWymiary.Promocja : wybraneWymiary?.Cena;
 
   return (
     <div>
-      <h3>{item.title}</h3>
-      <Link href={`/products/${item.title}:${item.id}`}>
+      <h3>
+        {cartItem?.attributes?.Tytul} {wybraneWymiary?.Promocja && '(PROMOCJA)'}
+      </h3>
+      <Link href={`/products/${cartItem?.attributes?.Link}`}>
         <a>Przejdź to strony produktu</a>
       </Link>
-      <p>Cena: {formatValue(item.price)}</p>
-      <p>Łączna cena: {formatValue(item.price * quantity)}</p>
+      <p>Wymiary: {wybraneWymiary?.Wymiary}</p>
+      <p>Cena: {cena && formatValue(cena)}</p>
+      <p>Ilość: {quantity}</p>
+      <p>Łączna cena: {cena && formatValue(cena * quantity)}</p>
 
       <div>
-        <button onClick={() => decreaseCartQuantity(item.id)}>{quantity > 1 ? '-' : 'Usun'}</button>
+        {/* <button onClick={() => decreaseCartQuantity(item.id)}>{quantity > 1 ? '-' : 'Usun'}</button> */}
         {quantity}
-        <button onClick={() => increaseCartQuantity(item.id)}>+</button>
+        <button
+          onClick={() =>
+            cartItem &&
+            wybraneWymiary &&
+            increaseCartQuantity(cartItemId, cartItem.id, wybraneWymiary.Wymiary)
+          }
+        >
+          +
+        </button>
       </div>
 
-      <button onClick={() => removeFromCart(item.id)}>Usun</button>
+      <button onClick={() => removeFromCart(cartItemId)}>Usun</button>
     </div>
   );
 }

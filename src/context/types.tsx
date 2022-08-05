@@ -3,16 +3,18 @@ export type ShoppingCartProviderProps = {
 };
 
 export type CartItemProps = {
-  id: number;
+  cartItemId: string;
+  productId: string;
+  wymiary: string;
   quantity: number;
 };
 
 export type ShoppingCartContextProps = {
   openCart: () => void;
   closeCart: () => void;
-  increaseCartQuantity: (id: number) => void;
-  decreaseCartQuantity: (id: number) => void;
-  removeFromCart: (id: number) => void;
+  increaseCartQuantity: (cartItemId: string, productId: string, wymiary: string) => void;
+  decreaseCartQuantity: (cartItemId: string) => void;
+  removeFromCart: (cartItemId: string) => void;
   cartQuantity: number;
   cartItems: CartItemProps[];
 };

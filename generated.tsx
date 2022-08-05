@@ -1042,7 +1042,7 @@ export type ProductsQuery = {
     __typename?: 'ProduktEntityResponseCollection';
     data: Array<{
       __typename?: 'ProduktEntity';
-      id?: string | null;
+      id: string;
       attributes?: {
         __typename?: 'Produkt';
         Meta_title: string;
