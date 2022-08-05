@@ -9,12 +9,6 @@ import React from 'react';
 import Image from 'next/image';
 
 const Home: NextPage = ({ produkts }: ProductsQuery) => {
-  React.useEffect(() => {
-    produkts?.data.map(({ attributes }) => {
-      console.log(attributes?.Dostepnosc);
-    });
-  }, [produkts]);
-
   return (
     <main>
       <HeadComponent
@@ -27,6 +21,26 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
 
       <section>
         {produkts?.data?.map(({ id, attributes }) => {
+          let finalPrice = {
+            price: 0,
+            wymiary: '',
+            promocja: false,
+          };
+          if (attributes?.Wymiary[0]) {
+            finalPrice.price = attributes?.Wymiary[0]?.Cena;
+
+            attributes?.Wymiary.forEach(({ Cena, Wymiary, Promocja }: any) => {
+              if (Promocja && Promocja < finalPrice.price) {
+                finalPrice.price = Promocja;
+                finalPrice.wymiary = Wymiary;
+                finalPrice.promocja = true;
+              } else if (Cena < finalPrice.price) {
+                finalPrice.price = Cena;
+                finalPrice.wymiary = Wymiary;
+              }
+            });
+          } else return null;
+
           if (!attributes?.kategoria?.data?.attributes?.Tytul || !attributes?.Dostepnosc)
             return null;
           else
@@ -53,6 +67,13 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
                 <div>
                   <h2>{attributes.Tytul}</h2>
                   <p>{attributes.kategoria.data.attributes.Tytul}</p>
+                  <p style={{ display: 'flex', flexDirection: 'column', marginBlock: '6px' }}>
+                    {finalPrice.promocja ? (
+                      <span style={{ color: 'red', fontWeight: 'bold' }}>Promocja!</span>
+                    ) : null}
+                    <span>Od: {formatValue(finalPrice.price)}</span>
+                    <span>Wymiary: {finalPrice.wymiary}</span>
+                  </p>
                   <Link href={`/products/${attributes.Link}`}>
                     <a>Przejdź to strony produktu</a>
                   </Link>
