@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import Link from 'next/link';
+import { ProductsQuery } from 'generated';
+import { CartItemProps } from 'context/types';
 import { useShoppingCart } from 'hooks/useShoppingCart';
 import { formatValue } from 'utils/formatValue';
-import { CartItemProps } from 'context/types';
-import { ProductsQuery } from 'generated';
 
 interface CartItemPropsWithData extends CartItemProps {
   data: ProductsQuery;
@@ -25,12 +25,12 @@ export default function CartItem({
           item.id === productId &&
           item.attributes?.Wymiary.find((item) => item?.Wymiary === wymiary)
       ),
-    []
+    [data, productId, wymiary]
   );
 
   const wybraneWymiary = useMemo(
     () => cartItem?.attributes?.Wymiary.find((item) => item?.Wymiary === wymiary),
-    []
+    [cartItem, wymiary]
   );
 
   const cena = wybraneWymiary?.Promocja ? wybraneWymiary.Promocja : wybraneWymiary?.Cena;
@@ -38,7 +38,7 @@ export default function CartItem({
   return (
     <div>
       <h3>
-        {cartItem?.attributes?.Tytul} {wybraneWymiary?.Promocja && '(PROMOCJA)'}
+        {cartItem?.attributes?.Tytul} {wybraneWymiary?.Promocja ? '(PROMOCJA)' : null}
       </h3>
       <Link href={`/products/${cartItem?.attributes?.Link}`}>
         <a>Przejdź to strony produktu</a>

@@ -1,12 +1,11 @@
-import type { NextPage } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
+import type { NextPage } from 'next';
 import HeadComponent from 'components/Head/Head';
 import client from 'graphql/apollo';
 import { gql } from '@apollo/client';
 import { ProductsQuery } from 'generated';
 import { formatValue } from 'utils/formatValue';
-import React from 'react';
-import Image from 'next/image';
 
 const Home: NextPage = ({ produkts }: ProductsQuery) => {
   return (
@@ -73,7 +72,7 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
                       <span style={{ color: 'red', fontWeight: 'bold' }}>Promocja!</span>
                     ) : null}
                     <span>
-                      {attributes.Wymiary.length > 1 && 'Od '}
+                      {attributes.Wymiary.length > 1 ? 'Od ' : null}
                       {formatValue(finalPrice.price)}
                     </span>
                     <span>Wymiary: {finalPrice.wymiary}</span>

@@ -1,12 +1,11 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useProductsQuery } from 'generated';
+import { useShoppingCart } from 'hooks/useShoppingCart';
 import { formatValue } from 'utils/formatValue';
 import { StyledCartModal, StyledCloseButton } from './CartModal.styles';
-import { useShoppingCart } from 'hooks/useShoppingCart';
-import { Data } from 'src/Data';
-import { useRouter } from 'next/router';
 import CartItem from './Cartitem/CartItem';
-import { useProductsQuery } from 'generated';
 
 type CartProps = {
   isOpen: boolean;
@@ -38,7 +37,7 @@ function CartModal({ isOpen }: CartProps) {
           return total + cartItem.quantity * finalPrice;
         }, 0)
       ),
-    [cartItems]
+    [cartItems, data]
   );
 
   const cartItemsJSX = useMemo(() => {
