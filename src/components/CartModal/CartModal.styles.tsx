@@ -13,6 +13,8 @@ export const StyledCartModal = styled.aside<Props>`
   background-color: grey;
   transform: ${({ $isOpen }) => ($isOpen ? 'translateX(0%)' : 'translateX(100%)')};
   transition: transform 0.3s ease-in-out;
+  overflow-y: auto;
+  padding: 20px;
 
   ${({ theme }) => theme.mq.tablet} {
     width: 550px;
