@@ -49,7 +49,9 @@ export default function CartItem({
       <p>Łączna cena: {cena && formatValue(cena * quantity)}</p>
 
       <div>
-        {/* <button onClick={() => decreaseCartQuantity(item.id)}>{quantity > 1 ? '-' : 'Usun'}</button> */}
+        <button onClick={() => decreaseCartQuantity(cartItemId)}>
+          {quantity > 1 ? '-' : 'Usun'}
+        </button>
         {quantity}
         <button
           onClick={() =>

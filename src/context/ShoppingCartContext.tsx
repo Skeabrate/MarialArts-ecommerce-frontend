@@ -32,13 +32,13 @@ export default function ShoppingCartProvider({ children }: ShoppingCartProviderP
     });
   }
 
-  function decreaseCartQuantity(productId: string) {
+  function decreaseCartQuantity(cartItemId: string) {
     setCartItems((currItems) => {
-      if (currItems.find((item) => item.productId === productId)?.quantity === 1) {
-        return currItems.filter((item) => item.productId !== productId);
+      if (currItems.find((item) => item.cartItemId === cartItemId)?.quantity === 1) {
+        return currItems.filter((item) => item.cartItemId !== cartItemId);
       } else {
         return currItems.map((item) => {
-          if (item.productId === productId) {
+          if (item.cartItemId === cartItemId) {
             return { ...item, quantity: item.quantity - 1 };
           } else {
             return item;
