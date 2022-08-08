@@ -6,6 +6,7 @@ import { ProductsQuery } from 'generated';
 import { useShoppingCart } from 'hooks/useShoppingCart';
 import { v4 as uuid } from 'uuid';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 type ContextType = {
   params: {
@@ -92,7 +93,22 @@ function Product({ produkts }: ProductsQuery) {
                   </tbody>
                 </table>
                 <section>
-                  <ReactMarkdown>{Opis ? Opis : ''}</ReactMarkdown>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    linkTarget={'_blank'}
+                    components={{
+                      a: ({ node, children, ...props }) => {
+                        const linkProps = props;
+                        if (props.target === '_blank') {
+                          linkProps['rel'] = 'noopener noreferrer';
+                        }
+                        return <a {...linkProps}>{children}</a>;
+                      },
+                    }}
+                    /* transformImageUri={}  */
+                  >
+                    {Opis ? Opis : ''}
+                  </ReactMarkdown>
                 </section>
               </div>
             </>

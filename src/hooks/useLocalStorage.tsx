@@ -47,7 +47,7 @@ export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
             )
         );
       });
-      setCartState(checkLocalStorage as T);
+      setCartState(checkLocalStorage as unknown as T);
     }
   }, [data, error]);
 
