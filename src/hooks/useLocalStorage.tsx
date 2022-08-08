@@ -16,24 +16,32 @@ function tryParseJSONObject(jsonString: string) {
 }
 
 export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
-  const { data, loading, error } = useProductsQuery();
+  const { data, error } = useProductsQuery();
 
   const [cartState, setCartState] = useState<T>(() => {
     const localStorageValue = localStorage.getItem(key);
     if (localStorageValue && tryParseJSONObject(localStorageValue)) {
-      /* const checkedLocalStorageValue = JSON.parse(localStorageValue).filter(
-        (localStorageItem: CartItemProps) =>
-          Data.find(
-            (dataBaseItem) =>
-              dataBaseItem.id === localStorageItem.productId &&
-              typeof localStorageItem.quantity === 'number' &&
-              localStorageItem.quantity >= 1 &&
-              localStorageItem.quantity <= 100
-          )
-      ); */
       return JSON.parse(localStorageValue);
     } else return initialValue;
   });
+
+  useEffect(() => {
+    if (data && Array.isArray(cartState) && !error) {
+      const checkLocalStorage = cartState.filter((localStorageItem: CartItemProps) =>
+        data.produkts?.data.find(
+          (dbItem) =>
+            dbItem.id === localStorageItem.productId &&
+            dbItem.attributes?.Wymiary.find(
+              (wymiary) => wymiary?.Wymiary === localStorageItem.wymiary
+            ) &&
+            localStorageItem.cartItemId &&
+            typeof localStorageItem.quantity === 'number' &&
+            localStorageItem.quantity >= 1
+        )
+      );
+      setCartState(checkLocalStorage as T);
+    }
+  }, [data, error]);
 
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(cartState));
