@@ -5,6 +5,7 @@ import HeadComponent from 'components/Head/Head';
 import { ProductsQuery } from 'generated';
 import { useShoppingCart } from 'hooks/useShoppingCart';
 import { v4 as uuid } from 'uuid';
+import ReactMarkdown from 'react-markdown';
 
 type ContextType = {
   params: {
@@ -90,8 +91,9 @@ function Product({ produkts }: ProductsQuery) {
                     ))}
                   </tbody>
                 </table>
-
-                <div>{Opis}</div>
+                <section>
+                  <ReactMarkdown>{Opis ? Opis : ''}</ReactMarkdown>
+                </section>
               </div>
             </>
           ) : (
