@@ -17,18 +17,29 @@ function CartModal({ isOpen }: CartProps) {
   const { data, loading, error } = useProductsQuery();
   const router = useRouter();
 
-  /* const totalItemsPrice = useMemo(
+  const totalItemsPrice = useMemo(
     () =>
       formatValue(
         cartItems.reduce((total, cartItem) => {
-          const item = data?.produkts?.data.find((i) => i.id === cartItem.productId);
-          return total + (item?.price || 0) * cartItem.quantity;
+          const itemInDatabase = data?.produkts?.data.find(
+            (dbItem) =>
+              dbItem.id === cartItem.productId &&
+              dbItem.attributes?.Wymiary.find((wymiary) => wymiary?.Wymiary === cartItem.wymiary)
+          );
+          let finalPrice = 0;
+
+          itemInDatabase?.attributes?.Wymiary.forEach((wymiary) => {
+            if (wymiary?.Wymiary === cartItem.wymiary) {
+              if (wymiary.Promocja) return (finalPrice = wymiary.Promocja);
+              else finalPrice = wymiary.Cena;
+            }
+          });
+
+          return total + cartItem.quantity * finalPrice;
         }, 0)
       ),
     [cartItems]
-  ); */
-
-  let totalItemsPrice = 0;
+  );
 
   const cartItemsJSX = useMemo(() => {
     if (error) {
