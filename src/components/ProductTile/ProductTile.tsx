@@ -80,39 +80,46 @@ export default function ProductTile({ data }: ProductType) {
   } else return null;
 
   return (
-    <article style={{ border: '1px solid grey', padding: '20px', margin: '20px' }}>
-      <div>
-        {data?.Galeria?.data.length ? (
-          <Image
-            src={
-              data?.Galeria?.data[0].attributes?.url
-                ? process.env.STRAPI_URL + data?.Galeria?.data[0].attributes?.url
-                : ''
-            }
-            alt={data?.Galeria?.data[0].attributes?.alternativeText || 'sauny24'}
-            width={data?.Galeria?.data[0].attributes?.width || 'auto'}
-            height={data?.Galeria?.data[0].attributes?.height || 'auto'}
-          />
-        ) : null}
-      </div>
+    <Link href={data.Link}>
+      <a style={{ textDecoration: 'none' }}>
+        <article
+          style={{
+            border: '1px solid grey',
+            padding: '20px',
+            margin: '20px',
+          }}
+        >
+          <div>
+            {data?.Galeria?.data.length ? (
+              <Image
+                src={
+                  data?.Galeria?.data[0].attributes?.url
+                    ? process.env.STRAPI_URL + data?.Galeria?.data[0].attributes?.url
+                    : ''
+                }
+                alt={data?.Galeria?.data[0].attributes?.alternativeText || 'sauny24'}
+                width={data?.Galeria?.data[0].attributes?.width || 'auto'}
+                height={data?.Galeria?.data[0].attributes?.height || 'auto'}
+              />
+            ) : null}
+          </div>
 
-      <div>
-        <h2>{data.Tytul}</h2>
-        <p>{data.kategoria?.data?.attributes?.Tytul}</p>
-        <p style={{ display: 'flex', flexDirection: 'column', marginBlock: '6px' }}>
-          {finalPrice.promocja ? (
-            <span style={{ color: 'red', fontWeight: 'bold' }}>Promocja!</span>
-          ) : null}
-          <span>
-            {data.Wymiary.length > 1 ? 'Od ' : null}
-            {formatValue(finalPrice.price)}
-          </span>
-          <span>Wymiary: {finalPrice.wymiary}</span>
-        </p>
-        <Link href={data.Link}>
-          <a>Przejdź to strony produktu</a>
-        </Link>
-      </div>
-    </article>
+          <div>
+            <h2>{data.Tytul}</h2>
+            <p>{data.kategoria?.data?.attributes?.Tytul}</p>
+            <p style={{ display: 'flex', flexDirection: 'column', marginBlock: '6px' }}>
+              {finalPrice.promocja ? (
+                <span style={{ color: 'red', fontWeight: 'bold' }}>Promocja!</span>
+              ) : null}
+              <span>
+                {data.Wymiary.length > 1 ? 'Od ' : null}
+                {formatValue(finalPrice.price)}
+              </span>
+              <span>Wymiary: {finalPrice.wymiary}</span>
+            </p>
+          </div>
+        </article>
+      </a>
+    </Link>
   );
 }
