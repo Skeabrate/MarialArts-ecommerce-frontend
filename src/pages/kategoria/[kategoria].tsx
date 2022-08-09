@@ -41,7 +41,7 @@ function Kategoria({ produkts, kategorias }: PropsType) {
 
       <h2>Produkty:</h2>
       <section>
-        {productsSortedByCategory ? (
+        {productsSortedByCategory?.length ? (
           <>
             {productsSortedByCategory.map((item) => (
               <article key={item.id}>
@@ -67,12 +67,6 @@ export async function getStaticPaths() {
           data {
             id
             attributes {
-              Tytul
-              SEO {
-                Meta_Title
-                Meta_Description
-                Meta_Keywords
-              }
               Link
             }
           }

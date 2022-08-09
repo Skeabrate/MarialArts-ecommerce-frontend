@@ -4,10 +4,10 @@ import type { NextPage } from 'next';
 import HeadComponent from 'components/Head/Head';
 import client from 'graphql/apollo';
 import { gql } from '@apollo/client';
-import { ProductsQuery } from 'generated';
 import { formatValue } from 'utils/formatValue';
+import { CategoriesQuery } from 'generated';
 
-const Home: NextPage = ({ produkts }: ProductsQuery) => {
+const Home: NextPage = ({ kategorias }: CategoriesQuery) => {
   return (
     <main>
       <HeadComponent
@@ -18,7 +18,28 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
 
       <h1>Kategorie: </h1>
 
-      <section>
+      <section style={{ display: 'flex', flexWrap: 'wrap', gap: '30px', padding: '30px' }}>
+        {kategorias?.data.map(({ id, attributes }) => (
+          <Link key={id} href={`/kategoria/${attributes?.Link}`}>
+            <a>
+              <article
+                style={{
+                  width: '300px',
+                  height: '300px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  border: '1px solid red',
+                }}
+              >
+                <h2>{attributes?.Tytul}</h2>
+              </article>
+            </a>
+          </Link>
+        ))}
+      </section>
+
+      {/* <section>
         {produkts?.data?.map(({ id, attributes }) => {
           let finalPrice = {
             price: 0,
@@ -84,7 +105,7 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
               </article>
             );
         })}
-      </section>
+      </section> */}
     </main>
   );
 };
@@ -92,42 +113,12 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
 export async function getStaticProps() {
   const { data } = await client.query({
     query: gql`
-      query Produkts {
-        produkts {
+      query Categories {
+        kategorias {
           data {
+            id
             attributes {
               Tytul
-              Opis
-              Galeria {
-                data {
-                  id
-                  attributes {
-                    width
-                    height
-                    alternativeText
-                    url
-                  }
-                }
-              }
-              kategoria {
-                data {
-                  attributes {
-                    Tytul
-                  }
-                }
-              }
-              Wymiary {
-                id
-                Wymiary
-                Cena
-                Promocja
-              }
-              Dostepnosc
-              SEO {
-                Meta_Title
-                Meta_Description
-                Meta_Keywords
-              }
               Link
             }
           }
@@ -138,7 +129,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      produkts: data.produkts,
+      kategorias: data.kategorias,
     },
   };
 }
