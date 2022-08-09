@@ -27,8 +27,6 @@ function Kategoria({ produkts, kategorias }: PropsType) {
     ({ attributes }) => attributes?.kategoria?.data?.attributes?.Link === category?.Link
   );
 
-  console.log(productsSortedByCategory);
-
   if (!category) return null;
 
   return (
@@ -64,7 +62,7 @@ function Kategoria({ produkts, kategorias }: PropsType) {
 export async function getStaticPaths() {
   const { data } = await client.query({
     query: gql`
-      query {
+      query Categories {
         kategorias {
           data {
             id
@@ -96,12 +94,12 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context: ContextType) {
-  const kategoria = context.params.kategoria;
+  const kategoriaLink = context.params.kategoria;
 
   const { data } = await client.query({
     query: gql`
-      query Categories {
-				kategorias(filters: { Link: { eq: "${kategoria}" } }){
+      query CategoriesAndProducts {
+				kategorias(filters: { Link: { eq: "${kategoriaLink}" } }){
 					data{
 						attributes{
 							Tytul

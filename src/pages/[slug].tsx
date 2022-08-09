@@ -33,13 +33,15 @@ function Product({ produkts }: ProductsQuery) {
 
   if (!product || !productId) return null;
 
-  console.log(product);
-
-  const { Tytul, Opis, kategoria, Galeria, Wymiary, Dostepnosc } = product;
+  const { Tytul, Opis, kategoria, Galeria, Wymiary, Dostepnosc, SEO } = product;
 
   return (
     <main style={{ minHeight: '700px', padding: '40px' }}>
-      <HeadComponent title={''} description={''} keywords={''} />
+      <HeadComponent
+        title={SEO.Meta_Title}
+        description={SEO.Meta_Description}
+        keywords={SEO.Meta_Keywords}
+      />
 
       <div>
         <h1>{Tytul}</h1>

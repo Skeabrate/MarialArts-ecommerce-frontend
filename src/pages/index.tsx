@@ -16,7 +16,7 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
         keywords='producent saun fińskich, infrared, combi, ogrodowych.'
       />
 
-      <h1>Home Page</h1>
+      <h1>Kategorie: </h1>
 
       <section>
         {produkts?.data?.map(({ id, attributes }) => {
