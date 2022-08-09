@@ -12,7 +12,7 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
     <main>
       <HeadComponent
         title='Sauny24'
-        description='Producent saun fińskich, infrared, combi. Od Ponad 18 lat w Polsce.'
+        description='Zapraszamy do zapoznania się z bogatą ofertą saun fińskich, Infrared, Combi, grot solnych. Prawie 20 lat doświadczenia na rynku saunowym w Europie.'
         keywords='producent saun fińskich, infrared, combi, ogrodowych.'
       />
 
@@ -77,7 +77,7 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
                     </span>
                     <span>Wymiary: {finalPrice.wymiary}</span>
                   </p>
-                  <Link href={`/products/${attributes.Link}`}>
+                  <Link href={attributes.Link}>
                     <a>Przejdź to strony produktu</a>
                   </Link>
                 </div>
