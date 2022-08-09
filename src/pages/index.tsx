@@ -18,7 +18,7 @@ const Home: NextPage = ({ kategorias }: CategoriesQuery) => {
 
       <section style={{ display: 'flex', flexWrap: 'wrap', gap: '30px', padding: '30px' }}>
         {kategorias?.data.map(({ id, attributes }) => (
-          <Link key={id} href={`/kategoria/${attributes?.Link}`}>
+          <Link key={id} href={`/produkty?kategoria=${attributes?.Link}`}>
             <a>
               <article
                 style={{
