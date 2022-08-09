@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import type { GetStaticProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
 import client from 'graphql/apollo';
 import { gql } from '@apollo/client';
-import { useRouter } from 'next/router';
 import { CategoriesQuery, ProductsQuery } from 'generated';
 import HeadComponent from 'components/Head/Head';
 import ProductTile from 'components/ProductTile/ProductTile';
@@ -15,13 +15,17 @@ type PropsType = {
 const ALL_PRODUCTS_FILTERS = 'wszystkie-produkty';
 
 function Produkty({ produkts, kategorias }: PropsType) {
-  const [category, setCategory] = useState<any>(ALL_PRODUCTS_FILTERS);
-  const products = produkts.produkts?.data?.filter((item) => {
-    if (category === ALL_PRODUCTS_FILTERS) return item;
-    else return item.attributes?.kategoria?.data?.attributes?.Link === category;
-  });
-  const categories = kategorias.kategorias?.data;
+  const [category, setCategory] = useState<string | string[]>(ALL_PRODUCTS_FILTERS);
+  const products = useMemo(
+    () =>
+      produkts.produkts?.data?.filter((item) => {
+        if (category === ALL_PRODUCTS_FILTERS) return item;
+        else return item.attributes?.kategoria?.data?.attributes?.Link === category;
+      }),
+    [category, produkts]
+  );
 
+  const categories = kategorias.kategorias?.data;
   const router = useRouter();
 
   const handleCategory = (link: string) => {

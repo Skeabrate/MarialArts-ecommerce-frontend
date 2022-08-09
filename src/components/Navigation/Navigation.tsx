@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import { StyledNav } from './Navigation.styles';
 import { useShoppingCart } from 'hooks/useShoppingCart';

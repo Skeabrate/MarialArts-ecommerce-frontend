@@ -1,12 +1,12 @@
 import client from 'graphql/apollo';
 import { gql } from '@apollo/client';
-import { formatValue } from 'utils/formatValue';
-import HeadComponent from 'components/Head/Head';
 import { ProductsQuery } from 'generated';
-import { useShoppingCart } from 'hooks/useShoppingCart';
 import { v4 as uuid } from 'uuid';
+import { formatValue } from 'utils/formatValue';
+import { useShoppingCart } from 'hooks/useShoppingCart';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import HeadComponent from 'components/Head/Head';
 
 type ContextType = {
   params: {

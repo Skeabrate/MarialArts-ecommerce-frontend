@@ -56,9 +56,8 @@ function CartModal({ isOpen }: CartProps) {
   }, [error, loading, data, cartItems]);
 
   useEffect(() => {
-    if (isOpen) closeCart();
+    if (isOpen) closeCart(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.asPath]);
-
   return (
     <StyledCartModal $isOpen={isOpen}>
       <StyledCloseButton onClick={closeCart} />
