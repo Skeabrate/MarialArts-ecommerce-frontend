@@ -57,6 +57,7 @@ export default function CartItem({
           onClick={() =>
             cartItem &&
             wybraneWymiary &&
+            cartItem.id &&
             increaseCartQuantity(cartItemId, cartItem.id, wybraneWymiary.Wymiary)
           }
         >
