@@ -33,20 +33,13 @@ function Product({ produkts }: ProductsQuery) {
 
   if (!product || !productId) return null;
 
-  const {
-    Meta_title,
-    Meta_description,
-    Meta_keywords,
-    kategoria,
-    Wymiary,
-    Dostepnosc,
-    Tytul,
-    Opis,
-  } = product;
+  console.log(product);
+
+  const { Tytul, Opis, kategoria, Galeria, Wymiary, Dostepnosc } = product;
 
   return (
     <main style={{ minHeight: '700px', padding: '40px' }}>
-      <HeadComponent title={Meta_title} description={Meta_description} keywords={Meta_keywords} />
+      <HeadComponent title={''} description={''} keywords={''} />
 
       <div>
         <h1>{Tytul}</h1>
@@ -156,45 +149,46 @@ export async function getStaticProps(context: ContextType) {
 
   const { data } = await client.query({
     query: gql`
-      query Products {
+      query Produkt {
         produkts(filters: { Link: { eq: "${slug}" } }) {
           data {
-            id
-            attributes {
-              Meta_title
-              Meta_description
-							Meta_keywords
-              Link
-              Dostepnosc
-              Tytul
-              Opis
-              Galeria {
-                data {
-                  id
-                  attributes {
-                    width
-                    height
-                    alternativeText
-                    formats
-                  }
-                }
-              }
-              kategoria {
-                data {
-                  attributes {
-                    Tytul
-                  }
-                }
-              }
-              Wymiary {
-                id
-                Wymiary
-                Cena
-                Promocja
-              }
-            }
-          }
-        }
+						id
+						attributes {
+							Tytul
+							Opis
+							Galeria {
+								data {
+									id
+									attributes {
+										width
+										height
+										alternativeText
+										url
+									}
+								}
+							}
+							kategoria {
+								data {
+									attributes {
+										Tytul
+									}
+								}
+							}
+							Wymiary {
+								id
+								Wymiary
+								Cena
+								Promocja
+							}
+							Dostepnosc
+							SEO {
+								Meta_Title
+								Meta_Description
+								Meta_Keywords
+							}
+						}
+					}
+				}
       }
     `,
   });

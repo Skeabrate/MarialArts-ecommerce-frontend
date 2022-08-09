@@ -42,6 +42,30 @@ export type BooleanFilterInput = {
   startsWith?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type ComponentSeoSeo = {
+  __typename?: 'ComponentSeoSeo';
+  Meta_Description: Scalars['String'];
+  Meta_Keywords: Scalars['String'];
+  Meta_Title: Scalars['String'];
+  id: Scalars['ID'];
+};
+
+export type ComponentSeoSeoFiltersInput = {
+  Meta_Description?: InputMaybe<StringFilterInput>;
+  Meta_Keywords?: InputMaybe<StringFilterInput>;
+  Meta_Title?: InputMaybe<StringFilterInput>;
+  and?: InputMaybe<Array<InputMaybe<ComponentSeoSeoFiltersInput>>>;
+  not?: InputMaybe<ComponentSeoSeoFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentSeoSeoFiltersInput>>>;
+};
+
+export type ComponentSeoSeoInput = {
+  Meta_Description?: InputMaybe<Scalars['String']>;
+  Meta_Keywords?: InputMaybe<Scalars['String']>;
+  Meta_Title?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+};
+
 export type ComponentWymiaryWymiary = {
   __typename?: 'ComponentWymiaryWymiary';
   Cena: Scalars['Float'];
@@ -121,10 +145,12 @@ export type FloatFilterInput = {
 };
 
 export type GenericMorph =
+  | ComponentSeoSeo
   | ComponentWymiaryWymiary
   | I18NLocale
   | Kategoria
   | Produkt
+  | StronaGlowna
   | UploadFile
   | UploadFolder
   | UsersPermissionsPermission
@@ -241,6 +267,8 @@ export type JsonFilterInput = {
 
 export type Kategoria = {
   __typename?: 'Kategoria';
+  Link: Scalars['String'];
+  SEO: ComponentSeoSeo;
   Tytul: Scalars['String'];
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -264,6 +292,8 @@ export type KategoriaEntityResponseCollection = {
 };
 
 export type KategoriaFiltersInput = {
+  Link?: InputMaybe<StringFilterInput>;
+  SEO?: InputMaybe<ComponentSeoSeoFiltersInput>;
   Tytul?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<KategoriaFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -274,6 +304,8 @@ export type KategoriaFiltersInput = {
 };
 
 export type KategoriaInput = {
+  Link?: InputMaybe<Scalars['String']>;
+  SEO?: InputMaybe<ComponentSeoSeoInput>;
   Tytul?: InputMaybe<Scalars['String']>;
 };
 
@@ -289,6 +321,7 @@ export type Mutation = {
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   deleteKategoria?: Maybe<KategoriaEntityResponse>;
   deleteProdukt?: Maybe<ProduktEntityResponse>;
+  deleteStronaGlowna?: Maybe<StronaGlownaEntityResponse>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
   deleteUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Delete an existing role */
@@ -309,6 +342,7 @@ export type Mutation = {
   updateFileInfo: UploadFileEntityResponse;
   updateKategoria?: Maybe<KategoriaEntityResponse>;
   updateProdukt?: Maybe<ProduktEntityResponse>;
+  updateStronaGlowna?: Maybe<StronaGlownaEntityResponse>;
   updateUploadFile?: Maybe<UploadFileEntityResponse>;
   updateUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Update an existing role */
@@ -414,6 +448,10 @@ export type MutationUpdateProduktArgs = {
   id: Scalars['ID'];
 };
 
+export type MutationUpdateStronaGlownaArgs = {
+  data: StronaGlownaInput;
+};
+
 export type MutationUpdateUploadFileArgs = {
   data: UploadFileInput;
   id: Scalars['ID'];
@@ -462,10 +500,8 @@ export type Produkt = {
   Dostepnosc: Scalars['Boolean'];
   Galeria?: Maybe<UploadFileRelationResponseCollection>;
   Link: Scalars['String'];
-  Meta_description: Scalars['String'];
-  Meta_keywords: Scalars['String'];
-  Meta_title: Scalars['String'];
   Opis?: Maybe<Scalars['String']>;
+  SEO: ComponentSeoSeo;
   Tytul: Scalars['String'];
   Wymiary: Array<Maybe<ComponentWymiaryWymiary>>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -505,10 +541,8 @@ export type ProduktEntityResponseCollection = {
 export type ProduktFiltersInput = {
   Dostepnosc?: InputMaybe<BooleanFilterInput>;
   Link?: InputMaybe<StringFilterInput>;
-  Meta_description?: InputMaybe<StringFilterInput>;
-  Meta_keywords?: InputMaybe<StringFilterInput>;
-  Meta_title?: InputMaybe<StringFilterInput>;
   Opis?: InputMaybe<StringFilterInput>;
+  SEO?: InputMaybe<ComponentSeoSeoFiltersInput>;
   Tytul?: InputMaybe<StringFilterInput>;
   Wymiary?: InputMaybe<ComponentWymiaryWymiaryFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<ProduktFiltersInput>>>;
@@ -524,10 +558,8 @@ export type ProduktInput = {
   Dostepnosc?: InputMaybe<Scalars['Boolean']>;
   Galeria?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   Link?: InputMaybe<Scalars['String']>;
-  Meta_description?: InputMaybe<Scalars['String']>;
-  Meta_keywords?: InputMaybe<Scalars['String']>;
-  Meta_title?: InputMaybe<Scalars['String']>;
   Opis?: InputMaybe<Scalars['String']>;
+  SEO?: InputMaybe<ComponentSeoSeoInput>;
   Tytul?: InputMaybe<Scalars['String']>;
   Wymiary?: InputMaybe<Array<InputMaybe<ComponentWymiaryWymiaryInput>>>;
   kategoria?: InputMaybe<Scalars['ID']>;
@@ -542,6 +574,7 @@ export type Query = {
   me?: Maybe<UsersPermissionsMe>;
   produkt?: Maybe<ProduktEntityResponse>;
   produkts?: Maybe<ProduktEntityResponseCollection>;
+  stronaGlowna?: Maybe<StronaGlownaEntityResponse>;
   uploadFile?: Maybe<UploadFileEntityResponse>;
   uploadFiles?: Maybe<UploadFileEntityResponseCollection>;
   uploadFolder?: Maybe<UploadFolderEntityResponse>;
@@ -649,6 +682,30 @@ export type StringFilterInput = {
   null?: InputMaybe<Scalars['Boolean']>;
   or?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   startsWith?: InputMaybe<Scalars['String']>;
+};
+
+export type StronaGlowna = {
+  __typename?: 'StronaGlowna';
+  SEO?: Maybe<ComponentSeoSeo>;
+  Tytul?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type StronaGlownaEntity = {
+  __typename?: 'StronaGlownaEntity';
+  attributes?: Maybe<StronaGlowna>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type StronaGlownaEntityResponse = {
+  __typename?: 'StronaGlownaEntityResponse';
+  data?: Maybe<StronaGlownaEntity>;
+};
+
+export type StronaGlownaInput = {
+  SEO?: InputMaybe<ComponentSeoSeoInput>;
+  Tytul?: InputMaybe<Scalars['String']>;
 };
 
 export type UploadFile = {
@@ -1029,7 +1086,17 @@ export type CategoriesQuery = {
     data: Array<{
       __typename?: 'KategoriaEntity';
       id?: string | null;
-      attributes?: { __typename?: 'Kategoria'; Tytul: string } | null;
+      attributes?: {
+        __typename?: 'Kategoria';
+        Tytul: string;
+        Link: string;
+        SEO: {
+          __typename?: 'ComponentSeoSeo';
+          Meta_Title: string;
+          Meta_Description: string;
+          Meta_Keywords: string;
+        };
+      } | null;
     }>;
   } | null;
 };
@@ -1042,16 +1109,13 @@ export type ProductsQuery = {
     __typename?: 'ProduktEntityResponseCollection';
     data: Array<{
       __typename?: 'ProduktEntity';
-      id: string;
+      id?: string | null;
       attributes?: {
         __typename?: 'Produkt';
-        Meta_title: string;
-        Meta_description: string;
-        Meta_keywords: string;
-        Link: string;
-        Dostepnosc: boolean;
         Tytul: string;
         Opis?: string | null;
+        Dostepnosc: boolean;
+        Link: string;
         Galeria?: {
           __typename?: 'UploadFileRelationResponseCollection';
           data: Array<{
@@ -1062,7 +1126,6 @@ export type ProductsQuery = {
               width?: number | null;
               height?: number | null;
               alternativeText?: string | null;
-              formats?: any | null;
               url: string;
             } | null;
           }>;
@@ -1071,7 +1134,17 @@ export type ProductsQuery = {
           __typename?: 'KategoriaEntityResponse';
           data?: {
             __typename?: 'KategoriaEntity';
-            attributes?: { __typename?: 'Kategoria'; Tytul: string } | null;
+            attributes?: {
+              __typename?: 'Kategoria';
+              Tytul: string;
+              Link: string;
+              SEO: {
+                __typename?: 'ComponentSeoSeo';
+                Meta_Title: string;
+                Meta_Description: string;
+                Meta_Keywords: string;
+              };
+            } | null;
           } | null;
         } | null;
         Wymiary: Array<{
@@ -1081,6 +1154,12 @@ export type ProductsQuery = {
           Cena: number;
           Promocja?: number | null;
         } | null>;
+        SEO: {
+          __typename?: 'ComponentSeoSeo';
+          Meta_Title: string;
+          Meta_Description: string;
+          Meta_Keywords: string;
+        };
       } | null;
     }>;
   } | null;
@@ -1093,6 +1172,12 @@ export const CategoriesDocument = gql`
         id
         attributes {
           Tytul
+          SEO {
+            Meta_Title
+            Meta_Description
+            Meta_Keywords
+          }
+          Link
         }
       }
     }
@@ -1138,11 +1223,6 @@ export const ProductsDocument = gql`
       data {
         id
         attributes {
-          Meta_title
-          Meta_description
-          Meta_keywords
-          Link
-          Dostepnosc
           Tytul
           Opis
           Galeria {
@@ -1152,7 +1232,6 @@ export const ProductsDocument = gql`
                 width
                 height
                 alternativeText
-                formats
                 url
               }
             }
@@ -1161,6 +1240,12 @@ export const ProductsDocument = gql`
             data {
               attributes {
                 Tytul
+                SEO {
+                  Meta_Title
+                  Meta_Description
+                  Meta_Keywords
+                }
+                Link
               }
             }
           }
@@ -1170,6 +1255,13 @@ export const ProductsDocument = gql`
             Cena
             Promocja
           }
+          SEO {
+            Meta_Title
+            Meta_Description
+            Meta_Keywords
+          }
+          Dostepnosc
+          Link
         }
       }
     }

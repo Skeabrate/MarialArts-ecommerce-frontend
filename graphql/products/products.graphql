@@ -3,11 +3,6 @@ query Products {
     data {
       id
       attributes {
-        Meta_title
-        Meta_description
-        Meta_keywords
-        Link
-        Dostepnosc
         Tytul
         Opis
         Galeria {
@@ -17,7 +12,6 @@ query Products {
               width
               height
               alternativeText
-              formats
               url
             }
           }
@@ -26,6 +20,12 @@ query Products {
           data {
             attributes {
               Tytul
+              SEO {
+                Meta_Title
+                Meta_Description
+                Meta_Keywords
+              }
+              Link
             }
           }
         }
@@ -35,6 +35,13 @@ query Products {
           Cena
           Promocja
         }
+        SEO {
+          Meta_Title
+          Meta_Description
+          Meta_Keywords
+        }
+        Dostepnosc
+        Link
       }
     }
   }

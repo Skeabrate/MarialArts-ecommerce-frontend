@@ -92,15 +92,10 @@ const Home: NextPage = ({ produkts }: ProductsQuery) => {
 export async function getStaticProps() {
   const { data } = await client.query({
     query: gql`
-      query Products {
+      query Produkts {
         produkts {
           data {
-            id
             attributes {
-              Meta_title
-              Meta_description
-              Link
-              Dostepnosc
               Tytul
               Opis
               Galeria {
@@ -110,7 +105,6 @@ export async function getStaticProps() {
                     width
                     height
                     alternativeText
-                    formats
                     url
                   }
                 }
@@ -128,6 +122,13 @@ export async function getStaticProps() {
                 Cena
                 Promocja
               }
+              Dostepnosc
+              SEO {
+                Meta_Title
+                Meta_Description
+                Meta_Keywords
+              }
+              Link
             }
           }
         }
