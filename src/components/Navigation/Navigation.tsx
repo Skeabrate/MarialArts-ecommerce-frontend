@@ -20,7 +20,11 @@ export default function Navigation() {
             <a>Home</a>
           </Link>
         </li>
-        <li>Produkty</li>
+        <li>
+          <Link href='/produkty'>
+            <a>Produkty</a>
+          </Link>
+        </li>
         <li>
           <Link href='/kontakt'>
             <a>Kontakt</a>
