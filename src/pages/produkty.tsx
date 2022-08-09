@@ -126,6 +126,7 @@ export const getStaticProps: GetStaticProps = async () => {
       query {
         kategorias {
           data {
+            id
             attributes {
               Tytul
               Link
