@@ -55,9 +55,8 @@ export default function CartItem({
         {quantity}
         <button
           onClick={() =>
-            cartItem &&
+            cartItem?.id &&
             wybraneWymiary &&
-            cartItem.id &&
             increaseCartQuantity(cartItemId, cartItem.id, wybraneWymiary.Wymiary)
           }
         >
