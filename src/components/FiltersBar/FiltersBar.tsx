@@ -30,7 +30,7 @@ function FiltersBar({ categories }: Props) {
           <li>
             <button onClick={() => handleCategory(ALL_PRODUCTS_FILTERS)}>Wszystkie produkty</button>
           </li>
-          {categories?.map(({ id, attributes }) => (
+          {categories.map(({ id, attributes }) => (
             <li key={id}>
               <button onClick={() => handleCategory(attributes?.Link || '')}>
                 {attributes?.Tytul}

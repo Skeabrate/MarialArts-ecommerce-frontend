@@ -1,7 +1,7 @@
 export type ProductType = {
   __typename?: 'ProduktEntity';
-  id?: string | null;
-  attributes?: {
+  id: string;
+  attributes: {
     __typename?: 'Produkt';
     Tytul: string;
     Opis?: string | null;
@@ -51,5 +51,5 @@ export type ProductType = {
       Meta_Description: string;
       Meta_Keywords: string;
     };
-  } | null;
+  };
 };

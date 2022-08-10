@@ -19,7 +19,7 @@ function Produkty({ products, categories }: PropsType) {
   const [category, setCategory] = useState<string | string[]>(ALL_PRODUCTS_FILTERS);
   const filteredProducts = useMemo(
     () =>
-      products?.filter((item) => {
+      products.filter((item) => {
         if (category === ALL_PRODUCTS_FILTERS) return item;
         else return item.attributes?.kategoria?.data?.attributes?.Link === category;
       }),
@@ -46,7 +46,7 @@ function Produkty({ products, categories }: PropsType) {
       <FiltersBar categories={categories} />
 
       <section>
-        {filteredProducts?.length ? (
+        {filteredProducts.length ? (
           filteredProducts.map((item) => (
             <React.Fragment key={item.id}>
               {item.attributes?.kategoria?.data?.attributes?.Tytul &&

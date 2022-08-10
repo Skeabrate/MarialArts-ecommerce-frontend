@@ -1,12 +1,16 @@
 import client from 'graphql/apollo';
 import { gql } from '@apollo/client';
-import { ProductsQuery } from 'generated';
 import { v4 as uuid } from 'uuid';
 import { formatValue } from 'utils/formatValue';
 import { useShoppingCart } from 'hooks/useShoppingCart';
+import { ProductType } from 'src/Types/ProductType';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import HeadComponent from 'components/Head/Head';
+
+type ProductProps = {
+  product: ProductType;
+};
 
 type ContextType = {
   params: {
@@ -20,20 +24,14 @@ type LinkType = {
   };
 };
 
-function Product({ produkts }: ProductsQuery) {
-  const product = produkts?.data[0].attributes;
-  const productId = produkts?.data[0].id;
-
+function Product({ product }: ProductProps) {
   const { increaseCartQuantity, openCart } = useShoppingCart();
+  const { Tytul, Opis, kategoria, Galeria, Wymiary, Dostepnosc, SEO } = product.attributes;
 
   const addToCart = (cartItemId: string, productId: string, wymiary: string) => {
     openCart();
     increaseCartQuantity(cartItemId, productId, wymiary);
   };
-
-  if (!product || !productId) return null;
-
-  const { Tytul, Opis, kategoria, Galeria, Wymiary, Dostepnosc, SEO } = product;
 
   return (
     <main style={{ minHeight: '700px', padding: '40px' }}>
@@ -46,9 +44,7 @@ function Product({ produkts }: ProductsQuery) {
       <div>
         <h1>{Tytul}</h1>
 
-        <h2 style={{ paddingBlock: '10px' }}>
-          Kategoria: {kategoria?.data?.attributes?.Tytul || 'Nieokreślona'}
-        </h2>
+        <h2 style={{ paddingBlock: '10px' }}>Kategoria: {kategoria?.data?.attributes?.Tytul}</h2>
 
         <div style={{ paddingBlock: '20px' }}>
           {Dostepnosc ? (
@@ -79,7 +75,7 @@ function Product({ produkts }: ProductsQuery) {
                           )}
                         </td>
                         <td style={{ padding: '10px' }}>
-                          <button onClick={() => addToCart(uuid(), productId, Wymiary)}>
+                          <button onClick={() => addToCart(uuid(), product.id, Wymiary)}>
                             Dodaj do koszyka
                           </button>
                         </td>
@@ -102,7 +98,7 @@ function Product({ produkts }: ProductsQuery) {
                     }}
                     /* transformImageUri={}  */
                   >
-                    {Opis ? Opis : ''}
+                    {Opis || ''}
                   </ReactMarkdown>
                 </section>
               </div>
@@ -195,14 +191,14 @@ export async function getStaticProps(context: ContextType) {
     `,
   });
 
-  if (!data.produkts.data.length)
+  if (!data.produkts.data[0])
     return {
       notFound: true,
     };
 
   return {
     props: {
-      produkts: data.produkts,
+      product: data.produkts.data[0],
     },
   };
 }
