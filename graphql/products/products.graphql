@@ -20,11 +20,6 @@ query Products {
           data {
             attributes {
               Tytul
-              SEO {
-                Meta_Title
-                Meta_Description
-                Meta_Keywords
-              }
               Link
             }
           }

@@ -4,11 +4,6 @@ query Categories {
       id
       attributes {
         Tytul
-        SEO {
-          Meta_Title
-          Meta_Description
-          Meta_Keywords
-        }
         Link
       }
     }

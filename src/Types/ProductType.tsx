@@ -11,32 +11,26 @@ export type ProductType = {
       __typename?: 'UploadFileRelationResponseCollection';
       data: Array<{
         __typename?: 'UploadFileEntity';
-        id?: string | null;
-        attributes?: {
+        id: string;
+        attributes: {
           __typename?: 'UploadFile';
-          width?: number | null;
-          height?: number | null;
+          width: number;
+          height: number;
           alternativeText?: string | null;
           url: string;
-        } | null;
+        };
       }>;
     } | null;
     kategoria?: {
       __typename?: 'KategoriaEntityResponse';
-      data?: {
+      data: {
         __typename?: 'KategoriaEntity';
-        attributes?: {
+        attributes: {
           __typename?: 'Kategoria';
           Tytul: string;
           Link: string;
-          SEO: {
-            __typename?: 'ComponentSeoSeo';
-            Meta_Title: string;
-            Meta_Description: string;
-            Meta_Keywords: string;
-          };
-        } | null;
-      } | null;
+        };
+      };
     } | null;
     Wymiary: Array<{
       __typename?: 'ComponentWymiaryWymiary';
@@ -44,7 +38,7 @@ export type ProductType = {
       Wymiary: string;
       Cena: number;
       Promocja?: number | null;
-    } | null>;
+    }>;
     SEO: {
       __typename?: 'ComponentSeoSeo';
       Meta_Title: string;

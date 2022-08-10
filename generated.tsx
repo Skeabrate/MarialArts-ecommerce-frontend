@@ -268,7 +268,6 @@ export type JsonFilterInput = {
 export type Kategoria = {
   __typename?: 'Kategoria';
   Link: Scalars['String'];
-  SEO: ComponentSeoSeo;
   Tytul: Scalars['String'];
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -293,7 +292,6 @@ export type KategoriaEntityResponseCollection = {
 
 export type KategoriaFiltersInput = {
   Link?: InputMaybe<StringFilterInput>;
-  SEO?: InputMaybe<ComponentSeoSeoFiltersInput>;
   Tytul?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<KategoriaFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -305,7 +303,6 @@ export type KategoriaFiltersInput = {
 
 export type KategoriaInput = {
   Link?: InputMaybe<Scalars['String']>;
-  SEO?: InputMaybe<ComponentSeoSeoInput>;
   Tytul?: InputMaybe<Scalars['String']>;
 };
 
@@ -1086,17 +1083,7 @@ export type CategoriesQuery = {
     data: Array<{
       __typename?: 'KategoriaEntity';
       id?: string | null;
-      attributes?: {
-        __typename?: 'Kategoria';
-        Tytul: string;
-        Link: string;
-        SEO: {
-          __typename?: 'ComponentSeoSeo';
-          Meta_Title: string;
-          Meta_Description: string;
-          Meta_Keywords: string;
-        };
-      } | null;
+      attributes?: { __typename?: 'Kategoria'; Tytul: string; Link: string } | null;
     }>;
   } | null;
 };
@@ -1134,17 +1121,7 @@ export type ProductsQuery = {
           __typename?: 'KategoriaEntityResponse';
           data?: {
             __typename?: 'KategoriaEntity';
-            attributes?: {
-              __typename?: 'Kategoria';
-              Tytul: string;
-              Link: string;
-              SEO: {
-                __typename?: 'ComponentSeoSeo';
-                Meta_Title: string;
-                Meta_Description: string;
-                Meta_Keywords: string;
-              };
-            } | null;
+            attributes?: { __typename?: 'Kategoria'; Tytul: string; Link: string } | null;
           } | null;
         } | null;
         Wymiary: Array<{
@@ -1172,11 +1149,6 @@ export const CategoriesDocument = gql`
         id
         attributes {
           Tytul
-          SEO {
-            Meta_Title
-            Meta_Description
-            Meta_Keywords
-          }
           Link
         }
       }
@@ -1240,11 +1212,6 @@ export const ProductsDocument = gql`
             data {
               attributes {
                 Tytul
-                SEO {
-                  Meta_Title
-                  Meta_Description
-                  Meta_Keywords
-                }
                 Link
               }
             }

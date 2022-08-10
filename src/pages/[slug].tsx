@@ -44,7 +44,7 @@ function Product({ product }: ProductProps) {
       <div>
         <h1>{Tytul}</h1>
 
-        <h2 style={{ paddingBlock: '10px' }}>Kategoria: {kategoria?.data?.attributes?.Tytul}</h2>
+        <h2 style={{ paddingBlock: '10px' }}>Kategoria: {kategoria?.data.attributes.Tytul}</h2>
 
         <div style={{ paddingBlock: '20px' }}>
           {Dostepnosc ? (
