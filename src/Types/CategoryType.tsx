@@ -6,4 +6,4 @@ export type CategoryType = {
     Tytul: string;
     Link: string;
   };
-};
+} | null;

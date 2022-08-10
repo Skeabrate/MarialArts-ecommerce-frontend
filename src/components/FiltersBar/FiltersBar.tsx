@@ -30,10 +30,10 @@ function FiltersBar({ categories }: Props) {
           <li>
             <button onClick={() => handleCategory(ALL_PRODUCTS_FILTERS)}>Wszystkie produkty</button>
           </li>
-          {categories.map(({ id, attributes }) => (
-            <li key={id}>
-              <button onClick={() => handleCategory(attributes?.Link || '')}>
-                {attributes?.Tytul}
+          {categories.map((item) => (
+            <li key={item?.id}>
+              <button onClick={() => handleCategory(item?.attributes.Link || '')}>
+                {item?.attributes.Tytul}
               </button>
             </li>
           ))}

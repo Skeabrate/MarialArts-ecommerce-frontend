@@ -21,24 +21,28 @@ function Home({ categories }: HomeProps) {
       <h1>Kategorie: </h1>
 
       <section style={{ display: 'flex', flexWrap: 'wrap', gap: '30px', padding: '30px' }}>
-        {categories?.map(({ id, attributes }) => (
-          <Link key={id} href={`/produkty?kategoria=${attributes?.Link}`}>
-            <a>
-              <article
-                style={{
-                  width: '300px',
-                  height: '300px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  border: '1px solid red',
-                }}
-              >
-                <h2>{attributes?.Tytul}</h2>
-              </article>
-            </a>
-          </Link>
-        ))}
+        {categories.length ? (
+          categories.map((item) => (
+            <Link key={item?.id} href={`/produkty?kategoria=${item?.attributes.Link}`}>
+              <a>
+                <article
+                  style={{
+                    width: '300px',
+                    height: '300px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    border: '1px solid red',
+                  }}
+                >
+                  <h2>{item?.attributes.Tytul}</h2>
+                </article>
+              </a>
+            </Link>
+          ))
+        ) : (
+          <h2>Nie znaleziono kategorii</h2>
+        )}
       </section>
     </main>
   );

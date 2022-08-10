@@ -21,7 +21,7 @@ function Produkty({ products, categories }: PropsType) {
     () =>
       products.filter((item) => {
         if (category === ALL_PRODUCTS_FILTERS) return item;
-        else return item.attributes?.kategoria?.data?.attributes?.Link === category;
+        else return item?.attributes.kategoria?.data?.attributes.Link === category;
       }),
     [category, products]
   );
@@ -48,9 +48,9 @@ function Produkty({ products, categories }: PropsType) {
       <section>
         {filteredProducts.length ? (
           filteredProducts.map((item) => (
-            <React.Fragment key={item.id}>
-              {item.attributes?.kategoria?.data?.attributes?.Tytul &&
-              item.attributes?.Dostepnosc ? (
+            <React.Fragment key={item?.id}>
+              {item?.attributes?.kategoria?.data?.attributes.Tytul &&
+              item?.attributes.Dostepnosc ? (
                 <ProductTile product={item} />
               ) : null}
             </React.Fragment>

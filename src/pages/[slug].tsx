@@ -1,4 +1,5 @@
 import client from 'graphql/apollo';
+import type { NextPage } from 'next';
 import { gql } from '@apollo/client';
 import { v4 as uuid } from 'uuid';
 import { formatValue } from 'utils/formatValue';
@@ -26,6 +27,8 @@ type LinkType = {
 
 function Product({ product }: ProductProps) {
   const { increaseCartQuantity, openCart } = useShoppingCart();
+
+  if (!product) return null;
   const { Tytul, Opis, kategoria, Galeria, Wymiary, Dostepnosc, SEO } = product.attributes;
 
   const addToCart = (cartItemId: string, productId: string, wymiary: string) => {
@@ -44,7 +47,9 @@ function Product({ product }: ProductProps) {
       <div>
         <h1>{Tytul}</h1>
 
-        <h2 style={{ paddingBlock: '10px' }}>Kategoria: {kategoria?.data.attributes.Tytul}</h2>
+        <h2 style={{ paddingBlock: '10px' }}>
+          Kategoria: {kategoria?.data?.attributes.Tytul || 'Nieokreślona'}
+        </h2>
 
         <div style={{ paddingBlock: '20px' }}>
           {Dostepnosc ? (
@@ -59,7 +64,7 @@ function Product({ product }: ProductProps) {
                       <th>Cena:</th>
                       <th></th>
                     </tr>
-                    {Wymiary.map(({ id, Wymiary, Cena, Promocja }: any) => (
+                    {Wymiary.map(({ id, Wymiary, Cena, Promocja }) => (
                       <tr key={id}>
                         <td style={{ padding: '10px' }}>{Wymiary}</td>
                         <td style={{ padding: '10px' }}>
@@ -203,4 +208,4 @@ export async function getStaticProps(context: ContextType) {
   };
 }
 
-export default Product;
+export default Product as NextPage;

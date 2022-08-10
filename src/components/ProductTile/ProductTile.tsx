@@ -9,30 +9,25 @@ type ProductTileProps = {
 };
 
 export default function ProductTile({ product }: ProductTileProps) {
-  if (!product.attributes) return null;
+  if (!product) return null;
   const { Wymiary, Galeria, Tytul, kategoria, Link: ProductUrl } = product.attributes;
 
   const finalPrice = {
-    price: 0,
-    wymiary: '',
+    price: Wymiary[0].Cena,
+    wymiary: Wymiary[0].Wymiary,
     promocja: false,
   };
 
-  if (Wymiary[0]) {
-    finalPrice.price = Wymiary[0].Cena;
-    finalPrice.wymiary = Wymiary[0].Wymiary;
-
-    Wymiary.forEach(({ Cena, Wymiary, Promocja }: any) => {
-      if (Promocja) finalPrice.promocja = true;
-      if (Promocja && Promocja < finalPrice.price) {
-        finalPrice.price = Promocja;
-        finalPrice.wymiary = Wymiary;
-      } else if (Cena < finalPrice.price) {
-        finalPrice.price = Cena;
-        finalPrice.wymiary = Wymiary;
-      }
-    });
-  } else return null;
+  Wymiary.forEach(({ Cena, Wymiary, Promocja }) => {
+    if (Promocja) finalPrice.promocja = true;
+    if (Promocja && Promocja < finalPrice.price) {
+      finalPrice.price = Promocja;
+      finalPrice.wymiary = Wymiary;
+    } else if (Cena < finalPrice.price) {
+      finalPrice.price = Cena;
+      finalPrice.wymiary = Wymiary;
+    }
+  });
 
   return (
     <Link href={ProductUrl}>
@@ -48,20 +43,20 @@ export default function ProductTile({ product }: ProductTileProps) {
             {Galeria?.data.length ? (
               <Image
                 src={
-                  Galeria?.data[0].attributes?.url
-                    ? process.env.STRAPI_URL + Galeria?.data[0].attributes?.url
+                  Galeria.data[0].attributes?.url
+                    ? process.env.STRAPI_URL + Galeria.data[0].attributes.url
                     : ''
                 }
-                alt={Galeria?.data[0].attributes?.alternativeText || 'sauny24'}
-                width={Galeria?.data[0].attributes?.width || 'auto'}
-                height={Galeria?.data[0].attributes?.height || 'auto'}
+                alt={Galeria.data[0].attributes?.alternativeText || 'sauny24'}
+                width={Galeria.data[0].attributes.width}
+                height={Galeria.data[0].attributes.height}
               />
             ) : null}
           </div>
 
           <div>
             <h2>{Tytul}</h2>
-            <p>{kategoria?.data?.attributes?.Tytul}</p>
+            <p>{kategoria?.data?.attributes.Tytul}</p>
             <p style={{ display: 'flex', flexDirection: 'column', marginBlock: '6px' }}>
               {finalPrice.promocja ? (
                 <span style={{ color: 'red', fontWeight: 'bold' }}>Promocja!</span>

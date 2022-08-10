@@ -23,14 +23,14 @@ export type ProductType = {
     } | null;
     kategoria?: {
       __typename?: 'KategoriaEntityResponse';
-      data: {
+      data?: {
         __typename?: 'KategoriaEntity';
         attributes: {
           __typename?: 'Kategoria';
           Tytul: string;
           Link: string;
         };
-      };
+      } | null;
     } | null;
     Wymiary: Array<{
       __typename?: 'ComponentWymiaryWymiary';
@@ -46,4 +46,4 @@ export type ProductType = {
       Meta_Keywords: string;
     };
   };
-};
+} | null;
