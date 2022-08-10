@@ -1,42 +1,32 @@
-import { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import type { GetStaticProps, NextPage } from 'next';
-import { useRouter } from 'next/router';
 import client from 'graphql/apollo';
+import { useRouter } from 'next/router';
 import { gql } from '@apollo/client';
-import { CategoriesQuery, ProductsQuery } from 'generated';
+import { ALL_PRODUCTS_FILTERS } from 'utils/filtersValues';
+import { ProductType } from 'src/Types/ProductType';
+import { CategoryType } from 'src/Types/CategoryType';
 import HeadComponent from 'components/Head/Head';
 import ProductTile from 'components/ProductTile/ProductTile';
+import FiltersBar from 'components/FiltersBar/FiltersBar';
 
 type PropsType = {
-  produkts: ProductsQuery;
-  kategorias: CategoriesQuery;
+  products: ProductType[];
+  categories: CategoryType[];
 };
 
-const ALL_PRODUCTS_FILTERS = 'wszystkie-produkty';
-
-function Produkty({ produkts, kategorias }: PropsType) {
+function Produkty({ products, categories }: PropsType) {
   const [category, setCategory] = useState<string | string[]>(ALL_PRODUCTS_FILTERS);
-  const products = useMemo(
+  const filteredProducts = useMemo(
     () =>
-      produkts.produkts?.data?.filter((item) => {
+      products?.filter((item) => {
         if (category === ALL_PRODUCTS_FILTERS) return item;
         else return item.attributes?.kategoria?.data?.attributes?.Link === category;
       }),
-    [category, produkts]
+    [category, products]
   );
 
-  const categories = kategorias.kategorias?.data;
   const router = useRouter();
-
-  const handleCategory = (param: string) => {
-    router.query.kategoria = param;
-    router.push(router);
-  };
-
-  const handlePriceSort = (param: string) => {
-    router.query.cena = param;
-    router.push(router);
-  };
 
   useEffect(() => {
     if (router.query.kategoria) setCategory(router.query.kategoria);
@@ -53,48 +43,17 @@ function Produkty({ produkts, kategorias }: PropsType) {
 
       <h1>Produkty</h1>
 
-      <div>
-        <h2>Filtry:</h2>
-
-        <div>
-          <h3>Kategoria:</h3>
-          <ul>
-            <li>
-              <button onClick={() => handleCategory(ALL_PRODUCTS_FILTERS)}>
-                Wszystkie produkty
-              </button>
-            </li>
-            {categories?.map(({ id, attributes }) => (
-              <li key={id}>
-                <button onClick={() => handleCategory(attributes?.Link || '')}>
-                  {attributes?.Tytul}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h3>Cena:</h3>
-          <ul>
-            <li>
-              <button onClick={() => handlePriceSort('asc')}>Rosnąco</button>
-            </li>
-            <li>
-              <button onClick={() => handlePriceSort('desc')}>Malejąco</button>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <FiltersBar categories={categories} />
 
       <section>
-        {products?.length ? (
-          products.map(({ id, attributes }) => (
-            <>
-              {attributes?.kategoria?.data?.attributes?.Tytul && attributes?.Dostepnosc ? (
-                <ProductTile key={id} data={attributes} />
+        {filteredProducts?.length ? (
+          filteredProducts.map((item) => (
+            <React.Fragment key={item.id}>
+              {item.attributes?.kategoria?.data?.attributes?.Tytul &&
+              item.attributes?.Dostepnosc ? (
+                <ProductTile product={item} />
               ) : null}
-            </>
+            </React.Fragment>
           ))
         ) : (
           <h2>Nie znaleziono produktów.</h2>
@@ -164,8 +123,8 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      produkts: data,
-      kategorias: data,
+      products: data.produkts.data,
+      categories: data.kategorias.data,
     },
   };
 };
