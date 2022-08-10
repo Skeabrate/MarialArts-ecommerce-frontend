@@ -33,20 +33,20 @@ export default function CartItem({
     [cartItem, wymiary]
   );
 
-  const cena = wybraneWymiary?.Promocja ? wybraneWymiary.Promocja : wybraneWymiary?.Cena;
+  const price = wybraneWymiary?.Promocja || wybraneWymiary?.Cena;
 
   return (
     <div>
       <h3>
         {cartItem?.attributes?.Tytul} {wybraneWymiary?.Promocja ? '(PROMOCJA)' : null}
       </h3>
-      <Link href={`/products/${cartItem?.attributes?.Link}`}>
+      <Link href={cartItem?.attributes?.Link || ''}>
         <a>Przejdź to strony produktu</a>
       </Link>
       <p>Wymiary: {wybraneWymiary?.Wymiary}</p>
-      <p>Cena: {cena && formatValue(cena)}</p>
+      <p>Cena: {price && formatValue(price)}</p>
       <p>Ilość: {quantity}</p>
-      <p>Łączna cena: {cena && formatValue(cena * quantity)}</p>
+      <p>Łączna cena: {price && formatValue(price * quantity)}</p>
 
       <div>
         <button onClick={() => decreaseCartQuantity(cartItemId)}>

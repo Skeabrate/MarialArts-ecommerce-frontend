@@ -26,7 +26,7 @@ export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
   });
 
   useEffect(() => {
-    if (data && Array.isArray(cartState) && !error) {
+    if (data && !error && Array.isArray(cartState)) {
       const checkLocalStorage = cartState.filter((localStorageItem: CartItemProps, index, self) => {
         return (
           data.produkts?.data.find(

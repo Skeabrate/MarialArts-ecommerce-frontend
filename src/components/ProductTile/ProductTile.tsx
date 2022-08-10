@@ -68,10 +68,10 @@ export default function ProductTile({ data }: ProductType) {
     finalPrice.wymiary = data.Wymiary[0].Wymiary;
 
     data?.Wymiary.forEach(({ Cena, Wymiary, Promocja }: any) => {
+      if (Promocja) finalPrice.promocja = true;
       if (Promocja && Promocja < finalPrice.price) {
         finalPrice.price = Promocja;
         finalPrice.wymiary = Wymiary;
-        finalPrice.promocja = true;
       } else if (Cena < finalPrice.price) {
         finalPrice.price = Cena;
         finalPrice.wymiary = Wymiary;

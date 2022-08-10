@@ -28,8 +28,13 @@ function Produkty({ produkts, kategorias }: PropsType) {
   const categories = kategorias.kategorias?.data;
   const router = useRouter();
 
-  const handleCategory = (link: string) => {
-    router.query.kategoria = link;
+  const handleCategory = (param: string) => {
+    router.query.kategoria = param;
+    router.push(router);
+  };
+
+  const handlePriceSort = (param: string) => {
+    router.query.cena = param;
     router.push(router);
   };
 
@@ -50,26 +55,50 @@ function Produkty({ produkts, kategorias }: PropsType) {
 
       <div>
         <h2>Filtry:</h2>
-        <ul>
-          <li>
-            <button onClick={() => handleCategory(ALL_PRODUCTS_FILTERS)}>Wszystkie produkty</button>
-          </li>
-          {categories?.map(({ id, attributes }) => (
-            <li key={id}>
-              <button onClick={() => handleCategory(attributes ? attributes.Link : '')}>
-                {attributes?.Tytul}
+
+        <div>
+          <h3>Kategoria:</h3>
+          <ul>
+            <li>
+              <button onClick={() => handleCategory(ALL_PRODUCTS_FILTERS)}>
+                Wszystkie produkty
               </button>
             </li>
-          ))}
-        </ul>
+            {categories?.map(({ id, attributes }) => (
+              <li key={id}>
+                <button onClick={() => handleCategory(attributes?.Link || '')}>
+                  {attributes?.Tytul}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3>Cena:</h3>
+          <ul>
+            <li>
+              <button onClick={() => handlePriceSort('asc')}>Rosnąco</button>
+            </li>
+            <li>
+              <button onClick={() => handlePriceSort('desc')}>Malejąco</button>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <section>
-        {products?.map(({ id, attributes }) => {
-          if (!attributes?.kategoria?.data?.attributes?.Tytul || !attributes?.Dostepnosc)
-            return null;
-          else return <ProductTile key={id} data={attributes} />;
-        })}
+        {products?.length ? (
+          products.map(({ id, attributes }) => (
+            <>
+              {attributes?.kategoria?.data?.attributes?.Tytul && attributes?.Dostepnosc ? (
+                <ProductTile key={id} data={attributes} />
+              ) : null}
+            </>
+          ))
+        ) : (
+          <h2>Nie znaleziono produktów.</h2>
+        )}
       </section>
     </main>
   );
