@@ -19,7 +19,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 	
 		const slugToRevalidate = body.slugToRevalidate
 		if(slugToRevalidate){
-			await res.revalidate(`/products/${slugToRevalidate}`)
+			await res.revalidate(`/${slugToRevalidate}`)
+			await res.revalidate('/produkty');
 			await res.revalidate('/');
 			return res.json({ revalidate: true })
 		}
