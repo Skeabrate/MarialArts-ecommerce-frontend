@@ -18,12 +18,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		}
 	
 		const slugToRevalidate = body.slugToRevalidate
+		const updateCategories = body.updateCategories
 		if(slugToRevalidate){
 			await res.revalidate(`/${slugToRevalidate}`)
 			await res.revalidate('/produkty');
 			await res.revalidate('/');
 			return res.json({ revalidate: true })
-		}
+		} else if(updateCategories) {
+			await res.revalidate('/produkty');
+			await res.revalidate('/');
+			return res.json({ revalidate: true })
+		} else {
+			res.status(400).send("Bad body")
+			return
+		} 
 
   } catch (err) {
     return res.status(500).send('Error revalidating');
