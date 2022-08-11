@@ -1,13 +1,13 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { ALL_PRODUCTS_FILTERS } from 'utils/filtersValues';
-import { CategoryType } from 'types/CategoryType';
+/* import { CategoryType } from 'types/CategoryType'; */
 
-type FiltersBarProps = {
+/* type FiltersBarProps = {
   categories: CategoryType[];
-};
+}; */
 
-function FiltersBar({ categories }: FiltersBarProps) {
+function FiltersBar({ categories }: any) {
   const router = useRouter();
 
   const handleCategory = (param: string) => {
@@ -30,7 +30,7 @@ function FiltersBar({ categories }: FiltersBarProps) {
           <li>
             <button onClick={() => handleCategory(ALL_PRODUCTS_FILTERS)}>Wszystkie produkty</button>
           </li>
-          {categories.map((item) => (
+          {categories.map((item: any) => (
             <li key={item?.id}>
               <button onClick={() => handleCategory(item?.attributes.Link || '')}>
                 {item?.attributes.Tytul}
