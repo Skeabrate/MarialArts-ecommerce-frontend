@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import type { NextPage } from 'next';
 import { useQuery } from '@apollo/client';
-import { CategoryType } from '../types/CategoryType';
+import { CategoryType } from 'types/CategoryType';
 import { CATEGORIES_QUERY } from 'graphql/queries';
-import { addApolloState, initializeApollo } from '../lib/apolloClient';
+import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import HeadComponent from 'components/Head/Head';
 
 function Home() {
