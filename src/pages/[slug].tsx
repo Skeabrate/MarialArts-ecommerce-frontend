@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { v4 as uuid } from 'uuid';
 import { formatValue } from 'utils/formatValue';
 import { useShoppingCart } from 'hooks/useShoppingCart';
-import { ProductType } from 'types/ProductType';
+import { ProductType } from 'globalTypes/ProductType';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { SINGLEPRODUCT_QUERY } from 'graphql/queries';
 import { useQuery } from '@apollo/client';

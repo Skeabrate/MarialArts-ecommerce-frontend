@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { ALL_PRODUCTS_FILTERS } from 'utils/filtersValues';
-import { ProductType } from 'types/ProductType';
+import { ProductType } from 'globalTypes/ProductType';
 import { PRODUCTS_QUERY } from 'graphql/queries';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { useQuery } from '@apollo/client';

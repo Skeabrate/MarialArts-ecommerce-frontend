@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { formatValue } from 'utils/formatValue';
-import { ProductType } from 'types/ProductType';
+import { ProductType } from 'globalTypes/ProductType';
 
 type ProductTileProps = {
   product: ProductType;
