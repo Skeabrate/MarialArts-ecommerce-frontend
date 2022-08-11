@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { ALL_PRODUCTS_FILTERS } from 'utils/filtersValues';
-import { CategoryType } from 'types/CategoryType';
+import { CategoryType } from '../../types/CategoryType';
 
 type FiltersBarProps = {
   categories: CategoryType[];

@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import { ApolloProvider } from '@apollo/client';
-import { useApollo } from 'lib/apolloClient';
+import { useApollo } from '../lib/apolloClient';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from 'styles/GlobalStyle';
 import { theme } from 'styles/theme';
