@@ -37,7 +37,8 @@ export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
               ) &&
               localStorageItem.cartItemId &&
               typeof localStorageItem.quantity === 'number' &&
-              localStorageItem.quantity >= 1
+              localStorageItem.quantity >= 1 &&
+              dbItem.attributes.Dostepnosc
           ) &&
           index ===
             self.findIndex(
