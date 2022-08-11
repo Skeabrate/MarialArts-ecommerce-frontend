@@ -1,37 +1,41 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import type { GetStaticProps, NextPage } from 'next';
-import client from 'graphql/apollo';
+import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { gql } from '@apollo/client';
 import { ALL_PRODUCTS_FILTERS } from 'utils/filtersValues';
-import { ProductType } from 'src/Types/ProductType';
-import { CategoryType } from 'src/Types/CategoryType';
+import { ProductType } from 'types/ProductType';
+import { PRODUCTS_QUERY } from 'graphql/queries';
+import { addApolloState, initializeApollo } from 'lib/apolloClient';
+import { useQuery } from '@apollo/client';
 import HeadComponent from 'components/Head/Head';
 import ProductTile from 'components/ProductTile/ProductTile';
 import FiltersBar from 'components/FiltersBar/FiltersBar';
 
-type PropsType = {
-  products: ProductType[];
-  categories: CategoryType[];
-};
-
-function Produkty({ products, categories }: PropsType) {
+function Produkty() {
+  const { loading, error, data } = useQuery(PRODUCTS_QUERY);
   const [category, setCategory] = useState<string | string[]>(ALL_PRODUCTS_FILTERS);
+
+  const router = useRouter();
+
+  const allProducts = useMemo(
+    () => (data?.produkts?.data as ProductType[]) || [],
+    [data?.produkts?.data]
+  );
   const filteredProducts = useMemo(
     () =>
-      products.filter((item) => {
+      allProducts.filter((item) => {
         if (category === ALL_PRODUCTS_FILTERS) return item;
         else return item?.attributes.kategoria?.data?.attributes.Link === category;
       }),
-    [category, products]
+    [category, allProducts]
   );
-
-  const router = useRouter();
 
   useEffect(() => {
     if (router.query.kategoria) setCategory(router.query.kategoria);
     else setCategory(ALL_PRODUCTS_FILTERS);
   }, [router.query]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading posts.</div>;
 
   return (
     <main>
@@ -43,7 +47,7 @@ function Produkty({ products, categories }: PropsType) {
 
       <h1>Produkty</h1>
 
-      <FiltersBar categories={categories} />
+      <FiltersBar categories={data.kategorias.data} />
 
       <section>
         {filteredProducts.length ? (
@@ -63,70 +67,16 @@ function Produkty({ products, categories }: PropsType) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await client.query({
-    query: gql`
-      query {
-        kategorias {
-          data {
-            id
-            attributes {
-              Tytul
-              Link
-            }
-          }
-        }
-        produkts {
-          data {
-            id
-            attributes {
-              Tytul
-              Opis
-              Galeria {
-                data {
-                  id
-                  attributes {
-                    width
-                    height
-                    alternativeText
-                    url
-                  }
-                }
-              }
-              kategoria {
-                data {
-                  attributes {
-                    Tytul
-                    Link
-                  }
-                }
-              }
-              Wymiary {
-                id
-                Wymiary
-                Cena
-                Promocja
-              }
-              Dostepnosc
-              SEO {
-                Meta_Title
-                Meta_Description
-                Meta_Keywords
-              }
-              Link
-            }
-          }
-        }
-      }
-    `,
+export async function getServerSideProps() {
+  const apolloClient = initializeApollo();
+
+  await apolloClient.query({
+    query: PRODUCTS_QUERY,
   });
 
-  return {
-    props: {
-      products: data.produkts.data,
-      categories: data.kategorias.data,
-    },
-  };
-};
+  return addApolloState(apolloClient, {
+    props: {},
+  });
+}
 
 export default Produkty as NextPage;

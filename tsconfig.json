@@ -20,7 +20,9 @@
 				"styles/*": ["src/styles/*"],
 				"context/*": ["src/context/*"],
 				"hooks/*": ["src/hooks/*"],
-				"utils/*": ["src/utils/*"]
+				"utils/*": ["src/utils/*"],
+				"types/*": ["src/types/*"],
+				"lib/*": ["src/lib/*"],
 			}
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "graphql/queries.query"],
