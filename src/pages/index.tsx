@@ -1,15 +1,19 @@
 import Link from 'next/link';
 import type { NextPage } from 'next';
-import client from 'graphql/apollo';
-import { gql } from '@apollo/client';
-import { CategoryType } from 'src/Types/CategoryType';
+import { useQuery } from '@apollo/client';
+import { CategoryType } from 'types/CategoryType';
+import { CATEGORIES_QUERY } from 'graphql/queries';
+import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import HeadComponent from 'components/Head/Head';
 
-type HomeProps = {
-  categories: CategoryType[];
-};
+function Home() {
+  const { loading, error, data } = useQuery(CATEGORIES_QUERY);
 
-function Home({ categories }: HomeProps) {
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading posts.</div>;
+
+  const categories = data?.kategorias?.data as CategoryType[];
+
   return (
     <main>
       <HeadComponent
@@ -48,28 +52,16 @@ function Home({ categories }: HomeProps) {
   );
 }
 
-export async function getStaticProps() {
-  const { data } = await client.query({
-    query: gql`
-      query {
-        kategorias {
-          data {
-            id
-            attributes {
-              Tytul
-              Link
-            }
-          }
-        }
-      }
-    `,
+export async function getServerSideProps() {
+  const apolloClient = initializeApollo();
+
+  await apolloClient.query({
+    query: CATEGORIES_QUERY,
   });
 
-  return {
-    props: {
-      categories: data.kategorias.data,
-    },
-  };
+  return addApolloState(apolloClient, {
+    props: {},
+  });
 }
 
 export default Home as NextPage;

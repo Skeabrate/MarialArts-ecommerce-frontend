@@ -1,13 +1,13 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { ALL_PRODUCTS_FILTERS } from 'utils/filtersValues';
-import { CategoryType } from 'src/Types/CategoryType';
+import { CategoryType } from 'types/CategoryType';
 
-type Props = {
+type FiltersBarProps = {
   categories: CategoryType[];
 };
 
-function FiltersBar({ categories }: Props) {
+function FiltersBar({ categories }: FiltersBarProps) {
   const router = useRouter();
 
   const handleCategory = (param: string) => {

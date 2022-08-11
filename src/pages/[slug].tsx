@@ -1,35 +1,34 @@
-import client from 'graphql/apollo';
 import type { NextPage } from 'next';
-import { gql } from '@apollo/client';
 import { v4 as uuid } from 'uuid';
 import { formatValue } from 'utils/formatValue';
 import { useShoppingCart } from 'hooks/useShoppingCart';
-import { ProductType } from 'src/Types/ProductType';
-import ReactMarkdown from 'react-markdown';
+import { ProductType } from 'types/ProductType';
+import { addApolloState, initializeApollo } from 'lib/apolloClient';
+import { SINGLEPRODUCT_QUERY } from 'graphql/queries';
+import { useQuery } from '@apollo/client';
 import remarkGfm from 'remark-gfm';
+import ReactMarkdown from 'react-markdown';
 import HeadComponent from 'components/Head/Head';
 
-type ProductProps = {
-  product: ProductType;
+type SlugType = {
+  slug: String;
 };
 
-type ContextType = {
-  params: {
-    slug: string;
-  };
+type ServerSidePropsType = {
+  params: SlugType;
 };
 
-type LinkType = {
-  attributes: {
-    Link: string;
-  };
-};
-
-function Product({ product }: ProductProps) {
+function Product({ slug }: SlugType) {
+  const { loading, error, data } = useQuery(SINGLEPRODUCT_QUERY, {
+    variables: { slug },
+  });
   const { increaseCartQuantity, openCart } = useShoppingCart();
 
-  if (!product) return null;
-  const { Tytul, Opis, kategoria, Galeria, Wymiary, Dostepnosc, SEO } = product.attributes;
+  const product = data?.produkts?.data[0] as ProductType;
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading posts.</div>;
+  if (!product) return <div>Nie znaleziono produktu.</div>;
 
   const addToCart = (cartItemId: string, productId: string, wymiary: string) => {
     openCart();
@@ -39,20 +38,20 @@ function Product({ product }: ProductProps) {
   return (
     <main style={{ minHeight: '700px', padding: '40px' }}>
       <HeadComponent
-        title={SEO.Meta_Title}
-        description={SEO.Meta_Description}
-        keywords={SEO.Meta_Keywords}
+        title={product.attributes.SEO.Meta_Title}
+        description={product.attributes.SEO.Meta_Description}
+        keywords={product.attributes.SEO.Meta_Keywords}
       />
 
       <div>
-        <h1>{Tytul}</h1>
+        <h1>{product.attributes.Tytul}</h1>
 
         <h2 style={{ paddingBlock: '10px' }}>
-          Kategoria: {kategoria?.data?.attributes.Tytul || 'Nieokreślona'}
+          Kategoria: {product.attributes.kategoria?.data?.attributes.Tytul || 'Nieokreślona'}
         </h2>
 
         <div style={{ paddingBlock: '20px' }}>
-          {Dostepnosc ? (
+          {product.attributes.Dostepnosc ? (
             <>
               <h2>Dostępne wymiary:</h2>
 
@@ -64,7 +63,7 @@ function Product({ product }: ProductProps) {
                       <th>Cena:</th>
                       <th></th>
                     </tr>
-                    {Wymiary.map(({ id, Wymiary, Cena, Promocja }) => (
+                    {product.attributes.Wymiary.map(({ id, Wymiary, Cena, Promocja }) => (
                       <tr key={id}>
                         <td style={{ padding: '10px' }}>{Wymiary}</td>
                         <td style={{ padding: '10px' }}>
@@ -101,9 +100,9 @@ function Product({ product }: ProductProps) {
                         return <a {...linkProps}>{children}</a>;
                       },
                     }}
-                    /* transformImageUri={}  */
+                    /* transformImageUri={} */
                   >
-                    {Opis || ''}
+                    {product.attributes.Opis || ''}
                   </ReactMarkdown>
                 </section>
               </div>
@@ -120,92 +119,19 @@ function Product({ product }: ProductProps) {
   );
 }
 
-export async function getStaticPaths() {
-  const { data } = await client.query({
-    query: gql`
-      query {
-        produkts {
-          data {
-            attributes {
-              Link
-            }
-          }
-        }
-      }
-    `,
+export async function getServerSideProps({ params }: ServerSidePropsType) {
+  const { slug } = params;
+
+  const apolloClient = initializeApollo();
+
+  await apolloClient.query({
+    query: SINGLEPRODUCT_QUERY,
+    variables: { slug },
   });
 
-  const paths = data.produkts.data.map(({ attributes: { Link } }: LinkType) => {
-    return {
-      params: { slug: Link },
-    };
+  return addApolloState(apolloClient, {
+    props: { slug },
   });
-
-  return {
-    paths,
-    fallback: 'blocking',
-  };
-}
-
-export async function getStaticProps(context: ContextType) {
-  const slug = context.params.slug;
-
-  const { data } = await client.query({
-    query: gql`
-      query Produkt {
-        produkts(filters: { Link: { eq: "${slug}" } }) {
-          data {
-						id
-						attributes {
-							Tytul
-							Opis
-							Galeria {
-								data {
-									id
-									attributes {
-										width
-										height
-										alternativeText
-										url
-									}
-								}
-							}
-							kategoria {
-								data {
-									attributes {
-										Tytul
-									}
-								}
-							}
-							Wymiary {
-								id
-								Wymiary
-								Cena
-								Promocja
-							}
-							Dostepnosc
-							SEO {
-								Meta_Title
-								Meta_Description
-								Meta_Keywords
-							}
-						}
-					}
-				}
-      }
-    `,
-  });
-
-  if (!data.produkts.data[0])
-    return {
-      notFound: true,
-    };
-
-  return {
-    props: {
-      product: data.produkts.data[0],
-    },
-  };
 }
 
 export default Product as NextPage;
