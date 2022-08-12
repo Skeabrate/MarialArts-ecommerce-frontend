@@ -10,25 +10,22 @@ export const findLowestOrHighestPrice = (data: any, option: string) => {
 
   data.forEach(({ Cena, Wymiary, Promocja }: any) => {
     if (Promocja) finalPrice.promocja = true;
-    switch (option) {
-      case LOWEST_PRICE:
-        if (Promocja && Promocja < finalPrice.price) {
-          finalPrice.price = Promocja;
-          finalPrice.wymiary = Wymiary;
-        } else if (Cena < finalPrice.price) {
-          finalPrice.price = Cena;
-          finalPrice.wymiary = Wymiary;
-        }
-      case HIGHEST_PRICE:
-        if (Promocja && Promocja >= finalPrice.price) {
-          finalPrice.price = Promocja;
-          finalPrice.wymiary = Wymiary;
-        } else if (Cena > finalPrice.price) {
-          finalPrice.price = Cena;
-          finalPrice.wymiary = Wymiary;
-        }
-      default:
-        return finalPrice;
+    if (option === LOWEST_PRICE) {
+      if (Promocja && Promocja < finalPrice.price) {
+        finalPrice.price = Promocja;
+        finalPrice.wymiary = Wymiary;
+      } else if (Cena < finalPrice.price) {
+        finalPrice.price = Cena;
+        finalPrice.wymiary = Wymiary;
+      }
+    } else if (option === HIGHEST_PRICE) {
+      if (Promocja && Promocja >= finalPrice.price) {
+        finalPrice.price = Promocja;
+        finalPrice.wymiary = Wymiary;
+      } else if (Cena > finalPrice.price) {
+        finalPrice.price = Cena;
+        finalPrice.wymiary = Wymiary;
+      }
     }
   });
 
