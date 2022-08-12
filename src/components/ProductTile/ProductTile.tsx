@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ProductType } from 'globalTypes/ProductType';
+import { ProductType } from 'types/ProductType';
 import { formatValue } from 'utils/formatValue';
 import { findLowestOrHighestPrice, LOWEST_PRICE } from 'utils/findLowestOrHighestPrice';
 

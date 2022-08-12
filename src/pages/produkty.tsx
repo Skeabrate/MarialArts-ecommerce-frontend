@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { PRODUCTS_QUERY } from 'graphql/queries';
 import { useQuery } from '@apollo/client';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
-import { ProductType } from 'globalTypes/ProductType';
+import { ProductType } from 'types/ProductType';
 import {
   ALL_PRODUCTS_FILTERS,
   SORT_PRICE_ASCENDING,

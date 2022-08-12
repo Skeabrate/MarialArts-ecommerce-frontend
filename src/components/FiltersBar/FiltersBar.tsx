@@ -5,7 +5,7 @@ import {
   SORT_PRICE_ASCENDING,
   SORT_PRICE_DESCENDING,
 } from 'utils/filtersValues';
-import { CategoryType } from 'globalTypes/CategoryType';
+import { CategoryType } from 'types/CategoryType';
 
 type FiltersBarProps = {
   categories: CategoryType[];
