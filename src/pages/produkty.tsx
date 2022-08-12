@@ -1,18 +1,29 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { ALL_PRODUCTS_FILTERS } from 'utils/filtersValues';
-import { ProductType } from 'globalTypes/ProductType';
 import { PRODUCTS_QUERY } from 'graphql/queries';
-import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { useQuery } from '@apollo/client';
+import { addApolloState, initializeApollo } from 'lib/apolloClient';
+import { ProductType } from 'globalTypes/ProductType';
+import {
+  ALL_PRODUCTS_FILTERS,
+  SORT_PRICE_ASCENDING,
+  SORT_PRICE_DESCENDING,
+} from 'utils/filtersValues';
+import {
+  findLowestOrHighestPrice,
+  HIGHEST_PRICE,
+  LOWEST_PRICE,
+} from 'utils/findLowestOrHighestPrice';
 import HeadComponent from 'components/Head/Head';
 import ProductTile from 'components/ProductTile/ProductTile';
 import FiltersBar from 'components/FiltersBar/FiltersBar';
 
 function Produkty() {
   const { loading, error, data } = useQuery(PRODUCTS_QUERY);
+
   const [category, setCategory] = useState<string | string[]>(ALL_PRODUCTS_FILTERS);
+  const [sortPrice, setSortPrice] = useState<string | string[]>('');
 
   const router = useRouter();
 
@@ -20,6 +31,7 @@ function Produkty() {
     () => (data?.produkts?.data as ProductType[]) || [],
     [data?.produkts?.data]
   );
+
   const filteredProducts = useMemo(
     () =>
       allProducts.filter((item) => {
@@ -29,9 +41,24 @@ function Produkty() {
     [category, allProducts]
   );
 
+  if (sortPrice === SORT_PRICE_ASCENDING)
+    filteredProducts.sort(
+      (a, b) =>
+        findLowestOrHighestPrice(a?.attributes.Wymiary, LOWEST_PRICE).price -
+        findLowestOrHighestPrice(b?.attributes.Wymiary, LOWEST_PRICE).price
+    );
+  else if (sortPrice === SORT_PRICE_DESCENDING)
+    filteredProducts.sort(
+      (a, b) =>
+        findLowestOrHighestPrice(b?.attributes.Wymiary, HIGHEST_PRICE).price -
+        findLowestOrHighestPrice(a?.attributes.Wymiary, HIGHEST_PRICE).price
+    );
+
   useEffect(() => {
     if (router.query.kategoria) setCategory(router.query.kategoria);
     else setCategory(ALL_PRODUCTS_FILTERS);
+
+    if (router.query.cena) setSortPrice(router.query.cena);
   }, [router.query]);
 
   if (loading) return <div>Loading...</div>;

@@ -1,33 +1,22 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { formatValue } from 'utils/formatValue';
 import { ProductType } from 'globalTypes/ProductType';
+import { formatValue } from 'utils/formatValue';
+import { findLowestOrHighestPrice, LOWEST_PRICE } from 'utils/findLowestOrHighestPrice';
 
 type ProductTileProps = {
   product: ProductType;
 };
 
 export default function ProductTile({ product }: ProductTileProps) {
+  const finalPrice = useMemo(
+    () => findLowestOrHighestPrice(product?.attributes.Wymiary, LOWEST_PRICE),
+    [product]
+  );
+
   if (!product) return null;
   const { Wymiary, Galeria, Tytul, kategoria, Link: ProductUrl } = product.attributes;
-
-  const finalPrice = {
-    price: Wymiary[0].Cena,
-    wymiary: Wymiary[0].Wymiary,
-    promocja: false,
-  };
-
-  Wymiary.forEach(({ Cena, Wymiary, Promocja }) => {
-    if (Promocja) finalPrice.promocja = true;
-    if (Promocja && Promocja < finalPrice.price) {
-      finalPrice.price = Promocja;
-      finalPrice.wymiary = Wymiary;
-    } else if (Cena < finalPrice.price) {
-      finalPrice.price = Cena;
-      finalPrice.wymiary = Wymiary;
-    }
-  });
 
   return (
     <Link href={ProductUrl}>

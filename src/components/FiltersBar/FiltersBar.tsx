@@ -1,6 +1,10 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { ALL_PRODUCTS_FILTERS } from 'utils/filtersValues';
+import {
+  ALL_PRODUCTS_FILTERS,
+  SORT_PRICE_ASCENDING,
+  SORT_PRICE_DESCENDING,
+} from 'utils/filtersValues';
 import { CategoryType } from 'globalTypes/CategoryType';
 
 type FiltersBarProps = {
@@ -44,10 +48,10 @@ function FiltersBar({ categories }: FiltersBarProps) {
         <h3>Cena:</h3>
         <ul>
           <li>
-            <button onClick={() => handlePriceSort('asc')}>Rosnąco</button>
+            <button onClick={() => handlePriceSort(SORT_PRICE_ASCENDING)}>Rosnąco</button>
           </li>
           <li>
-            <button onClick={() => handlePriceSort('desc')}>Malejąco</button>
+            <button onClick={() => handlePriceSort(SORT_PRICE_DESCENDING)}>Malejąco</button>
           </li>
         </ul>
       </div>
