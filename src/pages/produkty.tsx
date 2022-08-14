@@ -5,11 +5,7 @@ import { PRODUCTS_QUERY } from 'graphql/queries';
 import { useQuery } from '@apollo/client';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { ProductType } from 'types/ProductType';
-import {
-  ALL_PRODUCTS_FILTERS,
-  SORT_PRICE_ASCENDING,
-  SORT_PRICE_DESCENDING,
-} from 'utils/filtersValues';
+import { ALL_PRODUCTS, SORT_PRICE_ASCENDING, SORT_PRICE_DESCENDING } from 'utils/filtersValues';
 import {
   findLowestOrHighestPrice,
   HIGHEST_PRICE,
@@ -22,7 +18,7 @@ import FiltersBar from 'components/FiltersBar/FiltersBar';
 function Produkty() {
   const { loading, error, data } = useQuery(PRODUCTS_QUERY);
 
-  const [category, setCategory] = useState<string | string[]>(ALL_PRODUCTS_FILTERS);
+  const [category, setCategory] = useState<string | string[]>(ALL_PRODUCTS);
   const [sortPrice, setSortPrice] = useState<string | string[]>('');
 
   const router = useRouter();
@@ -35,7 +31,7 @@ function Produkty() {
   const filteredProducts = useMemo(
     () =>
       allProducts.filter((item) => {
-        if (category === ALL_PRODUCTS_FILTERS) return item;
+        if (category === ALL_PRODUCTS) return item;
         else return item?.attributes.kategoria?.data?.attributes.Link === category;
       }),
     [category, allProducts]
@@ -56,7 +52,7 @@ function Produkty() {
 
   useEffect(() => {
     if (router.query.kategoria) setCategory(router.query.kategoria);
-    else setCategory(ALL_PRODUCTS_FILTERS);
+    else setCategory(ALL_PRODUCTS);
 
     if (router.query.cena) setSortPrice(router.query.cena);
   }, [router.query]);
