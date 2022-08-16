@@ -43,13 +43,17 @@ function FiltersBar({ categories }: FiltersBarProps) {
       </div>
 
       <div>
-        <h3>Cena:</h3>
+        <h3>Sortuj wg:</h3>
         <ul>
           <li>
-            <button onClick={() => filtersHandler('cena', SORT_PRICE_ASCENDING)}>Rosnąco</button>
+            <button onClick={() => filtersHandler('cena', SORT_PRICE_ASCENDING)}>
+              Cena - od najniższej
+            </button>
           </li>
           <li>
-            <button onClick={() => filtersHandler('cena', SORT_PRICE_DESCENDING)}>Malejąco</button>
+            <button onClick={() => filtersHandler('cena', SORT_PRICE_DESCENDING)}>
+              Cena - od najwyższej
+            </button>
           </li>
         </ul>
       </div>
