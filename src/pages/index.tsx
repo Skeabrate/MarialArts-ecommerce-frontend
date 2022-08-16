@@ -12,7 +12,7 @@ function Home() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading posts.</div>;
 
-  const categories = data?.kategorias?.data as CategoryType[];
+  const categories = (data?.kategorias?.data as CategoryType[]) || [];
 
   return (
     <main>
