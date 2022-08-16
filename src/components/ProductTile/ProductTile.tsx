@@ -3,7 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ProductType } from 'types/ProductType';
 import { formatValue } from 'utils/formatValue';
-import { findLowestOrHighestPrice, LOWEST_PRICE } from 'utils/findLowestOrHighestPrice';
+import {
+  findLowestOrHighestPrice,
+  HIGHEST_PRICE,
+  LOWEST_PRICE,
+} from 'utils/findLowestOrHighestPrice';
 
 type ProductTileProps = {
   product: ProductType;
@@ -13,6 +17,10 @@ export default function ProductTile({ product }: ProductTileProps) {
   const finalPrice = useMemo(
     () => findLowestOrHighestPrice(product?.attributes.Wymiary, LOWEST_PRICE),
     [product]
+  );
+
+  const highestAvailablePrice = formatValue(
+    findLowestOrHighestPrice(product?.attributes.Wymiary, HIGHEST_PRICE).price
   );
 
   if (!product) return null;
@@ -53,6 +61,7 @@ export default function ProductTile({ product }: ProductTileProps) {
               <span>
                 {Wymiary.length > 1 ? 'Od ' : null}
                 {formatValue(finalPrice.price)}
+                {Wymiary.length > 1 ? ` do ${highestAvailablePrice}` : null}
               </span>
               <span>Wymiary: {finalPrice.wymiary}</span>
             </p>
