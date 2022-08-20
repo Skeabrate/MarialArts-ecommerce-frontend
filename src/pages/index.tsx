@@ -24,7 +24,7 @@ function Home() {
 
       <h1>Kategorie: </h1>
 
-      <section style={{ display: 'flex', flexWrap: 'wrap', gap: '30px', padding: '30px' }}>
+      <section style={{ display: 'flex', flexWrap: 'wrap', gap: '35px', padding: '30px' }}>
         {categories.length ? (
           categories.map((item) => (
             <Link key={item?.id} href={`/produkty?kategoria=${item?.attributes.Link}`}>
