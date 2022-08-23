@@ -37,6 +37,10 @@ function FiltersBar({ categories }: FiltersBarProps) {
           },
           ...categories,
         ]}
+        defaultValue={
+          categories.find((item) => item?.attributes.Link === router.query?.kategoria)?.attributes
+            .Tytul || ''
+        }
         filtersHandler={(param: string) => filtersHandler('kategoria', param)}
       />
 

@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelect } from 'downshift';
+import { ALL_PRODUCTS } from 'utils/filtersValues';
+import { useRouter } from 'next/router';
 
 type ItemProps = {
   __typename?: string;
@@ -13,24 +15,31 @@ type ItemProps = {
 
 type Props = {
   items: (ItemProps | undefined | null)[];
+  defaultValue?: string;
   filtersHandler: Function;
 };
 
-function Combobox({ items, filtersHandler }: Props) {
+function Combobox({ items, defaultValue, filtersHandler }: Props) {
+  const router = useRouter();
   const displayedItems = items.map((item) => item?.attributes.Tytul);
 
   const {
     isOpen,
     selectedItem,
+    selectItem,
     getToggleButtonProps,
     getMenuProps,
     highlightedIndex,
     getItemProps,
-  } = useSelect({ items: displayedItems, initialSelectedItem: displayedItems[0] });
+  } = useSelect({ items: displayedItems, initialSelectedItem: defaultValue || displayedItems[0] });
 
   useEffect(() => {
     filtersHandler(items.find((item) => item?.attributes.Tytul === selectedItem)?.attributes.Link);
   }, [selectedItem]);
+
+  useEffect(() => {
+    if (!Object.entries(router.query).length) selectItem(displayedItems[0]);
+  }, [router.query]);
 
   return (
     <div>
