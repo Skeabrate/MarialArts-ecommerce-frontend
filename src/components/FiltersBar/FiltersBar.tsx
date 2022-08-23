@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { ALL_PRODUCTS, SORT_PRICE_ASCENDING, SORT_PRICE_DESCENDING } from 'utils/filtersValues';
 import { CategoryType } from 'types/CategoryType';
+import Combobox from 'components/Combobox/Combobox';
 
 type FiltersBarProps = {
   categories: CategoryType[];
@@ -26,21 +27,18 @@ function FiltersBar({ categories }: FiltersBarProps) {
 
       <div>
         <h3>Kategoria:</h3>
-        <ul>
-          <li>
-            <button onClick={() => filtersHandler('kategoria', ALL_PRODUCTS)}>
-              Wszystkie produkty
-            </button>
-          </li>
-          {categories.map((item) => (
-            <li key={item?.id}>
-              <button onClick={() => filtersHandler('kategoria', item?.attributes.Link || '')}>
-                {item?.attributes.Tytul}
-              </button>
-            </li>
-          ))}
-        </ul>
       </div>
+      <Combobox
+        items={[
+          {
+            __typename: 'KategoriaEntity',
+            id: 'first',
+            attributes: { Tytul: 'Wszystkie Produkty', Link: ALL_PRODUCTS },
+          },
+          ...categories,
+        ]}
+        filtersHandler={(param: string) => filtersHandler('kategoria', param)}
+      />
 
       <div>
         <h3>Sortuj wg:</h3>
