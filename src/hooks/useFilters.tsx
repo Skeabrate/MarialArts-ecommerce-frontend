@@ -30,7 +30,7 @@ export const useFilters = (allProducts: ProductType[]) => {
         if (category === ALL_PRODUCTS_CATEGORY) return item;
         else return item?.attributes.kategoria?.data?.attributes.Link === category;
       }),
-    [category, allProducts]
+    [category, allProducts, ALL_PRODUCTS_CATEGORY]
   );
 
   const filtersHandler = (query: string, param: string) => {
@@ -67,7 +67,7 @@ export const useFilters = (allProducts: ProductType[]) => {
     }
 
     if (router.query.cena) setSortPrice(router.query.cena);
-  }, [router.query]);
+  }, [router, ALL_PRODUCTS_CATEGORY]);
 
   return { filteredProducts, loadingFilters, filtersHandler };
 };
