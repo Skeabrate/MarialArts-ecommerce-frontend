@@ -10,7 +10,7 @@ function Combobox({ label, items, filterType }: ComboboxProps) {
   const defaultValue = useMemo(
     () =>
       label
-        ? false
+        ? null
         : items.find((item) => item?.attributes.Link === router.query[filterType])?.attributes
             .Tytul || displayedItems[0],
     [label, items, router.query, filterType, displayedItems]
