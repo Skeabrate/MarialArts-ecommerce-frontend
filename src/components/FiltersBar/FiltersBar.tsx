@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import { ALL_PRODUCTS, SORT_PRICE_ASCENDING, SORT_PRICE_DESCENDING } from 'utils/filtersValues';
 import { CategoryType } from 'types/CategoryType';
 import Combobox from 'components/Combobox/Combobox';
@@ -9,18 +8,6 @@ type FiltersBarProps = {
 };
 
 function FiltersBar({ categories }: FiltersBarProps) {
-  const router = useRouter();
-
-  const filtersHandler = (query: string, param: string) => {
-    router.push({
-      pathname: typeof window !== 'undefined' ? window.location.pathname : '/produkty',
-      query: {
-        ...router.query,
-        [query]: param,
-      },
-    });
-  };
-
   return (
     <div>
       <h2>Filtry:</h2>
@@ -28,26 +15,26 @@ function FiltersBar({ categories }: FiltersBarProps) {
       <div>
         <h3>Kategoria:</h3>
       </div>
-      <Combobox
-        items={[ALL_PRODUCTS, ...categories]}
-        category={'kategoria'}
-        filtersHandler={filtersHandler}
-      />
+      <Combobox items={[ALL_PRODUCTS, ...categories]} category={'kategoria'} />
 
       <div>
         <h3>Sortuj wg:</h3>
-        <ul>
-          <li>
-            <button onClick={() => filtersHandler('cena', SORT_PRICE_ASCENDING)}>
-              Cena - od najniższej
-            </button>
-          </li>
-          <li>
-            <button onClick={() => filtersHandler('cena', SORT_PRICE_DESCENDING)}>
-              Cena - od najwyższej
-            </button>
-          </li>
-        </ul>
+        <Combobox
+          label={'Sortuj wg'}
+          items={[
+            {
+              __typename: 'KategoriaEntity',
+              id: '0',
+              attributes: { Tytul: 'Cena: od najniższej', Link: SORT_PRICE_ASCENDING },
+            },
+            {
+              __typename: 'KategoriaEntity',
+              id: '1',
+              attributes: { Tytul: 'Cena: od najwyższej', Link: SORT_PRICE_DESCENDING },
+            },
+          ]}
+          category={'cena'}
+        />
       </div>
     </div>
   );

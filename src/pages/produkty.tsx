@@ -56,7 +56,10 @@ function Produkty() {
 
   useEffect(() => {
     if (router.query.kategoria) setCategory(router.query.kategoria);
-    else setCategory(allProductsCategory);
+    else {
+      setCategory(allProductsCategory);
+      router.push(`/produkty?kategoria=${allProductsCategory}`);
+    }
 
     if (router.query.cena) setSortPrice(router.query.cena);
   }, [router.query]);

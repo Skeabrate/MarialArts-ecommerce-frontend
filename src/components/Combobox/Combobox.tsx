@@ -13,13 +13,13 @@ type ItemProps = {
 };
 
 type Props = {
+  label?: string;
   items: (ItemProps | undefined | null)[];
   defaultValue?: string;
-  filtersHandler: Function;
   category: string;
 };
 
-function Combobox({ items, category, filtersHandler }: Props) {
+function Combobox({ label, items, category }: Props) {
   const router = useRouter();
   const displayedItems = useMemo(() => items.map((item) => item?.attributes.Tytul), [items]);
   const defaultValue = useMemo(
@@ -37,13 +37,24 @@ function Combobox({ items, category, filtersHandler }: Props) {
     getMenuProps,
     highlightedIndex,
     getItemProps,
-  } = useSelect({ items: displayedItems, initialSelectedItem: defaultValue });
+  } = useSelect({ items: displayedItems, initialSelectedItem: label ? false : defaultValue });
+
+  const filtersHandler = (query: string, param: string) => {
+    router.push({
+      pathname: typeof window !== 'undefined' ? window.location.pathname : '/produkty',
+      query: {
+        ...router.query,
+        [query]: param,
+      },
+    });
+  };
 
   useEffect(() => {
-    filtersHandler(
-      category,
-      items.find((item) => item?.attributes.Tytul === selectedItem)?.attributes.Link
-    );
+    if (selectedItem)
+      filtersHandler(
+        category,
+        items.find((item) => item?.attributes.Tytul === selectedItem)?.attributes.Link || ''
+      );
   }, [selectedItem]);
 
   useEffect(() => {
@@ -51,13 +62,13 @@ function Combobox({ items, category, filtersHandler }: Props) {
       selectItem(
         items.find((item) => item?.attributes.Link === router.query[category])?.attributes.Tytul
       );
-    else selectItem(displayedItems[0]);
+    else selectItem(null);
   }, [router.query]);
 
   return (
     <div>
       <button type='button' {...getToggleButtonProps()}>
-        {selectedItem}
+        {selectedItem || label}
       </button>
       <ul {...getMenuProps()}>
         {isOpen &&
