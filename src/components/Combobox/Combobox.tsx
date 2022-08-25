@@ -62,7 +62,7 @@ function Combobox({ label, items, category }: Props) {
       selectItem(
         items.find((item) => item?.attributes.Link === router.query[category])?.attributes.Tytul
       );
-    else selectItem(null);
+    else selectItem(undefined);
   }, [router.query]);
 
   return (

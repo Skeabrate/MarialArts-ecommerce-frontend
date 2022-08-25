@@ -1,68 +1,17 @@
-import React, { useEffect, useState, useMemo } from 'react';
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { PRODUCTS_QUERY } from 'graphql/queries';
 import { useQuery } from '@apollo/client';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
-import { ProductType } from 'types/ProductType';
-import { ALL_PRODUCTS, SORT_PRICE_ASCENDING, SORT_PRICE_DESCENDING } from 'utils/filtersValues';
-import {
-  findLowestOrHighestPrice,
-  HIGHEST_PRICE,
-  LOWEST_PRICE,
-} from 'utils/findLowestOrHighestPrice';
 import HeadComponent from 'components/Head/Head';
 import ProductTile from 'components/ProductTile/ProductTile';
 import FiltersBar from 'components/FiltersBar/FiltersBar';
+import { useFilters } from 'hooks/useFilters';
+import React from 'react';
 
 function Produkty() {
   const { loading, error, data } = useQuery(PRODUCTS_QUERY);
 
-  const {
-    attributes: { Link: allProductsCategory },
-  } = ALL_PRODUCTS;
-
-  const [category, setCategory] = useState<string | string[]>(allProductsCategory);
-  const [sortPrice, setSortPrice] = useState<string | string[]>('');
-
-  const router = useRouter();
-
-  const allProducts = useMemo(
-    () => (data?.produkts?.data as ProductType[]) || [],
-    [data?.produkts?.data]
-  );
-
-  const filteredProducts = useMemo(
-    () =>
-      allProducts.filter((item) => {
-        if (category === allProductsCategory) return item;
-        else return item?.attributes.kategoria?.data?.attributes.Link === category;
-      }),
-    [category, allProducts]
-  );
-
-  if (sortPrice === SORT_PRICE_ASCENDING)
-    filteredProducts.sort(
-      (a, b) =>
-        findLowestOrHighestPrice(a?.attributes.Wymiary, LOWEST_PRICE).price -
-        findLowestOrHighestPrice(b?.attributes.Wymiary, LOWEST_PRICE).price
-    );
-  else if (sortPrice === SORT_PRICE_DESCENDING)
-    filteredProducts.sort(
-      (a, b) =>
-        findLowestOrHighestPrice(b?.attributes.Wymiary, HIGHEST_PRICE).price -
-        findLowestOrHighestPrice(a?.attributes.Wymiary, HIGHEST_PRICE).price
-    );
-
-  useEffect(() => {
-    if (router.query.kategoria) setCategory(router.query.kategoria);
-    else {
-      setCategory(allProductsCategory);
-      router.push(`/produkty?kategoria=${allProductsCategory}`);
-    }
-
-    if (router.query.cena) setSortPrice(router.query.cena);
-  }, [router.query]);
+  const { filteredProducts } = useFilters(data.produkts.data);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading posts.</div>;
