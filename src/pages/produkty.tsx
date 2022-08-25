@@ -18,7 +18,11 @@ import FiltersBar from 'components/FiltersBar/FiltersBar';
 function Produkty() {
   const { loading, error, data } = useQuery(PRODUCTS_QUERY);
 
-  const [category, setCategory] = useState<string | string[]>(ALL_PRODUCTS);
+  const {
+    attributes: { Link: allProductsCategory },
+  } = ALL_PRODUCTS;
+
+  const [category, setCategory] = useState<string | string[]>(allProductsCategory);
   const [sortPrice, setSortPrice] = useState<string | string[]>('');
 
   const router = useRouter();
@@ -31,7 +35,7 @@ function Produkty() {
   const filteredProducts = useMemo(
     () =>
       allProducts.filter((item) => {
-        if (category === ALL_PRODUCTS) return item;
+        if (category === allProductsCategory) return item;
         else return item?.attributes.kategoria?.data?.attributes.Link === category;
       }),
     [category, allProducts]
@@ -52,7 +56,7 @@ function Produkty() {
 
   useEffect(() => {
     if (router.query.kategoria) setCategory(router.query.kategoria);
-    else setCategory(ALL_PRODUCTS);
+    else setCategory(allProductsCategory);
 
     if (router.query.cena) setSortPrice(router.query.cena);
   }, [router.query]);

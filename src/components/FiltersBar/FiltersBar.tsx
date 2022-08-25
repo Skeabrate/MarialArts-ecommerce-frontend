@@ -29,19 +29,9 @@ function FiltersBar({ categories }: FiltersBarProps) {
         <h3>Kategoria:</h3>
       </div>
       <Combobox
-        items={[
-          {
-            __typename: 'KategoriaEntity',
-            id: 'first',
-            attributes: { Tytul: 'Wszystkie Produkty', Link: ALL_PRODUCTS },
-          },
-          ...categories,
-        ]}
-        defaultValue={
-          categories.find((item) => item?.attributes.Link === router.query?.kategoria)?.attributes
-            .Tytul || ''
-        }
-        filtersHandler={(param: string) => filtersHandler('kategoria', param)}
+        items={[ALL_PRODUCTS, ...categories]}
+        category={'kategoria'}
+        filtersHandler={filtersHandler}
       />
 
       <div>

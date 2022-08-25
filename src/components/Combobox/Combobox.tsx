@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelect } from 'downshift';
-import { ALL_PRODUCTS } from 'utils/filtersValues';
 import { useRouter } from 'next/router';
 
 type ItemProps = {
@@ -17,11 +16,18 @@ type Props = {
   items: (ItemProps | undefined | null)[];
   defaultValue?: string;
   filtersHandler: Function;
+  category: string;
 };
 
-function Combobox({ items, defaultValue, filtersHandler }: Props) {
+function Combobox({ items, category, filtersHandler }: Props) {
   const router = useRouter();
-  const displayedItems = items.map((item) => item?.attributes.Tytul);
+  const displayedItems = useMemo(() => items.map((item) => item?.attributes.Tytul), [items]);
+  const defaultValue = useMemo(
+    () =>
+      items.find((item) => item?.attributes.Link === router.query[category])?.attributes.Tytul ||
+      displayedItems[0],
+    [items, router.query, category, displayedItems]
+  );
 
   const {
     isOpen,
@@ -31,14 +37,21 @@ function Combobox({ items, defaultValue, filtersHandler }: Props) {
     getMenuProps,
     highlightedIndex,
     getItemProps,
-  } = useSelect({ items: displayedItems, initialSelectedItem: defaultValue || displayedItems[0] });
+  } = useSelect({ items: displayedItems, initialSelectedItem: defaultValue });
 
   useEffect(() => {
-    filtersHandler(items.find((item) => item?.attributes.Tytul === selectedItem)?.attributes.Link);
+    filtersHandler(
+      category,
+      items.find((item) => item?.attributes.Tytul === selectedItem)?.attributes.Link
+    );
   }, [selectedItem]);
 
   useEffect(() => {
-    if (!Object.entries(router.query).length) selectItem(displayedItems[0]);
+    if (router.query[category])
+      selectItem(
+        items.find((item) => item?.attributes.Link === router.query[category])?.attributes.Tytul
+      );
+    else selectItem(displayedItems[0]);
   }, [router.query]);
 
   return (
