@@ -1,7 +1,12 @@
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { ProductType } from 'types/ProductType';
-import { ALL_PRODUCTS, SORT_PRICE_ASCENDING, SORT_PRICE_DESCENDING } from 'utils/filtersValues';
+import {
+  ALL_PRODUCTS,
+  ALL_PRODUCTS_LINK,
+  SORT_PRICE_ASCENDING,
+  SORT_PRICE_DESCENDING,
+} from 'utils/filtersValues';
 import {
   findLowestOrHighestPrice,
   HIGHEST_PRICE,
@@ -10,47 +15,59 @@ import {
 
 export const useFilters = (allProducts: ProductType[]) => {
   const {
-    attributes: { Link: allProductsCategory },
+    attributes: { Link: ALL_PRODUCTS_CATEGORY },
   } = ALL_PRODUCTS;
 
-  const [category, setCategory] = useState<string | string[]>(allProductsCategory);
+  const [category, setCategory] = useState<string | string[]>(ALL_PRODUCTS_CATEGORY);
   const [sortPrice, setSortPrice] = useState<string | string[]>('');
+  const [loadingFilters, setLoadingFilters] = useState<boolean>(false);
 
   const router = useRouter();
 
   const filteredProducts = useMemo(
     () =>
       allProducts.filter((item: ProductType) => {
-        if (category === allProductsCategory) return item;
+        if (category === ALL_PRODUCTS_CATEGORY) return item;
         else return item?.attributes.kategoria?.data?.attributes.Link === category;
       }),
     [category, allProducts]
   );
 
-  useEffect(() => {
-    if (sortPrice === SORT_PRICE_ASCENDING)
-      filteredProducts.sort(
-        (a, b) =>
-          findLowestOrHighestPrice(a?.attributes.Wymiary, LOWEST_PRICE).price -
-          findLowestOrHighestPrice(b?.attributes.Wymiary, LOWEST_PRICE).price
-      );
-    else if (sortPrice === SORT_PRICE_DESCENDING)
-      filteredProducts.sort(
-        (a, b) =>
-          findLowestOrHighestPrice(b?.attributes.Wymiary, HIGHEST_PRICE).price -
-          findLowestOrHighestPrice(a?.attributes.Wymiary, HIGHEST_PRICE).price
-      );
-  }, [sortPrice]);
+  const filtersHandler = (query: string, param: string) => {
+    setLoadingFilters(true);
+    router
+      .push({
+        pathname: typeof window !== 'undefined' ? window.location.pathname : ALL_PRODUCTS_LINK,
+        query: {
+          ...router.query,
+          [query]: param,
+        },
+      })
+      .then(() => setLoadingFilters(false));
+  };
+
+  if (sortPrice === SORT_PRICE_ASCENDING)
+    filteredProducts.sort(
+      (a, b) =>
+        findLowestOrHighestPrice(a?.attributes.Wymiary, LOWEST_PRICE).price -
+        findLowestOrHighestPrice(b?.attributes.Wymiary, LOWEST_PRICE).price
+    );
+  else if (sortPrice === SORT_PRICE_DESCENDING)
+    filteredProducts.sort(
+      (a, b) =>
+        findLowestOrHighestPrice(b?.attributes.Wymiary, HIGHEST_PRICE).price -
+        findLowestOrHighestPrice(a?.attributes.Wymiary, HIGHEST_PRICE).price
+    );
 
   useEffect(() => {
     if (router.query.kategoria) setCategory(router.query.kategoria);
     else {
-      setCategory(allProductsCategory);
-      router.push(`/produkty?kategoria=${allProductsCategory}`);
+      setCategory(ALL_PRODUCTS_CATEGORY);
+      router.push(ALL_PRODUCTS_LINK);
     }
 
     if (router.query.cena) setSortPrice(router.query.cena);
   }, [router.query]);
 
-  return { filteredProducts };
+  return { filteredProducts, loadingFilters, filtersHandler };
 };

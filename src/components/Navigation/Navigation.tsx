@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { StyledNav } from './Navigation.styles';
 import { useShoppingCart } from 'hooks/useShoppingCart';
+import { ALL_PRODUCTS_LINK } from 'utils/filtersValues';
 
 export default function Navigation() {
   const { openCart, cartQuantity } = useShoppingCart();
@@ -20,7 +21,7 @@ export default function Navigation() {
           </Link>
         </li>
         <li>
-          <Link href='/produkty'>
+          <Link href={ALL_PRODUCTS_LINK}>
             <a>Produkty</a>
           </Link>
         </li>

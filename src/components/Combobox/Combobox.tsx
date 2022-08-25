@@ -1,33 +1,22 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useSelect } from 'downshift';
+import { useContext, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
+import { useSelect } from 'downshift';
+import { FiltersContext } from 'context/FiltersContext';
+import { ComboboxProps } from './types';
 
-type ItemProps = {
-  __typename?: string;
-  id: string;
-  attributes: {
-    __typename?: string;
-    Tytul: string;
-    Link: string;
-  };
-};
-
-type Props = {
-  label?: string;
-  items: (ItemProps | undefined | null)[];
-  defaultValue?: string;
-  category: string;
-};
-
-function Combobox({ label, items, category }: Props) {
+function Combobox({ label, items, filterType }: ComboboxProps) {
   const router = useRouter();
   const displayedItems = useMemo(() => items.map((item) => item?.attributes.Tytul), [items]);
   const defaultValue = useMemo(
     () =>
-      items.find((item) => item?.attributes.Link === router.query[category])?.attributes.Tytul ||
-      displayedItems[0],
-    [items, router.query, category, displayedItems]
+      label
+        ? false
+        : items.find((item) => item?.attributes.Link === router.query[filterType])?.attributes
+            .Tytul || displayedItems[0],
+    [label, items, router.query, filterType, displayedItems]
   );
+
+  const { filtersHandler } = useContext(FiltersContext);
 
   const {
     isOpen,
@@ -37,32 +26,21 @@ function Combobox({ label, items, category }: Props) {
     getMenuProps,
     highlightedIndex,
     getItemProps,
-  } = useSelect({ items: displayedItems, initialSelectedItem: label ? false : defaultValue });
-
-  const filtersHandler = (query: string, param: string) => {
-    router.push({
-      pathname: typeof window !== 'undefined' ? window.location.pathname : '/produkty',
-      query: {
-        ...router.query,
-        [query]: param,
-      },
-    });
-  };
+  } = useSelect({ items: displayedItems, initialSelectedItem: defaultValue });
 
   useEffect(() => {
     if (selectedItem)
       filtersHandler(
-        category,
+        filterType,
         items.find((item) => item?.attributes.Tytul === selectedItem)?.attributes.Link || ''
       );
   }, [selectedItem]);
 
   useEffect(() => {
-    if (router.query[category])
+    if (router.query[filterType])
       selectItem(
-        items.find((item) => item?.attributes.Link === router.query[category])?.attributes.Tytul
+        items.find((item) => item?.attributes.Link === router.query[filterType])?.attributes.Tytul
       );
-    else selectItem(undefined);
   }, [router.query]);
 
   return (
