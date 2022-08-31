@@ -16,7 +16,7 @@ function tryParseJSONObject(jsonString: string) {
 }
 
 export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
-  const { data, error } = useProductsQuery();
+  const { data } = useProductsQuery();
 
   const [cartState, setCartState] = useState<T>(() => {
     const localStorageValue = localStorage.getItem(key);
@@ -26,7 +26,7 @@ export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
   });
 
   useEffect(() => {
-    if (data && !error && Array.isArray(cartState)) {
+    if (data && Array.isArray(cartState)) {
       const checkLocalStorage = cartState.filter((localStorageItem: CartItemProps, index, self) => {
         return (
           data.produkts?.data.find(
@@ -50,7 +50,7 @@ export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
       });
       setCartState(checkLocalStorage as unknown as T);
     }
-  }, [data, error]);
+  }, [data]);
 
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(cartState));
