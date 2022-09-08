@@ -3,16 +3,23 @@ import { useRouter } from 'next/router';
 import { useSelect } from 'downshift';
 import { FiltersContext } from 'context/FiltersContext';
 import { ComboboxProps } from './types';
+import { CategoryType } from 'types/CategoryType';
 
-function Combobox({ label, items, filterType }: ComboboxProps) {
+type Props = {
+  label?: string;
+  filterType: string;
+  items: CategoryType[];
+};
+
+function Combobox({ label, items, filterType }: Props) {
   const router = useRouter();
-  const displayedItems = useMemo(() => items.map((item) => item?.attributes.Tytul), [items]);
+  const displayedItems = useMemo(() => items.map((item) => item?.attributes?.category), [items]);
   const defaultValue = useMemo(
     () =>
       label
         ? null
-        : items.find((item) => item?.attributes.Link === router.query[filterType])?.attributes
-            .Tytul || displayedItems[0],
+        : items.find((item) => item?.attributes?.category === router.query[filterType])?.attributes
+            ?.category || displayedItems[0],
     [label, items, router.query, filterType, displayedItems]
   );
 
@@ -32,14 +39,16 @@ function Combobox({ label, items, filterType }: ComboboxProps) {
     if (selectedItem)
       filtersHandler(
         filterType,
-        items.find((item) => item?.attributes.Tytul === selectedItem)?.attributes.Link || ''
+        items.find((item) => item?.attributes?.category === selectedItem)?.attributes?.category ||
+          ''
       );
   }, [selectedItem]);
 
   useEffect(() => {
     if (router.query[filterType])
       selectItem(
-        items.find((item) => item?.attributes.Link === router.query[filterType])?.attributes.Tytul
+        items.find((item) => item?.attributes?.category === router.query[filterType])?.attributes
+          ?.category
       );
   }, [router.query]);
 

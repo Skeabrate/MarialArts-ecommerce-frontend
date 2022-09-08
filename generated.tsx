@@ -42,6 +42,44 @@ export type BooleanFilterInput = {
   startsWith?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type Category = {
+  __typename?: 'Category';
+  category: Scalars['String'];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type CategoryEntity = {
+  __typename?: 'CategoryEntity';
+  attributes?: Maybe<Category>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type CategoryEntityResponse = {
+  __typename?: 'CategoryEntityResponse';
+  data?: Maybe<CategoryEntity>;
+};
+
+export type CategoryEntityResponseCollection = {
+  __typename?: 'CategoryEntityResponseCollection';
+  data: Array<CategoryEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type CategoryFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CategoryFiltersInput>>>;
+  category?: InputMaybe<StringFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<CategoryFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CategoryFiltersInput>>>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CategoryInput = {
+  category?: InputMaybe<Scalars['String']>;
+};
+
 export type ComponentSeoSeo = {
   __typename?: 'ComponentSeoSeo';
   Meta_Description: Scalars['String'];
@@ -66,28 +104,28 @@ export type ComponentSeoSeoInput = {
   id?: InputMaybe<Scalars['ID']>;
 };
 
-export type ComponentWymiaryWymiary = {
-  __typename?: 'ComponentWymiaryWymiary';
-  Cena: Scalars['Float'];
-  Promocja?: Maybe<Scalars['Float']>;
-  Wymiary: Scalars['String'];
+export type ComponentSizeSize = {
+  __typename?: 'ComponentSizeSize';
   id: Scalars['ID'];
+  price: Scalars['Float'];
+  sale?: Maybe<Scalars['Float']>;
+  size: Scalars['String'];
 };
 
-export type ComponentWymiaryWymiaryFiltersInput = {
-  Cena?: InputMaybe<FloatFilterInput>;
-  Promocja?: InputMaybe<FloatFilterInput>;
-  Wymiary?: InputMaybe<StringFilterInput>;
-  and?: InputMaybe<Array<InputMaybe<ComponentWymiaryWymiaryFiltersInput>>>;
-  not?: InputMaybe<ComponentWymiaryWymiaryFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentWymiaryWymiaryFiltersInput>>>;
+export type ComponentSizeSizeFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentSizeSizeFiltersInput>>>;
+  not?: InputMaybe<ComponentSizeSizeFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentSizeSizeFiltersInput>>>;
+  price?: InputMaybe<FloatFilterInput>;
+  sale?: InputMaybe<FloatFilterInput>;
+  size?: InputMaybe<StringFilterInput>;
 };
 
-export type ComponentWymiaryWymiaryInput = {
-  Cena?: InputMaybe<Scalars['Float']>;
-  Promocja?: InputMaybe<Scalars['Float']>;
-  Wymiary?: InputMaybe<Scalars['String']>;
+export type ComponentSizeSizeInput = {
   id?: InputMaybe<Scalars['ID']>;
+  price?: InputMaybe<Scalars['Float']>;
+  sale?: InputMaybe<Scalars['Float']>;
+  size?: InputMaybe<Scalars['String']>;
 };
 
 export type DateTimeFilterInput = {
@@ -145,12 +183,11 @@ export type FloatFilterInput = {
 };
 
 export type GenericMorph =
+  | Category
   | ComponentSeoSeo
-  | ComponentWymiaryWymiary
+  | ComponentSizeSize
   | I18NLocale
-  | Kategoria
-  | Produkt
-  | StronaGlowna
+  | Product
   | UploadFile
   | UploadFolder
   | UsersPermissionsPermission
@@ -265,60 +302,20 @@ export type JsonFilterInput = {
   startsWith?: InputMaybe<Scalars['JSON']>;
 };
 
-export type Kategoria = {
-  __typename?: 'Kategoria';
-  Link: Scalars['String'];
-  Tytul: Scalars['String'];
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type KategoriaEntity = {
-  __typename?: 'KategoriaEntity';
-  attributes?: Maybe<Kategoria>;
-  id?: Maybe<Scalars['ID']>;
-};
-
-export type KategoriaEntityResponse = {
-  __typename?: 'KategoriaEntityResponse';
-  data?: Maybe<KategoriaEntity>;
-};
-
-export type KategoriaEntityResponseCollection = {
-  __typename?: 'KategoriaEntityResponseCollection';
-  data: Array<KategoriaEntity>;
-  meta: ResponseCollectionMeta;
-};
-
-export type KategoriaFiltersInput = {
-  Link?: InputMaybe<StringFilterInput>;
-  Tytul?: InputMaybe<StringFilterInput>;
-  and?: InputMaybe<Array<InputMaybe<KategoriaFiltersInput>>>;
-  createdAt?: InputMaybe<DateTimeFilterInput>;
-  id?: InputMaybe<IdFilterInput>;
-  not?: InputMaybe<KategoriaFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<KategoriaFiltersInput>>>;
-  updatedAt?: InputMaybe<DateTimeFilterInput>;
-};
-
-export type KategoriaInput = {
-  Link?: InputMaybe<Scalars['String']>;
-  Tytul?: InputMaybe<Scalars['String']>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
-  createKategoria?: Maybe<KategoriaEntityResponse>;
-  createProdukt?: Maybe<ProduktEntityResponse>;
+  /** Change user password. Confirm with the current password. */
+  changePassword?: Maybe<UsersPermissionsLoginPayload>;
+  createCategory?: Maybe<CategoryEntityResponse>;
+  createProduct?: Maybe<ProductEntityResponse>;
   createUploadFile?: Maybe<UploadFileEntityResponse>;
   createUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Create a new role */
   createUsersPermissionsRole?: Maybe<UsersPermissionsCreateRolePayload>;
   /** Create a new user */
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
-  deleteKategoria?: Maybe<KategoriaEntityResponse>;
-  deleteProdukt?: Maybe<ProduktEntityResponse>;
-  deleteStronaGlowna?: Maybe<StronaGlownaEntityResponse>;
+  deleteCategory?: Maybe<CategoryEntityResponse>;
+  deleteProduct?: Maybe<ProductEntityResponse>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
   deleteUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Delete an existing role */
@@ -336,10 +333,9 @@ export type Mutation = {
   removeFile?: Maybe<UploadFileEntityResponse>;
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
+  updateCategory?: Maybe<CategoryEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
-  updateKategoria?: Maybe<KategoriaEntityResponse>;
-  updateProdukt?: Maybe<ProduktEntityResponse>;
-  updateStronaGlowna?: Maybe<StronaGlownaEntityResponse>;
+  updateProduct?: Maybe<ProductEntityResponse>;
   updateUploadFile?: Maybe<UploadFileEntityResponse>;
   updateUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Update an existing role */
@@ -349,12 +345,18 @@ export type Mutation = {
   upload: UploadFileEntityResponse;
 };
 
-export type MutationCreateKategoriaArgs = {
-  data: KategoriaInput;
+export type MutationChangePasswordArgs = {
+  currentPassword: Scalars['String'];
+  password: Scalars['String'];
+  passwordConfirmation: Scalars['String'];
 };
 
-export type MutationCreateProduktArgs = {
-  data: ProduktInput;
+export type MutationCreateCategoryArgs = {
+  data: CategoryInput;
+};
+
+export type MutationCreateProductArgs = {
+  data: ProductInput;
 };
 
 export type MutationCreateUploadFileArgs = {
@@ -373,11 +375,11 @@ export type MutationCreateUsersPermissionsUserArgs = {
   data: UsersPermissionsUserInput;
 };
 
-export type MutationDeleteKategoriaArgs = {
+export type MutationDeleteCategoryArgs = {
   id: Scalars['ID'];
 };
 
-export type MutationDeleteProduktArgs = {
+export type MutationDeleteProductArgs = {
   id: Scalars['ID'];
 };
 
@@ -430,23 +432,19 @@ export type MutationResetPasswordArgs = {
   passwordConfirmation: Scalars['String'];
 };
 
+export type MutationUpdateCategoryArgs = {
+  data: CategoryInput;
+  id: Scalars['ID'];
+};
+
 export type MutationUpdateFileInfoArgs = {
   id: Scalars['ID'];
   info?: InputMaybe<FileInfoInput>;
 };
 
-export type MutationUpdateKategoriaArgs = {
-  data: KategoriaInput;
+export type MutationUpdateProductArgs = {
+  data: ProductInput;
   id: Scalars['ID'];
-};
-
-export type MutationUpdateProduktArgs = {
-  data: ProduktInput;
-  id: Scalars['ID'];
-};
-
-export type MutationUpdateStronaGlownaArgs = {
-  data: StronaGlownaInput;
 };
 
 export type MutationUpdateUploadFileArgs = {
@@ -492,86 +490,82 @@ export type PaginationArg = {
   start?: InputMaybe<Scalars['Int']>;
 };
 
-export type Produkt = {
-  __typename?: 'Produkt';
-  Dostepnosc: Scalars['Boolean'];
-  Galeria?: Maybe<UploadFileRelationResponseCollection>;
-  Link: Scalars['String'];
-  Opis?: Maybe<Scalars['String']>;
-  SEO: ComponentSeoSeo;
-  Tytul: Scalars['String'];
-  Wymiary: Array<Maybe<ComponentWymiaryWymiary>>;
+export type Product = {
+  __typename?: 'Product';
+  category?: Maybe<CategoryEntityResponse>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  kategoria?: Maybe<KategoriaEntityResponse>;
+  description?: Maybe<Scalars['String']>;
+  galery?: Maybe<UploadFileRelationResponseCollection>;
+  seo: ComponentSeoSeo;
+  size: Array<Maybe<ComponentSizeSize>>;
+  slug: Scalars['String'];
+  title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-export type ProduktGaleriaArgs = {
+export type ProductGaleryArgs = {
   filters?: InputMaybe<UploadFileFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-export type ProduktWymiaryArgs = {
-  filters?: InputMaybe<ComponentWymiaryWymiaryFiltersInput>;
+export type ProductSizeArgs = {
+  filters?: InputMaybe<ComponentSizeSizeFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-export type ProduktEntity = {
-  __typename?: 'ProduktEntity';
-  attributes?: Maybe<Produkt>;
+export type ProductEntity = {
+  __typename?: 'ProductEntity';
+  attributes?: Maybe<Product>;
   id?: Maybe<Scalars['ID']>;
 };
 
-export type ProduktEntityResponse = {
-  __typename?: 'ProduktEntityResponse';
-  data?: Maybe<ProduktEntity>;
+export type ProductEntityResponse = {
+  __typename?: 'ProductEntityResponse';
+  data?: Maybe<ProductEntity>;
 };
 
-export type ProduktEntityResponseCollection = {
-  __typename?: 'ProduktEntityResponseCollection';
-  data: Array<ProduktEntity>;
+export type ProductEntityResponseCollection = {
+  __typename?: 'ProductEntityResponseCollection';
+  data: Array<ProductEntity>;
   meta: ResponseCollectionMeta;
 };
 
-export type ProduktFiltersInput = {
-  Dostepnosc?: InputMaybe<BooleanFilterInput>;
-  Link?: InputMaybe<StringFilterInput>;
-  Opis?: InputMaybe<StringFilterInput>;
-  SEO?: InputMaybe<ComponentSeoSeoFiltersInput>;
-  Tytul?: InputMaybe<StringFilterInput>;
-  Wymiary?: InputMaybe<ComponentWymiaryWymiaryFiltersInput>;
-  and?: InputMaybe<Array<InputMaybe<ProduktFiltersInput>>>;
+export type ProductFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
+  category?: InputMaybe<CategoryFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
-  kategoria?: InputMaybe<KategoriaFiltersInput>;
-  not?: InputMaybe<ProduktFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ProduktFiltersInput>>>;
+  not?: InputMaybe<ProductFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
+  seo?: InputMaybe<ComponentSeoSeoFiltersInput>;
+  size?: InputMaybe<ComponentSizeSizeFiltersInput>;
+  slug?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
-export type ProduktInput = {
-  Dostepnosc?: InputMaybe<Scalars['Boolean']>;
-  Galeria?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  Link?: InputMaybe<Scalars['String']>;
-  Opis?: InputMaybe<Scalars['String']>;
-  SEO?: InputMaybe<ComponentSeoSeoInput>;
-  Tytul?: InputMaybe<Scalars['String']>;
-  Wymiary?: InputMaybe<Array<InputMaybe<ComponentWymiaryWymiaryInput>>>;
-  kategoria?: InputMaybe<Scalars['ID']>;
+export type ProductInput = {
+  category?: InputMaybe<Scalars['ID']>;
+  description?: InputMaybe<Scalars['String']>;
+  galery?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  seo?: InputMaybe<ComponentSeoSeoInput>;
+  size?: InputMaybe<Array<InputMaybe<ComponentSizeSizeInput>>>;
+  slug?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type Query = {
   __typename?: 'Query';
+  categories?: Maybe<CategoryEntityResponseCollection>;
+  category?: Maybe<CategoryEntityResponse>;
   i18NLocale?: Maybe<I18NLocaleEntityResponse>;
   i18NLocales?: Maybe<I18NLocaleEntityResponseCollection>;
-  kategoria?: Maybe<KategoriaEntityResponse>;
-  kategorias?: Maybe<KategoriaEntityResponseCollection>;
   me?: Maybe<UsersPermissionsMe>;
-  produkt?: Maybe<ProduktEntityResponse>;
-  produkts?: Maybe<ProduktEntityResponseCollection>;
-  stronaGlowna?: Maybe<StronaGlownaEntityResponse>;
+  product?: Maybe<ProductEntityResponse>;
+  products?: Maybe<ProductEntityResponseCollection>;
   uploadFile?: Maybe<UploadFileEntityResponse>;
   uploadFiles?: Maybe<UploadFileEntityResponseCollection>;
   uploadFolder?: Maybe<UploadFolderEntityResponse>;
@@ -580,6 +574,16 @@ export type Query = {
   usersPermissionsRoles?: Maybe<UsersPermissionsRoleEntityResponseCollection>;
   usersPermissionsUser?: Maybe<UsersPermissionsUserEntityResponse>;
   usersPermissionsUsers?: Maybe<UsersPermissionsUserEntityResponseCollection>;
+};
+
+export type QueryCategoriesArgs = {
+  filters?: InputMaybe<CategoryFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type QueryCategoryArgs = {
+  id?: InputMaybe<Scalars['ID']>;
 };
 
 export type QueryI18NLocaleArgs = {
@@ -592,22 +596,12 @@ export type QueryI18NLocalesArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-export type QueryKategoriaArgs = {
+export type QueryProductArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
 
-export type QueryKategoriasArgs = {
-  filters?: InputMaybe<KategoriaFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-export type QueryProduktArgs = {
-  id?: InputMaybe<Scalars['ID']>;
-};
-
-export type QueryProduktsArgs = {
-  filters?: InputMaybe<ProduktFiltersInput>;
+export type QueryProductsArgs = {
+  filters?: InputMaybe<ProductFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
@@ -679,30 +673,6 @@ export type StringFilterInput = {
   null?: InputMaybe<Scalars['Boolean']>;
   or?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   startsWith?: InputMaybe<Scalars['String']>;
-};
-
-export type StronaGlowna = {
-  __typename?: 'StronaGlowna';
-  SEO?: Maybe<ComponentSeoSeo>;
-  Tytul?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type StronaGlownaEntity = {
-  __typename?: 'StronaGlownaEntity';
-  attributes?: Maybe<StronaGlowna>;
-  id?: Maybe<Scalars['ID']>;
-};
-
-export type StronaGlownaEntityResponse = {
-  __typename?: 'StronaGlownaEntityResponse';
-  data?: Maybe<StronaGlownaEntity>;
-};
-
-export type StronaGlownaInput = {
-  SEO?: InputMaybe<ComponentSeoSeoInput>;
-  Tytul?: InputMaybe<Scalars['String']>;
 };
 
 export type UploadFile = {
@@ -1078,12 +1048,12 @@ export type CategoriesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CategoriesQuery = {
   __typename?: 'Query';
-  kategorias?: {
-    __typename?: 'KategoriaEntityResponseCollection';
+  categories?: {
+    __typename?: 'CategoryEntityResponseCollection';
     data: Array<{
-      __typename?: 'KategoriaEntity';
+      __typename?: 'CategoryEntity';
       id?: string | null;
-      attributes?: { __typename?: 'Kategoria'; Tytul: string; Link: string } | null;
+      attributes?: { __typename?: 'Category'; category: string } | null;
     }>;
   } | null;
 };
@@ -1092,18 +1062,17 @@ export type ProductsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ProductsQuery = {
   __typename?: 'Query';
-  produkts?: {
-    __typename?: 'ProduktEntityResponseCollection';
+  products?: {
+    __typename?: 'ProductEntityResponseCollection';
     data: Array<{
-      __typename?: 'ProduktEntity';
+      __typename?: 'ProductEntity';
       id?: string | null;
       attributes?: {
-        __typename?: 'Produkt';
-        Tytul: string;
-        Opis?: string | null;
-        Dostepnosc: boolean;
-        Link: string;
-        Galeria?: {
+        __typename?: 'Product';
+        title: string;
+        description?: string | null;
+        slug: string;
+        galery?: {
           __typename?: 'UploadFileRelationResponseCollection';
           data: Array<{
             __typename?: 'UploadFileEntity';
@@ -1117,21 +1086,21 @@ export type ProductsQuery = {
             } | null;
           }>;
         } | null;
-        kategoria?: {
-          __typename?: 'KategoriaEntityResponse';
+        size: Array<{
+          __typename?: 'ComponentSizeSize';
+          id: string;
+          size: string;
+          price: number;
+          sale?: number | null;
+        } | null>;
+        category?: {
+          __typename?: 'CategoryEntityResponse';
           data?: {
-            __typename?: 'KategoriaEntity';
-            attributes?: { __typename?: 'Kategoria'; Tytul: string; Link: string } | null;
+            __typename?: 'CategoryEntity';
+            attributes?: { __typename?: 'Category'; category: string } | null;
           } | null;
         } | null;
-        Wymiary: Array<{
-          __typename?: 'ComponentWymiaryWymiary';
-          id: string;
-          Wymiary: string;
-          Cena: number;
-          Promocja?: number | null;
-        } | null>;
-        SEO: {
+        seo: {
           __typename?: 'ComponentSeoSeo';
           Meta_Title: string;
           Meta_Description: string;
@@ -1144,12 +1113,11 @@ export type ProductsQuery = {
 
 export const CategoriesDocument = gql`
   query Categories {
-    kategorias {
+    categories {
       data {
         id
         attributes {
-          Tytul
-          Link
+          category
         }
       }
     }
@@ -1191,13 +1159,13 @@ export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQ
 export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
 export const ProductsDocument = gql`
   query Products {
-    produkts {
+    products {
       data {
         id
         attributes {
-          Tytul
-          Opis
-          Galeria {
+          title
+          description
+          galery {
             data {
               id
               attributes {
@@ -1208,27 +1176,25 @@ export const ProductsDocument = gql`
               }
             }
           }
-          kategoria {
+          size {
+            id
+            size
+            price
+            sale
+          }
+          category {
             data {
               attributes {
-                Tytul
-                Link
+                category
               }
             }
           }
-          Wymiary {
-            id
-            Wymiary
-            Cena
-            Promocja
-          }
-          SEO {
+          slug
+          seo {
             Meta_Title
             Meta_Description
             Meta_Keywords
           }
-          Dostepnosc
-          Link
         }
       }
     }

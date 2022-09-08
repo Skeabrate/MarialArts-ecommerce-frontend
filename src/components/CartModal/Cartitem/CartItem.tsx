@@ -13,37 +13,39 @@ export default function CartItem({
   data,
   cartItemId,
   productId,
-  wymiary,
+  size,
   quantity,
 }: CartItemPropsWithData) {
   const { increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart();
 
   const cartItem = useMemo(
     () =>
-      data?.produkts?.data.find(
-        (item) =>
-          item.id === productId &&
-          item.attributes?.Wymiary.find((item) => item?.Wymiary === wymiary)
+      data?.products?.data.find(
+        (item) => item.id === productId && item.attributes?.size.find((item) => item?.size === size)
       ),
-    [data, productId, wymiary]
+    [data, productId, size]
   );
 
-  const wybraneWymiary = useMemo(
-    () => cartItem?.attributes?.Wymiary.find((item) => item?.Wymiary === wymiary),
-    [cartItem, wymiary]
+  data.products?.data.forEach((item) => {
+    console.log(item);
+  });
+
+  const selectedSize = useMemo(
+    () => cartItem?.attributes?.size.find((item) => item?.size === size),
+    [cartItem, size]
   );
 
-  const price = wybraneWymiary?.Promocja || wybraneWymiary?.Cena;
+  const price = selectedSize?.sale || selectedSize?.price;
 
   return (
     <div>
       <h3>
-        {cartItem?.attributes?.Tytul} {wybraneWymiary?.Promocja ? '(PROMOCJA)' : null}
+        {cartItem?.attributes?.title} {selectedSize?.sale ? '(PROMOCJA)' : null}
       </h3>
-      <Link href={cartItem?.attributes?.Link || ''}>
+      <Link href={cartItem?.attributes?.slug || ''}>
         <a>Przejdź to strony produktu</a>
       </Link>
-      <p>Wymiary: {wybraneWymiary?.Wymiary}</p>
+      <p>size: {selectedSize?.size}</p>
       <p>Cena: {price && formatValue(price)}</p>
       <p>Ilość: {quantity}</p>
       <p>Łączna cena: {price && formatValue(price * quantity)}</p>
@@ -56,8 +58,8 @@ export default function CartItem({
         <button
           onClick={() =>
             cartItem?.id &&
-            wybraneWymiary &&
-            increaseCartQuantity(cartItemId, cartItem.id, wybraneWymiary.Wymiary)
+            selectedSize &&
+            increaseCartQuantity(cartItemId, cartItem.id, selectedSize.size)
           }
         >
           +

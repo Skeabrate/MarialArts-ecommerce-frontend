@@ -20,17 +20,17 @@ function CartModal({ isOpen }: CartProps) {
     () =>
       formatValue(
         cartItems.reduce((total, cartItem) => {
-          const itemInDatabase = data?.produkts?.data.find(
+          const itemInDatabase = data?.products?.data.find(
             (dbItem) =>
               dbItem.id === cartItem.productId &&
-              dbItem.attributes?.Wymiary.find((wymiary) => wymiary?.Wymiary === cartItem.wymiary)
+              dbItem.attributes?.size.find((size) => size?.size === cartItem.size)
           );
           let finalPrice = 0;
 
-          itemInDatabase?.attributes?.Wymiary.forEach((wymiary) => {
-            if (wymiary?.Wymiary === cartItem.wymiary) {
-              if (wymiary.Promocja) return (finalPrice = wymiary.Promocja);
-              else finalPrice = wymiary.Cena;
+          itemInDatabase?.attributes?.size.forEach((size) => {
+            if (size?.size === cartItem.size) {
+              if (size?.sale) return (finalPrice = size.sale);
+              else finalPrice = size?.price;
             }
           });
 

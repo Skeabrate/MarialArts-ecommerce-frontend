@@ -1,9 +1,5 @@
 export type CategoryType = {
-  __typename?: 'KategoriaEntity';
-  id: string;
-  attributes: {
-    __typename?: 'Kategoria';
-    Tytul: string;
-    Link: string;
-  };
+  __typename?: 'CategoryEntity';
+  id?: string | null;
+  attributes?: { __typename?: 'Category'; category: string } | null;
 } | null;

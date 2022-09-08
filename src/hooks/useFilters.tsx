@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { ProductType } from 'types/ProductType';
+import { ProductsDocument } from 'generated';
 import {
   ALL_PRODUCTS,
   ALL_PRODUCTS_LINK,

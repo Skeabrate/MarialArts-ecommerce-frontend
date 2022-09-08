@@ -15,15 +15,13 @@ export default function ShoppingCartProvider({ children }: ShoppingCartProviderP
   const closeCart = useCallback(() => setIsOpen(false), []);
 
   const increaseCartQuantity = useCallback(
-    (cartItemId: string, productId: string, wymiary: string) => {
+    (cartItemId: string, productId: string, size: string) => {
       setCartItems((currItems) => {
-        if (
-          currItems.find((item) => item.productId === productId && item.wymiary === wymiary) == null
-        ) {
-          return [...currItems, { cartItemId, productId, wymiary, quantity: 1 }];
+        if (currItems.find((item) => item.productId === productId && item.size === size) == null) {
+          return [...currItems, { cartItemId, productId, size, quantity: 1 }];
         } else {
           return currItems.map((item) => {
-            if (item.productId === productId && item.wymiary === wymiary) {
+            if (item.productId === productId && item.size === size) {
               return { ...item, quantity: item.quantity + 1 };
             } else {
               return item;

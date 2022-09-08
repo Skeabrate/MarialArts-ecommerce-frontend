@@ -1,49 +1,44 @@
 export type ProductType = {
-  __typename?: 'ProduktEntity';
-  id: string;
-  attributes: {
-    __typename?: 'Produkt';
-    Tytul: string;
-    Opis?: string | null;
-    Dostepnosc: boolean;
-    Link: string;
-    Galeria?: {
+  __typename?: 'ProductEntity';
+  id?: string | null;
+  attributes?: {
+    __typename?: 'Product';
+    title: string;
+    description?: string | null;
+    slug: string;
+    galery?: {
       __typename?: 'UploadFileRelationResponseCollection';
       data: Array<{
         __typename?: 'UploadFileEntity';
-        id: string;
-        attributes: {
+        id?: string | null;
+        attributes?: {
           __typename?: 'UploadFile';
-          width: number;
-          height: number;
+          width?: number | null;
+          height?: number | null;
           alternativeText?: string | null;
           url: string;
-        };
+        } | null;
       }>;
     } | null;
-    kategoria?: {
-      __typename?: 'KategoriaEntityResponse';
+    size: Array<{
+      __typename?: 'ComponentSizeSize';
+      id: string;
+      size: string;
+      price: number;
+      sale?: number | null;
+    } | null>;
+    category?: {
+      __typename?: 'CategoryEntityResponse';
       data?: {
-        __typename?: 'KategoriaEntity';
-        attributes: {
-          __typename?: 'Kategoria';
-          Tytul: string;
-          Link: string;
-        };
+        __typename?: 'CategoryEntity';
+        attributes?: { __typename?: 'Category'; category: string } | null;
       } | null;
     } | null;
-    Wymiary: Array<{
-      __typename?: 'ComponentWymiaryWymiary';
-      id: string;
-      Wymiary: string;
-      Cena: number;
-      Promocja?: number | null;
-    }>;
-    SEO: {
+    seo: {
       __typename?: 'ComponentSeoSeo';
       Meta_Title: string;
       Meta_Description: string;
       Meta_Keywords: string;
     };
-  };
+  } | null;
 } | null;

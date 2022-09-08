@@ -4,7 +4,7 @@ import { FiltersContext } from 'context/FiltersContext';
 import Combobox from 'components/Combobox/Combobox';
 
 function FiltersBar() {
-  const { categories } = useContext(FiltersContext);
+  const { categories = [] } = useContext(FiltersContext);
 
   const categoryFilters = [ALL_PRODUCTS, ...categories];
   const priceFilters = [

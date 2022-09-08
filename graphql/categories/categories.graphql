@@ -1,10 +1,9 @@
 query Categories {
-  kategorias {
+  categories {
     data {
       id
       attributes {
-        Tytul
-        Link
+        category
       }
     }
   }

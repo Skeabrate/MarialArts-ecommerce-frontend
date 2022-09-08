@@ -29,22 +29,18 @@ export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
     if (data && Array.isArray(cartState)) {
       const checkLocalStorage = cartState.filter((localStorageItem: CartItemProps, index, self) => {
         return (
-          data.produkts?.data.find(
+          data.products?.data.find(
             (dbItem) =>
               dbItem.id === localStorageItem.productId &&
-              dbItem.attributes?.Wymiary.find(
-                (wymiary) => wymiary?.Wymiary === localStorageItem.wymiary
-              ) &&
+              dbItem.attributes?.size.find((size) => size?.size === localStorageItem.size) &&
               localStorageItem.cartItemId &&
               typeof localStorageItem.quantity === 'number' &&
-              localStorageItem.quantity >= 1 &&
-              dbItem.attributes.Dostepnosc
+              localStorageItem.quantity >= 1
           ) &&
           index ===
             self.findIndex(
               (t) =>
-                t.cartItemId === localStorageItem.cartItemId ||
-                t.wymiary === localStorageItem.wymiary
+                t.cartItemId === localStorageItem.cartItemId || t.size === localStorageItem.size
             )
         );
       });

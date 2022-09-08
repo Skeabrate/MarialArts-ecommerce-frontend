@@ -1,33 +1,38 @@
 import Link from 'next/link';
 import type { NextPage } from 'next';
-import { useQuery } from '@apollo/client';
-import { CategoryType } from 'types/CategoryType';
-import { CATEGORIES_QUERY } from 'graphql/queries';
+import { ApolloError, useQuery } from '@apollo/client';
+import { CategoriesDocument } from 'generated';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import HeadComponent from 'components/Head/Head';
+import { CategoriesQuery } from 'generated';
+import { QueryTypes } from 'types/QueryTypes';
+
+interface DataType extends QueryTypes {
+  data: CategoriesQuery | undefined;
+}
 
 function Home() {
-  const { loading, error, data } = useQuery(CATEGORIES_QUERY);
+  const { loading, error, data }: DataType = useQuery(CategoriesDocument);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading posts.</div>;
 
-  const categories = (data?.kategorias?.data as CategoryType[]) || [];
+  const categories = data?.categories?.data;
 
   return (
     <main>
       <HeadComponent
-        title='Sauny24'
-        description='Zapraszamy do zapoznania się z bogatą ofertą saun fińskich, Infrared, Combi, grot solnych. Prawie 20 lat doświadczenia na rynku saunowym w Europie.'
-        keywords='producent saun fińskich, infrared, combi, ogrodowych.'
+        title='Martial Arts Ecommerce'
+        description='Martial Arts Ecommerce'
+        keywords='Martial Arts Ecommerce'
       />
 
       <h1>Kategorie: </h1>
 
       <section style={{ display: 'flex', flexWrap: 'wrap', gap: '35px', padding: '30px' }}>
-        {categories.length ? (
+        {categories?.length ? (
           categories.map((item) => (
-            <Link key={item?.id} href={`/produkty?kategoria=${item?.attributes.Link}`}>
+            <Link key={item.id} href={`/produkty?kategoria=${item.attributes?.category}`}>
               <a>
                 <article
                   style={{
@@ -39,7 +44,7 @@ function Home() {
                     border: '1px solid red',
                   }}
                 >
-                  <h2>{item?.attributes.Tytul}</h2>
+                  <h2>{item.attributes?.category}</h2>
                 </article>
               </a>
             </Link>
@@ -56,7 +61,7 @@ export async function getServerSideProps() {
   const apolloClient = initializeApollo();
 
   await apolloClient.query({
-    query: CATEGORIES_QUERY,
+    query: CategoriesDocument,
   });
 
   return addApolloState(apolloClient, {

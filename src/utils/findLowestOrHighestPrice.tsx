@@ -3,28 +3,28 @@ export const HIGHEST_PRICE = 'highest';
 
 export const findLowestOrHighestPrice = (data: any, option: string) => {
   let finalPrice = {
-    price: data[0].Promocja || data[0].Cena,
-    wymiary: data[0].Wymiary,
-    promocja: false,
+    price: data[0].sale || data[0].price,
+    size: data[0].size,
+    sale: false,
   };
 
-  data.forEach(({ Cena, Wymiary, Promocja }: any) => {
-    if (Promocja) finalPrice.promocja = true;
+  data.forEach(({ price, size, sale }: any) => {
+    if (sale) finalPrice.sale = true;
     if (option === LOWEST_PRICE) {
-      if (Promocja && Promocja < finalPrice.price) {
-        finalPrice.price = Promocja;
-        finalPrice.wymiary = Wymiary;
-      } else if (Cena < finalPrice.price) {
-        finalPrice.price = Cena;
-        finalPrice.wymiary = Wymiary;
+      if (sale && sale < finalPrice.price) {
+        finalPrice.price = sale;
+        finalPrice.size = size;
+      } else if (price < finalPrice.price) {
+        finalPrice.price = price;
+        finalPrice.size = size;
       }
     } else if (option === HIGHEST_PRICE) {
-      if (Promocja && Promocja >= finalPrice.price) {
-        finalPrice.price = Promocja;
-        finalPrice.wymiary = Wymiary;
-      } else if (Cena > finalPrice.price) {
-        finalPrice.price = Cena;
-        finalPrice.wymiary = Wymiary;
+      if (sale && sale >= finalPrice.price) {
+        finalPrice.price = sale;
+        finalPrice.size = size;
+      } else if (price > finalPrice.price) {
+        finalPrice.price = price;
+        finalPrice.size = size;
       }
     }
   });

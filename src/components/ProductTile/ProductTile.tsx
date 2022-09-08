@@ -9,25 +9,24 @@ import {
   LOWEST_PRICE,
 } from 'utils/findLowestOrHighestPrice';
 
-type ProductTileProps = {
-  product: ProductType;
-};
-
-export default function ProductTile({ product }: ProductTileProps) {
+export default function ProductTile({ product }: { product: ProductType }) {
   const finalPrice = useMemo(
-    () => findLowestOrHighestPrice(product?.attributes.Wymiary, LOWEST_PRICE),
+    () => findLowestOrHighestPrice(product?.attributes?.size, LOWEST_PRICE),
     [product]
   );
 
   const highestAvailablePrice = formatValue(
-    findLowestOrHighestPrice(product?.attributes.Wymiary, HIGHEST_PRICE).price
+    findLowestOrHighestPrice(product?.attributes?.size, HIGHEST_PRICE).price
   );
 
-  if (!product) return null;
-  const { Wymiary, Galeria, Tytul, kategoria, Link: ProductUrl } = product.attributes;
+  console.log(product);
+
+  if (!product?.attributes) return null;
+
+  const { title, description, category, size, galery, slug } = product.attributes;
 
   return (
-    <Link href={ProductUrl}>
+    <Link href={slug}>
       <a style={{ textDecoration: 'none' }}>
         <article
           style={{
@@ -37,34 +36,39 @@ export default function ProductTile({ product }: ProductTileProps) {
           }}
         >
           <div>
-            {Galeria?.data.length ? (
+            {galery?.data.length ? (
               <Image
                 src={
-                  Galeria.data[0].attributes?.url
-                    ? process.env.STRAPI_URL + Galeria.data[0].attributes.url
+                  galery.data[0].attributes?.url
+                    ? process.env.STRAPI_URL + galery.data[0].attributes.url
                     : ''
                 }
-                alt={Galeria.data[0].attributes?.alternativeText || 'sauny24'}
-                width={Galeria.data[0].attributes.width}
-                height={Galeria.data[0].attributes.height}
+                alt={galery.data[0].attributes?.alternativeText || 'sauny24'}
+                width={galery.data[0].attributes?.width || 300}
+                height={galery.data[0].attributes?.height || 300}
               />
             ) : null}
           </div>
 
           <div>
-            <h2>{Tytul}</h2>
-            <p>{kategoria?.data?.attributes.Tytul}</p>
+            <h2>{title}</h2>
+            <p>{category?.data?.attributes?.category}</p>
             <p style={{ display: 'flex', flexDirection: 'column', marginBlock: '6px' }}>
-              {finalPrice.promocja ? (
+              {finalPrice.sale ? (
                 <span style={{ color: 'red', fontWeight: 'bold' }}>Promocja!</span>
               ) : null}
               <span>
-                {Wymiary.length > 1 ? 'Od ' : null}
+                {size.length > 1 ? 'Od ' : null}
                 {formatValue(finalPrice.price)}
-                {Wymiary.length > 1 ? ` do ${highestAvailablePrice}` : null}
+                {size.length > 1 ? ` do ${highestAvailablePrice}` : null}
               </span>
-              <span>Wymiary: {finalPrice.wymiary}</span>
             </p>
+            <p>Dostępne rozmiary:</p>
+            <ul>
+              {size.map((item) => (
+                <li key={item?.id}>{item?.size}</li>
+              ))}
+            </ul>
           </div>
         </article>
       </a>

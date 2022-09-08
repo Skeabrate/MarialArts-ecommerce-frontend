@@ -1,11 +1,11 @@
 query Products {
-  produkts {
+  products {
     data {
       id
       attributes {
-        Tytul
-        Opis
-        Galeria {
+        title
+        description
+        galery {
           data {
             id
             attributes {
@@ -16,27 +16,25 @@ query Products {
             }
           }
         }
-        kategoria {
+        size {
+          id
+          size
+          price
+          sale
+        }
+        category {
           data {
             attributes {
-              Tytul
-              Link
+              category
             }
           }
         }
-        Wymiary {
-          id
-          Wymiary
-          Cena
-          Promocja
-        }
-        SEO {
+        slug
+        seo {
           Meta_Title
           Meta_Description
           Meta_Keywords
         }
-        Dostepnosc
-        Link
       }
     }
   }
