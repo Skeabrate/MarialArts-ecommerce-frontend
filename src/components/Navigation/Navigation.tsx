@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { StyledNav } from './Navigation.styles';
-import { useShoppingCart } from 'hooks/useShoppingCart';
 import { ALL_PRODUCTS_LINK } from 'utils/filtersValues';
+import { useContext } from 'react';
+import { ShoppingCartContext } from 'context/ShoppingCartContext/ShoppingCartContext';
 
 export default function Navigation() {
-  const { openCart, cartQuantity } = useShoppingCart();
+  const { openCart, cartQuantity } = useContext(ShoppingCartContext);
 
   return (
     <StyledNav>

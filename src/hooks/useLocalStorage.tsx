@@ -32,7 +32,7 @@ export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
           data.products?.data.find(
             (dbItem) =>
               dbItem.id === localStorageItem.productId &&
-              dbItem.attributes?.size.find((size) => size?.size === localStorageItem.size) &&
+              dbItem.attributes?.size?.find((size) => size?.size === localStorageItem.size) &&
               localStorageItem.cartItemId &&
               typeof localStorageItem.quantity === 'number' &&
               localStorageItem.quantity >= 1

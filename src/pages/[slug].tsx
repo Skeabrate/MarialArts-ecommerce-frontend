@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import { v4 as uuid } from 'uuid';
 import { formatValue } from 'utils/formatValue';
-import { useShoppingCart } from 'hooks/useShoppingCart';
 import { ProductType } from 'types/ProductType';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { useQuery } from '@apollo/client';
@@ -9,6 +8,8 @@ import remarkGfm from 'remark-gfm';
 import ReactMarkdown from 'react-markdown';
 import HeadComponent from 'components/Head/HeadComponent';
 import { ProductDocument } from 'generated';
+import { useContext } from 'react';
+import { ShoppingCartContext } from 'context/ShoppingCartContext/ShoppingCartContext';
 
 type SlugType = {
   slug: String;
@@ -22,7 +23,7 @@ function Product({ slug }: SlugType) {
   const { loading, error, data } = useQuery(ProductDocument, {
     variables: { slug },
   });
-  const { increaseCartQuantity, openCart } = useShoppingCart();
+  const { increaseCartQuantity, openCart } = useContext(ShoppingCartContext);
 
   const product = data?.products?.data[0] as ProductType;
 

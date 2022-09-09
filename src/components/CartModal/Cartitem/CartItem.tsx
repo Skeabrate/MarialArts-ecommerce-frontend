@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import Link from 'next/link';
 import { ProductsQuery } from 'generated';
 import { CartItemProps } from 'context/ShoppingCartContext/types';
-import { useShoppingCart } from 'hooks/useShoppingCart';
 import { formatValue } from 'utils/formatValue';
+import { ShoppingCartContext } from 'context/ShoppingCartContext/ShoppingCartContext';
 
 interface CartItemPropsWithData extends CartItemProps {
   data: ProductsQuery;
@@ -16,12 +16,14 @@ export default function CartItem({
   size,
   quantity,
 }: CartItemPropsWithData) {
-  const { increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart();
+  const { increaseCartQuantity, decreaseCartQuantity, removeFromCart } =
+    useContext(ShoppingCartContext);
 
   const cartItem = useMemo(
     () =>
       data?.products?.data.find(
-        (item) => item.id === productId && item.attributes?.size.find((item) => item?.size === size)
+        (item) =>
+          item.id === productId && item.attributes?.size?.find((item) => item?.size === size)
       ),
     [data, productId, size]
   );
@@ -31,7 +33,7 @@ export default function CartItem({
   });
 
   const selectedSize = useMemo(
-    () => cartItem?.attributes?.size.find((item) => item?.size === size),
+    () => cartItem?.attributes?.size?.find((item) => item?.size === size),
     [cartItem, size]
   );
 

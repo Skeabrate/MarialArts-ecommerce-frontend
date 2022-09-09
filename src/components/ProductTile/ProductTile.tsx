@@ -23,7 +23,7 @@ export default function ProductTile({ product }: { product: ProductType }) {
 
   if (!product?.attributes) return null;
 
-  const { title, description, category, size, galery, slug } = product.attributes;
+  const { title, description, category, size, price, galery, slug } = product.attributes;
 
   return (
     <Link href={slug}>
@@ -58,14 +58,20 @@ export default function ProductTile({ product }: { product: ProductType }) {
                 <span style={{ color: 'red', fontWeight: 'bold' }}>Promocja!</span>
               ) : null}
               <span>
-                {size.length > 1 ? 'Od ' : null}
-                {formatValue(finalPrice.price)}
-                {size.length > 1 ? ` do ${highestAvailablePrice}` : null}
+                {size ? (
+                  <>
+                    {size.length > 1 ? 'Od ' : null}
+                    {formatValue(finalPrice.price)}
+                    {size.length > 1 ? ` do ${highestAvailablePrice}` : null}
+                  </>
+                ) : (
+                  <>{formatValue(price || 0)}</>
+                )}
               </span>
             </p>
             <p>Dostępne rozmiary:</p>
             <ul>
-              {size.map((item) => (
+              {size?.map((item) => (
                 <li key={item?.id}>{item?.size}</li>
               ))}
             </ul>

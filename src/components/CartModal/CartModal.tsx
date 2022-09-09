@@ -1,18 +1,18 @@
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useProductsQuery } from 'generated';
-import { useShoppingCart } from 'hooks/useShoppingCart';
 import { formatValue } from 'utils/formatValue';
 import { StyledCartModal, StyledCloseButton } from './CartModal.styles';
 import CartItem from './Cartitem/CartItem';
+import { ShoppingCartContext } from 'context/ShoppingCartContext/ShoppingCartContext';
 
 type CartProps = {
   isOpen: boolean;
 };
 
 function CartModal({ isOpen }: CartProps) {
-  const { closeCart, cartItems, cartQuantity } = useShoppingCart();
+  const { closeCart, cartItems, cartQuantity } = useContext(ShoppingCartContext);
   const { data, loading, error } = useProductsQuery();
   const router = useRouter();
 
@@ -23,14 +23,14 @@ function CartModal({ isOpen }: CartProps) {
           const itemInDatabase = data?.products?.data.find(
             (dbItem) =>
               dbItem.id === cartItem.productId &&
-              dbItem.attributes?.size.find((size) => size?.size === cartItem.size)
+              dbItem.attributes?.size?.find((size) => size?.size === cartItem.size)
           );
           let finalPrice = 0;
 
-          itemInDatabase?.attributes?.size.forEach((size) => {
+          itemInDatabase?.attributes?.size?.forEach((size) => {
             if (size?.size === cartItem.size) {
               if (size?.sale) return (finalPrice = size.sale);
-              else finalPrice = size?.price;
+              else finalPrice = size?.price || 0;
             }
           });
 
