@@ -1,4 +1,4 @@
-import { createContext, useCallback, useMemo, useState } from 'react';
+import { createContext, useCallback, useState } from 'react';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { ShoppingCartProviderProps, ShoppingCartContextProps, CartItemProps } from './types';
 import CartModal from 'components/CartModal/CartModal';

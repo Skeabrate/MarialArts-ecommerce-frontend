@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import type { NextPage } from 'next';
-import { ApolloError, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { CategoriesDocument } from 'generated';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
-import HeadComponent from 'components/Head/Head';
+import HeadComponent from 'components/Head/HeadComponent';
 import { CategoriesQuery } from 'generated';
 import { QueryTypes } from 'types/QueryTypes';
 
@@ -21,11 +21,7 @@ function Home() {
 
   return (
     <main>
-      <HeadComponent
-        title='Martial Arts Ecommerce'
-        description='Martial Arts Ecommerce'
-        keywords='Martial Arts Ecommerce'
-      />
+      <HeadComponent title='Martial Arts Ecommerce' description='Martial Arts Ecommerce' />
 
       <h1>Kategorie: </h1>
 

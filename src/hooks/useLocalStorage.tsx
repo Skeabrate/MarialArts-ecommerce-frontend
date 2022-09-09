@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CartItemProps } from 'context/types';
+import { CartItemProps } from 'context/ShoppingCartContext/types';
 import { useProductsQuery } from 'generated';
 
 function tryParseJSONObject(jsonString: string) {

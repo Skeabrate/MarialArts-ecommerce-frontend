@@ -4,11 +4,11 @@ import { formatValue } from 'utils/formatValue';
 import { useShoppingCart } from 'hooks/useShoppingCart';
 import { ProductType } from 'types/ProductType';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
-import { SINGLE_PRODUCT_QUERY } from 'graphql/queries';
 import { useQuery } from '@apollo/client';
 import remarkGfm from 'remark-gfm';
 import ReactMarkdown from 'react-markdown';
-import HeadComponent from 'components/Head/Head';
+import HeadComponent from 'components/Head/HeadComponent';
+import { ProductDocument } from 'generated';
 
 type SlugType = {
   slug: String;
@@ -19,7 +19,7 @@ type ServerSidePropsType = {
 };
 
 function Product({ slug }: SlugType) {
-  const { loading, error, data } = useQuery(SINGLE_PRODUCT_QUERY, {
+  const { loading, error, data } = useQuery(ProductDocument, {
     variables: { slug },
   });
   const { increaseCartQuantity, openCart } = useShoppingCart();
@@ -30,7 +30,7 @@ function Product({ slug }: SlugType) {
   if (error) return <div>Error loading posts.</div>;
   if (!product?.attributes) return <div>Nie znaleziono produktu.</div>;
 
-  const { title, seo, size, description, galery, category } = product.attributes;
+  const { title, size, description, galery, category } = product.attributes;
 
   const addToCart = (cartItemId: string, productId: string, wymiary: string) => {
     openCart();
@@ -40,9 +40,8 @@ function Product({ slug }: SlugType) {
   return (
     <main style={{ minHeight: '700px', padding: '40px' }}>
       <HeadComponent
-        title={product.attributes?.seo.Meta_Title || ''}
-        description={product.attributes?.seo.Meta_Description || ''}
-        keywords={product.attributes?.seo.Meta_Keywords || ''}
+        title={product.attributes?.title || ''}
+        description={product.attributes?.description || ''}
       />
 
       <div>
@@ -63,7 +62,7 @@ function Product({ slug }: SlugType) {
                   <th>Cena:</th>
                   <th></th>
                 </tr>
-                {size.map((item) => {
+                {size?.map((item) => {
                   if (!item?.price || !item?.size) return null;
                   const { id, price, size, sale } = item;
                   return (
@@ -122,7 +121,7 @@ export async function getServerSideProps({ params }: ServerSidePropsType) {
   const apolloClient = initializeApollo();
 
   await apolloClient.query({
-    query: SINGLE_PRODUCT_QUERY,
+    query: ProductDocument,
     variables: { slug },
   });
 

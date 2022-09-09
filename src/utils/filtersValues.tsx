@@ -1,9 +1,14 @@
 export const ALL_PRODUCTS = {
-  __typename: 'KategoriaEntity',
   id: 'wszystkie-produkty',
-  attributes: { Tytul: 'Wszystkie Produkty', Link: 'wszystkie-produkty' },
+  attributes: { category: 'Wszystkie Produkty' },
 };
-export const ALL_PRODUCTS_LINK = `/produkty?kategoria=${ALL_PRODUCTS.attributes.Link}`;
+export const ALL_PRODUCTS_LINK = `/produkty?kategoria=${ALL_PRODUCTS.attributes.category}`;
 
-export const SORT_PRICE_ASCENDING = 'od-najnizszej';
-export const SORT_PRICE_DESCENDING = 'od-najwyzszej';
+export const SORT_PRICE_ASCENDING = {
+  id: '0',
+  attributes: { category: 'Cena: od najniższej' },
+};
+export const SORT_PRICE_DESCENDING = {
+  id: '1',
+  attributes: { category: 'Cena: od najwyższej' },
+};

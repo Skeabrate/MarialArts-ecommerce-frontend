@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import Link from 'next/link';
 import { ProductsQuery } from 'generated';
-import { CartItemProps } from 'context/types';
+import { CartItemProps } from 'context/ShoppingCartContext/types';
 import { useShoppingCart } from 'hooks/useShoppingCart';
 import { formatValue } from 'utils/formatValue';
 

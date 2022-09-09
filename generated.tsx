@@ -80,34 +80,28 @@ export type CategoryInput = {
   category?: InputMaybe<Scalars['String']>;
 };
 
-export type ComponentSeoSeo = {
-  __typename?: 'ComponentSeoSeo';
-  Meta_Description: Scalars['String'];
-  Meta_Keywords: Scalars['String'];
-  Meta_Title: Scalars['String'];
+export type ComponentColorColor = {
+  __typename?: 'ComponentColorColor';
+  Color: Scalars['String'];
   id: Scalars['ID'];
 };
 
-export type ComponentSeoSeoFiltersInput = {
-  Meta_Description?: InputMaybe<StringFilterInput>;
-  Meta_Keywords?: InputMaybe<StringFilterInput>;
-  Meta_Title?: InputMaybe<StringFilterInput>;
-  and?: InputMaybe<Array<InputMaybe<ComponentSeoSeoFiltersInput>>>;
-  not?: InputMaybe<ComponentSeoSeoFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentSeoSeoFiltersInput>>>;
+export type ComponentColorColorFiltersInput = {
+  Color?: InputMaybe<StringFilterInput>;
+  and?: InputMaybe<Array<InputMaybe<ComponentColorColorFiltersInput>>>;
+  not?: InputMaybe<ComponentColorColorFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentColorColorFiltersInput>>>;
 };
 
-export type ComponentSeoSeoInput = {
-  Meta_Description?: InputMaybe<Scalars['String']>;
-  Meta_Keywords?: InputMaybe<Scalars['String']>;
-  Meta_Title?: InputMaybe<Scalars['String']>;
+export type ComponentColorColorInput = {
+  Color?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
 };
 
 export type ComponentSizeSize = {
   __typename?: 'ComponentSizeSize';
   id: Scalars['ID'];
-  price: Scalars['Float'];
+  price?: Maybe<Scalars['Float']>;
   sale?: Maybe<Scalars['Float']>;
   size: Scalars['String'];
 };
@@ -184,7 +178,7 @@ export type FloatFilterInput = {
 
 export type GenericMorph =
   | Category
-  | ComponentSeoSeo
+  | ComponentColorColor
   | ComponentSizeSize
   | I18NLocale
   | Product
@@ -493,14 +487,21 @@ export type PaginationArg = {
 export type Product = {
   __typename?: 'Product';
   category?: Maybe<CategoryEntityResponse>;
+  color?: Maybe<Array<Maybe<ComponentColorColor>>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
   galery?: Maybe<UploadFileRelationResponseCollection>;
-  seo: ComponentSeoSeo;
-  size: Array<Maybe<ComponentSizeSize>>;
+  price?: Maybe<Scalars['Float']>;
+  size?: Maybe<Array<Maybe<ComponentSizeSize>>>;
   slug: Scalars['String'];
   title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ProductColorArgs = {
+  filters?: InputMaybe<ComponentColorColorFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type ProductGaleryArgs = {
@@ -535,12 +536,13 @@ export type ProductEntityResponseCollection = {
 export type ProductFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
   category?: InputMaybe<CategoryFiltersInput>;
+  color?: InputMaybe<ComponentColorColorFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   not?: InputMaybe<ProductFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
-  seo?: InputMaybe<ComponentSeoSeoFiltersInput>;
+  price?: InputMaybe<FloatFilterInput>;
   size?: InputMaybe<ComponentSizeSizeFiltersInput>;
   slug?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
@@ -549,9 +551,10 @@ export type ProductFiltersInput = {
 
 export type ProductInput = {
   category?: InputMaybe<Scalars['ID']>;
+  color?: InputMaybe<Array<InputMaybe<ComponentColorColorInput>>>;
   description?: InputMaybe<Scalars['String']>;
   galery?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  seo?: InputMaybe<ComponentSeoSeoInput>;
+  price?: InputMaybe<Scalars['Float']>;
   size?: InputMaybe<Array<InputMaybe<ComponentSizeSizeInput>>>;
   slug?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
@@ -1058,6 +1061,61 @@ export type CategoriesQuery = {
   } | null;
 };
 
+export type ProductQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+export type ProductQuery = {
+  __typename?: 'Query';
+  products?: {
+    __typename?: 'ProductEntityResponseCollection';
+    data: Array<{
+      __typename?: 'ProductEntity';
+      id?: string | null;
+      attributes?: {
+        __typename?: 'Product';
+        title: string;
+        description?: string | null;
+        slug: string;
+        price?: number | null;
+        galery?: {
+          __typename?: 'UploadFileRelationResponseCollection';
+          data: Array<{
+            __typename?: 'UploadFileEntity';
+            id?: string | null;
+            attributes?: {
+              __typename?: 'UploadFile';
+              width?: number | null;
+              height?: number | null;
+              alternativeText?: string | null;
+              url: string;
+            } | null;
+          }>;
+        } | null;
+        size?: Array<{
+          __typename?: 'ComponentSizeSize';
+          id: string;
+          size: string;
+          price?: number | null;
+          sale?: number | null;
+        } | null> | null;
+        category?: {
+          __typename?: 'CategoryEntityResponse';
+          data?: {
+            __typename?: 'CategoryEntity';
+            attributes?: { __typename?: 'Category'; category: string } | null;
+          } | null;
+        } | null;
+        color?: Array<{
+          __typename?: 'ComponentColorColor';
+          id: string;
+          Color: string;
+        } | null> | null;
+      } | null;
+    }>;
+  } | null;
+};
+
 export type ProductsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ProductsQuery = {
@@ -1071,6 +1129,7 @@ export type ProductsQuery = {
         __typename?: 'Product';
         title: string;
         description?: string | null;
+        price?: number | null;
         slug: string;
         galery?: {
           __typename?: 'UploadFileRelationResponseCollection';
@@ -1086,13 +1145,13 @@ export type ProductsQuery = {
             } | null;
           }>;
         } | null;
-        size: Array<{
+        size?: Array<{
           __typename?: 'ComponentSizeSize';
           id: string;
           size: string;
-          price: number;
+          price?: number | null;
           sale?: number | null;
-        } | null>;
+        } | null> | null;
         category?: {
           __typename?: 'CategoryEntityResponse';
           data?: {
@@ -1100,12 +1159,11 @@ export type ProductsQuery = {
             attributes?: { __typename?: 'Category'; category: string } | null;
           } | null;
         } | null;
-        seo: {
-          __typename?: 'ComponentSeoSeo';
-          Meta_Title: string;
-          Meta_Description: string;
-          Meta_Keywords: string;
-        };
+        color?: Array<{
+          __typename?: 'ComponentColorColor';
+          id: string;
+          Color: string;
+        } | null> | null;
       } | null;
     }>;
   } | null;
@@ -1157,6 +1215,81 @@ export function useCategoriesLazyQuery(
 export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
 export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
 export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
+export const ProductDocument = gql`
+  query Product($slug: String!) {
+    products(filters: { slug: { eq: $slug } }) {
+      data {
+        id
+        attributes {
+          title
+          description
+          galery {
+            data {
+              id
+              attributes {
+                width
+                height
+                alternativeText
+                url
+              }
+            }
+          }
+          size {
+            id
+            size
+            price
+            sale
+          }
+          category {
+            data {
+              attributes {
+                category
+              }
+            }
+          }
+          slug
+          color {
+            id
+            Color
+          }
+          price
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useProductQuery__
+ *
+ * To run a query within a React component, call `useProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useProductQuery(
+  baseOptions: Apollo.QueryHookOptions<ProductQuery, ProductQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
+}
+export function useProductLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ProductQuery, ProductQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
+}
+export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
+export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
+export type ProductQueryResult = Apollo.QueryResult<ProductQuery, ProductQueryVariables>;
 export const ProductsDocument = gql`
   query Products {
     products {
@@ -1189,12 +1322,12 @@ export const ProductsDocument = gql`
               }
             }
           }
-          slug
-          seo {
-            Meta_Title
-            Meta_Description
-            Meta_Keywords
+          color {
+            id
+            Color
           }
+          price
+          slug
         }
       }
     }

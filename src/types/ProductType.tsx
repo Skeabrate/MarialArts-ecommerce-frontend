@@ -5,6 +5,7 @@ export type ProductType = {
     __typename?: 'Product';
     title: string;
     description?: string | null;
+    price?: number | null;
     slug: string;
     galery?: {
       __typename?: 'UploadFileRelationResponseCollection';
@@ -20,13 +21,13 @@ export type ProductType = {
         } | null;
       }>;
     } | null;
-    size: Array<{
+    size?: Array<{
       __typename?: 'ComponentSizeSize';
       id: string;
       size: string;
-      price: number;
+      price?: number | null;
       sale?: number | null;
-    } | null>;
+    } | null> | null;
     category?: {
       __typename?: 'CategoryEntityResponse';
       data?: {
@@ -34,11 +35,10 @@ export type ProductType = {
         attributes?: { __typename?: 'Category'; category: string } | null;
       } | null;
     } | null;
-    seo: {
-      __typename?: 'ComponentSeoSeo';
-      Meta_Title: string;
-      Meta_Description: string;
-      Meta_Keywords: string;
-    };
+    color?: Array<{
+      __typename?: 'ComponentColorColor';
+      id: string;
+      Color: string;
+    } | null> | null;
   } | null;
 } | null;

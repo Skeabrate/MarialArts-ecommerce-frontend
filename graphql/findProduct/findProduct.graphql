@@ -1,5 +1,5 @@
-query Products {
-  products {
+query Product($slug: String!) {
+  products(filters: { slug: { eq: $slug } }) {
     data {
       id
       attributes {
@@ -29,12 +29,12 @@ query Products {
             }
           }
         }
+        slug
         color {
           id
           Color
         }
         price
-        slug
       }
     }
   }

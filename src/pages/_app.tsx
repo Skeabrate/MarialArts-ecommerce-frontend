@@ -8,9 +8,12 @@ import { theme } from 'styles/theme';
 import Footer from 'components/Footer/Footer';
 import Navigation from 'components/Navigation/Navigation';
 
-const ShoppingCartProvider = dynamic(() => import('context/ShoppingCartContext'), {
-  ssr: false,
-});
+const ShoppingCartProvider = dynamic(
+  () => import('context/ShoppingCartContext/ShoppingCartContext'),
+  {
+    ssr: false,
+  }
+);
 
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps);

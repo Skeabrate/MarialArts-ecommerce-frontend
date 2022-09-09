@@ -1,6 +1,6 @@
 import React from 'react';
 import type { NextPage } from 'next';
-import HeadComponent from 'components/Head/Head';
+import HeadComponent from 'components/Head/HeadComponent';
 
 const Kontakt: NextPage = () => {
   return (
@@ -8,7 +8,6 @@ const Kontakt: NextPage = () => {
       <HeadComponent
         title='Sauny24 - Kontakt'
         description='Producent saun fińskich, infrared, combi. Od Ponad 18 lat w Polsce.'
-        keywords='producent saun fińskich, infrared, combi, ogrodowych.'
       />
 
       <h1>Skontaktuj się z nami</h1>
