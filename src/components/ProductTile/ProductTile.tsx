@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ProductType } from 'types/ProductType';
+import { formatValue } from 'utils/formatValue';
 import { findProductPrices } from 'utils/findLowestOrHighestPrice';
 
 export default function ProductTile({ product }: { product: ProductType }) {
@@ -9,6 +10,8 @@ export default function ProductTile({ product }: { product: ProductType }) {
   const { title, category, size, price, galery, slug } = product.attributes;
 
   const finalPrice = findProductPrices(size, price);
+  const minimalPrice = formatValue(finalPrice.minimalPrice);
+  const maximalPrice = formatValue(finalPrice.maximalPrice);
 
   return (
     <Link href={slug}>
@@ -42,11 +45,7 @@ export default function ProductTile({ product }: { product: ProductType }) {
               {finalPrice.sale ? (
                 <span style={{ color: 'red', fontWeight: 'bold' }}>Promocja!</span>
               ) : null}
-              <span>
-                {finalPrice.maximalPrice
-                  ? `Od: ${finalPrice.minimalPrice} do: ${finalPrice.maximalPrice}`
-                  : finalPrice.minimalPrice}
-              </span>
+              <span>{maximalPrice ? `Od: ${minimalPrice} do: ${maximalPrice}` : minimalPrice}</span>
             </p>
           </div>
         </article>

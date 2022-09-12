@@ -1,5 +1,3 @@
-import { formatValue } from './formatValue';
-
 export const findProductPrices = (productAvailableSizes: any, basicPrice: any) => {
   let finalPrice = {
     minimalPrice: productAvailableSizes[0].sale || productAvailableSizes[0].price || basicPrice,
@@ -35,9 +33,5 @@ export const findProductPrices = (productAvailableSizes: any, basicPrice: any) =
 
   if (finalPrice.minimalPrice === finalPrice.maximalPrice) finalPrice.maximalPrice = null;
 
-  return {
-    minimalPrice: formatValue(finalPrice.minimalPrice),
-    maximalPrice: finalPrice.maximalPrice ? formatValue(finalPrice.maximalPrice) : null,
-    sale: finalPrice.sale,
-  };
+  return finalPrice;
 };
