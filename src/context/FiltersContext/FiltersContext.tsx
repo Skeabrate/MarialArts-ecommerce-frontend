@@ -8,11 +8,6 @@ import {
   SORT_PRICE_ASCENDING,
   SORT_PRICE_DESCENDING,
 } from 'utils/filtersValues';
-import {
-  findLowestOrHighestPrice,
-  HIGHEST_PRICE,
-  LOWEST_PRICE,
-} from 'utils/findLowestOrHighestPrice';
 import { CategoriesDocument, ProductsDocument } from 'generated';
 
 export const FiltersContext = React.createContext({} as FiltersContextProps);
@@ -53,18 +48,18 @@ export default function FiltersProvider({ children }: FiltersProviderProps) {
       .then(() => setLoadingFilters(false));
   };
 
-  if (sortPrice === SORT_PRICE_ASCENDING.attributes.category)
-    filteredProducts.sort(
-      (a, b) =>
-        findLowestOrHighestPrice(a?.attributes?.size, LOWEST_PRICE).price -
-        findLowestOrHighestPrice(b?.attributes?.size, LOWEST_PRICE).price
-    );
-  else if (sortPrice === SORT_PRICE_DESCENDING.attributes.category)
-    filteredProducts.sort(
-      (a, b) =>
-        findLowestOrHighestPrice(b?.attributes?.size, HIGHEST_PRICE).price -
-        findLowestOrHighestPrice(a?.attributes?.size, HIGHEST_PRICE).price
-    );
+  // if (sortPrice === SORT_PRICE_ASCENDING.attributes.category)
+  //   filteredProducts.sort(
+  //     (a, b) =>
+  //       findLowestOrHighestPrice(a?.attributes?.size, ).minimalPrice -
+  //       findLowestOrHighestPrice(b?.attributes?.size, LOWEST_PRICE).minimalPrice
+  //   );
+  // else if (sortPrice === SORT_PRICE_DESCENDING.attributes.category)
+  //   filteredProducts.sort(
+  //     (a, b) =>
+  //       findLowestOrHighestPrice(b?.attributes?.size, HIGHEST_PRICE).price -
+  //       findLowestOrHighestPrice(a?.attributes?.size, HIGHEST_PRICE).price
+  //   );
 
   useEffect(() => {
     if (router.query.kategoria) setCategory(router.query.kategoria);

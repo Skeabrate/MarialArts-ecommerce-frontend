@@ -1,33 +1,43 @@
-export const LOWEST_PRICE = 'lowest';
-export const HIGHEST_PRICE = 'highest';
+import { formatValue } from './formatValue';
 
-export const findLowestOrHighestPrice = (data: any, option: string) => {
+export const findProductPrices = (productAvailableSizes: any, basicPrice: any) => {
   let finalPrice = {
-    price: data[0].sale || data[0].price,
-    size: data[0].size,
-    sale: false,
+    minimalPrice: productAvailableSizes[0].sale || productAvailableSizes[0].price || basicPrice,
+    maximalPrice: productAvailableSizes[0].sale || productAvailableSizes[0].price || basicPrice,
+    sale: productAvailableSizes[0].sale ? true : false,
   };
 
-  data.forEach(({ price, size, sale }: any) => {
-    if (sale) finalPrice.sale = true;
-    if (option === LOWEST_PRICE) {
-      if (sale && sale < finalPrice.price) {
-        finalPrice.price = sale;
-        finalPrice.size = size;
-      } else if (price < finalPrice.price) {
-        finalPrice.price = price;
-        finalPrice.size = size;
-      }
-    } else if (option === HIGHEST_PRICE) {
-      if (sale && sale >= finalPrice.price) {
-        finalPrice.price = sale;
-        finalPrice.size = size;
-      } else if (price > finalPrice.price) {
-        finalPrice.price = price;
-        finalPrice.size = size;
-      }
+  for (let i = 1; i < productAvailableSizes.length; i++) {
+    // find lowest price
+    if (productAvailableSizes[i].sale && productAvailableSizes[i].sale < finalPrice.minimalPrice) {
+      finalPrice.minimalPrice = productAvailableSizes[i].sale;
+    } else if (
+      productAvailableSizes[i].price &&
+      productAvailableSizes[i].price < finalPrice.minimalPrice
+    ) {
+      finalPrice.minimalPrice = productAvailableSizes[i].price;
+    } else if (basicPrice < finalPrice.minimalPrice) {
+      finalPrice.minimalPrice = basicPrice;
     }
-  });
 
-  return finalPrice;
+    // find highest price
+    if (productAvailableSizes[i].sale && productAvailableSizes[i].sale > finalPrice.maximalPrice) {
+      finalPrice.maximalPrice = productAvailableSizes[i].sale;
+    } else if (
+      productAvailableSizes[i].price &&
+      productAvailableSizes[i].price > finalPrice.maximalPrice
+    ) {
+      finalPrice.maximalPrice = productAvailableSizes[i].price;
+    } else if (basicPrice > finalPrice.maximalPrice) {
+      finalPrice.maximalPrice = basicPrice;
+    }
+  }
+
+  if (finalPrice.minimalPrice === finalPrice.maximalPrice) finalPrice.maximalPrice = null;
+
+  return {
+    minimalPrice: formatValue(finalPrice.minimalPrice),
+    maximalPrice: finalPrice.maximalPrice ? formatValue(finalPrice.maximalPrice) : null,
+    sale: finalPrice.sale,
+  };
 };

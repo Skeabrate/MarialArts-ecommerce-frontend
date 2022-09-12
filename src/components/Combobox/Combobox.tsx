@@ -2,7 +2,6 @@ import { useContext, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useSelect } from 'downshift';
 import { FiltersContext } from 'context/FiltersContext/FiltersContext';
-import { ComboboxProps } from './types';
 import { CategoryType } from 'types/CategoryType';
 
 type Props = {
